@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:merchandising/Constants.dart';
 import 'package:merchandising/offlinedata/sharedprefsdta.dart';
+
 var jpempid;
 String JPweekly;
 Future<void> getJourneyPlanweekly() async {

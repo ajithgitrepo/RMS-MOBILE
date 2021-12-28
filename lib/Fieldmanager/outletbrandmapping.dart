@@ -169,7 +169,7 @@ class _OutletsmapedtoBrandsState extends State<OutletsmapedtoBrands> {
                 setState(() {
                   isApiCallProcess = true;
                 });
-                getTaskList();
+                getTaskListFM();
                 getPromoDetails();
                 await getmappedoutlets();
 
@@ -242,10 +242,10 @@ class _OutletsmapedtoBrandsState extends State<OutletsmapedtoBrands> {
                   setState(() {
                     isApiCallProcess = true;
                   });
-                  getTaskList();
+                  getTaskListFM();
 
-                  for(int i=0;i<task.id.length;i++){
-                    task.list.add(" ");
+                  for(int i=0;i<taskFM.id.length;i++){
+                    taskFM.list.add(" ");
                   }
                   getPromoDetails();
                   await getmappedoutlets();
@@ -391,7 +391,7 @@ class _MappedOutletsState extends State<MappedOutlets> {
                   ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount:mapping.outletname.length,
+                      itemCount:Distictcategorylist.length,
                       itemBuilder: (BuildContext context, int index) {
 
 
@@ -407,7 +407,7 @@ class _MappedOutletsState extends State<MappedOutlets> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('${mapping.categoryname[index]}',
+                                    Text('${Distictcategorylist[index]}',
                                         style: TextStyle(
                                             fontSize: 15.0,fontWeight: FontWeight.bold
                                         )),
@@ -476,14 +476,18 @@ class _MappedOutletsState extends State<MappedOutlets> {
                                                               });
                                                               delcategoryid = mapping.opmid[index];
                                                               await delcategory();
+
                                                               setState(() {
                                                                 isApiCallProcess = false;
                                                               });
-                                                              Navigator.push(
+
+                                                              Navigator.pop(
                                                                   context,
                                                                   MaterialPageRoute(
                                                                       builder: (BuildContext context) =>
                                                                           OutletsmapedtoBrands()));
+
+
                                                             },
                                                             child: Container(
                                                               height: 30,
@@ -512,112 +516,112 @@ class _MappedOutletsState extends State<MappedOutlets> {
                               ],
                             )) : SizedBox();
                       }),
-                  Padding(
-                    padding: const EdgeInsets.only(left:10.0),
-                    child: Text("Check List:"),
-                  ),
-                  SizedBox(height: 10),
-
-                  ListView.builder(
-                    shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount:task.list.length,
-                      itemBuilder: (BuildContext context, int index) {
-
-                        return Container(
-                              padding: EdgeInsets.all(10.0),
-                              margin: EdgeInsets.only(left:10.0,bottom: 10.0,right: 10.0),
-                              decoration: BoxDecoration(
-                                  color:  Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(10))),
-                              width: double.infinity,
-                              child: Stack(
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text('${task.list[index]}',
-                                          style: TextStyle(
-                                              fontSize: 14
-                                          )),
-                                    ],
-                                  ),
-                                  GestureDetector(
-                                    onTap: (){
-                                      showDialog(
-                                          context: context,
-                                          builder: (_) => StatefulBuilder(
-                                              builder: (context, setState) {
-                                                return ProgressHUD(
-                                                  inAsyncCall: isApiCallProcess,
-                                                  opacity: 0.3,
-                                                  child: AlertDialog(
-                                                    backgroundColor: Colors.white,//alertboxcolor,
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(10.0))),
-                                                    content: Builder(
-                                                      builder: (context) {
-                                                        // Get available height and width of the build area of this widget. Make a choice depending on the size.
-                                                        return Column(
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          children: [
-                                                            Text('Alert',style: TextStyle(color: orange,fontSize: 20),),
-                                                            Divider(color: Colors.black,),
-                                                            Text("Do you want to deactivate this Task",textAlign: TextAlign.center,),
-                                                            SizedBox(height: 15,),
-                                                            GestureDetector(
-                                                              onTap: () async{
-                                                                setState(() {
-                                                                  isApiCallProcess = true;
-                                                                });
-
-                                                                taskdecativate=task.id[index];
-                                                                currentoutletid=outletdata.outletid[index];
-
-
-                                                                await deactivateCL();
-
-                                                                await getTaskList();
-                                                                setState(() {
-                                                                  isApiCallProcess = false;
-
-                                                                });
-
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (BuildContext context) =>
-                                                                            OutletsmapedtoBrands()));
-                                                              },
-                                                              child: Container(
-                                                                height: 30,
-                                                                width: 70,
-                                                                decoration: BoxDecoration(
-                                                                  color: orange,borderRadius: BorderRadius.circular(5),
-                                                                ),
-                                                                child: Center(child: Text('Yes',style: TextStyle(color: Colors.white))),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    ),
-                                                  ),
-                                                );
-                                              }));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right:5.0),
-                                      child: Align(
-                                          alignment: Alignment.topRight,
-                                          child: Icon(Icons.delete,color: Colors.red,)),
-                                    ),
-                                  )
-                                ],
-                              ));
-                      }),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left:10.0),
+                  //   child: Text("Check List:"),
+                  // ),
+                  // SizedBox(height: 10),
+                  //
+                  // ListView.builder(
+                  //   shrinkWrap: true,
+                  //     physics: NeverScrollableScrollPhysics(),
+                  //     itemCount:taskFM.list.length,
+                  //     itemBuilder: (BuildContext context, int index) {
+                  //
+                  //       return Container(
+                  //             padding: EdgeInsets.all(10.0),
+                  //             margin: EdgeInsets.only(left:10.0,bottom: 10.0,right: 10.0),
+                  //             decoration: BoxDecoration(
+                  //                 color:  Colors.white,
+                  //                 borderRadius: BorderRadius.all(Radius.circular(10))),
+                  //             width: double.infinity,
+                  //             child: Stack(
+                  //               children: [
+                  //                 Column(
+                  //                   crossAxisAlignment: CrossAxisAlignment.start,
+                  //                   children: [
+                  //                     Text('${taskFM.list[index]}',
+                  //                         style: TextStyle(
+                  //                             fontSize: 14
+                  //                         )),
+                  //                   ],
+                  //                 ),
+                  //                 GestureDetector(
+                  //                   onTap: (){
+                  //                     showDialog(
+                  //                         context: context,
+                  //                         builder: (_) => StatefulBuilder(
+                  //                             builder: (context, setState) {
+                  //                               return ProgressHUD(
+                  //                                 inAsyncCall: isApiCallProcess,
+                  //                                 opacity: 0.3,
+                  //                                 child: AlertDialog(
+                  //                                   backgroundColor: Colors.white,//alertboxcolor,
+                  //                                   shape: RoundedRectangleBorder(
+                  //                                       borderRadius:
+                  //                                       BorderRadius.all(
+                  //                                           Radius.circular(10.0))),
+                  //                                   content: Builder(
+                  //                                     builder: (context) {
+                  //                                       // Get available height and width of the build area of this widget. Make a choice depending on the size.
+                  //                                       return Column(
+                  //                                         mainAxisSize: MainAxisSize.min,
+                  //                                         children: [
+                  //                                           Text('Alert',style: TextStyle(color: orange,fontSize: 20),),
+                  //                                           Divider(color: Colors.black,),
+                  //                                           Text("Do you want to deactivate this Task",textAlign: TextAlign.center,),
+                  //                                           SizedBox(height: 15,),
+                  //                                           GestureDetector(
+                  //                                             onTap: () async{
+                  //                                               setState(() {
+                  //                                                 isApiCallProcess = true;
+                  //                                               });
+                  //
+                  //                                               taskdecativate=taskFM.id[index];
+                  //                                               currentoutletid=outletdata.outletid[index];
+                  //
+                  //
+                  //                                               await deactivateCL();
+                  //
+                  //                                               await getTaskListFM();
+                  //                                               setState(() {
+                  //                                                 isApiCallProcess = false;
+                  //
+                  //                                               });
+                  //
+                  //                                               Navigator.pop(
+                  //                                                   context,
+                  //                                                   MaterialPageRoute(
+                  //                                                       builder: (BuildContext context) =>
+                  //                                                           OutletsmapedtoBrands()));
+                  //                                             },
+                  //                                             child: Container(
+                  //                                               height: 30,
+                  //                                               width: 70,
+                  //                                               decoration: BoxDecoration(
+                  //                                                 color: orange,borderRadius: BorderRadius.circular(5),
+                  //                                               ),
+                  //                                               child: Center(child: Text('Yes',style: TextStyle(color: Colors.white))),
+                  //                                             ),
+                  //                                           ),
+                  //                                         ],
+                  //                                       );
+                  //                                     },
+                  //                                   ),
+                  //                                 ),
+                  //                               );
+                  //                             }));
+                  //                   },
+                  //                   child: Padding(
+                  //                     padding: const EdgeInsets.only(right:5.0),
+                  //                     child: Align(
+                  //                         alignment: Alignment.topRight,
+                  //                         child: Icon(Icons.delete,color: Colors.red,)),
+                  //                   ),
+                  //                 )
+                  //               ],
+                  //             ));
+                  //     }),
 
 
 

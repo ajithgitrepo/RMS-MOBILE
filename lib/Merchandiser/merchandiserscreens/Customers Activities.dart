@@ -15,7 +15,7 @@ import 'package:merchandising/offlinedata/sharedprefsdta.dart';
 import 'package:merchandising/offlinedata/syncsendapi.dart';
 import 'expiry_report.dart';
 import 'package:flutter/material.dart';
-import 'package:flushbar/flushbar.dart';
+
 import 'outletdetailes.dart';
 import 'package:merchandising/Merchandiser/merchandiserscreens/merchandiserdashboard.dart';
 import 'package:merchandising/api/api_service.dart';
@@ -39,6 +39,7 @@ import 'package:merchandising/model/Location_service.dart';
 import 'package:merchandising/api/customer_activites_api/Competitioncheckapi.dart';
 import 'package:merchandising/api/customer_activites_api/competition_details.dart';
 import 'package:merchandising/api/customer_activites_api/promotion_detailsapi.dart';
+import'package:merchandising/Merchandiser/merchandiserscreens/checkin.dart';
 import 'package:intl/intl.dart';
 import 'package:merchandising/Merchandiser/merchandiserscreens/Journeyplan.dart';
 import 'package:merchandising/api/clientapi/stockexpirydetailes.dart';
@@ -64,7 +65,7 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
 
 
     if (checkinrequested && checkindatasubmitted) {
-      Future.delayed(const Duration(seconds: 2), () {
+      Future.delayed(const Duration(seconds: 1), () {
         Flushbar(
           message: "Checkin Updated",
           duration: Duration(seconds: 5),
@@ -159,10 +160,8 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Activities(
-                                  completedicon:
-                                      CupertinoIcons.check_mark_circled_solid,
-                                  iconcolor:
-                                      avaliabilitycheck ? Colors.green : pink,
+                                  // completedicon: CupertinoIcons.check_mark_circled_solid,
+                                  // iconcolor: avaliabilitycheck ? Colors.green : pink,
                                   icon: CupertinoIcons.chart_bar_alt_fill,
                                   chartext: 'Availability',
                                   tap: () async{
@@ -197,10 +196,10 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                   }
                                 ),
                                 Activities(
-                                  completedicon:
-                                      CupertinoIcons.check_mark_circled_solid,
-                                  iconcolor:
-                                      visibilitycheck ? Colors.green : pink,
+                                  // completedicon:
+                                  //     CupertinoIcons.check_mark_circled_solid,
+                                  // iconcolor:
+                                  //     visibilitycheck ? Colors.green : pink,
                                   icon: CupertinoIcons.eye_solid,
                                   chartext: 'Visibility',
                                   tap: () {
@@ -230,10 +229,10 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Activities(
-                                  completedicon:
-                                      CupertinoIcons.check_mark_circled_solid,
-                                  iconcolor:
-                                      shareofshelfcheck ? Colors.green : pink,
+                                  // completedicon:
+                                  //     CupertinoIcons.check_mark_circled_solid,
+                                  // iconcolor:
+                                  //     shareofshelfcheck ? Colors.green : pink,
                                   icon: Icons.table_chart_sharp,
                                   chartext: 'Share of Shelf',
                                   tap: () {
@@ -252,16 +251,16 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                   },
                                 ),
                                 Activities(
-                                  completedicon:
-                                      CupertinoIcons.check_mark_circled_solid,
-                                  iconcolor: planocheck ? Colors.green : pink,
+                                  // completedicon:
+                                  //     CupertinoIcons.check_mark_circled_solid,
+                                  // iconcolor: planocheck ? Colors.green : pink,
                                   icon: CupertinoIcons.doc_checkmark_fill,
                                   chartext: 'Planogram',
                                   tap: () {
-                                      beforeimages = [];
-                                      afterimages = [];
-                                      beforeimagesencode = [];
-                                      afterimagesencode = [];
+                                      // beforeimages = [];
+                                      // afterimages = [];
+                                      // beforeimagesencode = [];
+                                      // afterimagesencode = [];
                                       for (int i = 0;
                                           i < PlanoDetails.brandname.length;
                                           i++) {
@@ -288,7 +287,7 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                               children: [
                                 Activities(
                                   //completedicon:CupertinoIcons.check_mark_circled_solid,
-                                  iconcolor: promocheck ? Colors.green : pink,
+                                  // iconcolor: promocheck ? Colors.green : pink,
                                   icon: CupertinoIcons.checkmark_seal_fill,
                                   chartext: 'Promotion Check',
                                   tap: () {
@@ -303,9 +302,9 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                   },
                                 ),
                                 Activities(
-                                  completedicon:
-                                      CupertinoIcons.check_mark_circled_solid,
-                                  iconcolor: compcheck ? Colors.green : pink,
+                                  // completedicon:
+                                  //     CupertinoIcons.check_mark_circled_solid,
+                                  // iconcolor: compcheck ? Colors.green : pink,
                                   chartext: 'Compitetor info Capture',
                                   icon: CupertinoIcons.info_circle_fill,
                                   tap: () {
@@ -332,6 +331,19 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                    icon: CupertinoIcons.calendar_badge_minus,
                                   chartext: 'Products Expiry Info',
                                   tap: () {
+                                    addedproductname.clear();
+                                    addedexpirydate.clear();
+                                    addedpriceperitem.clear();
+                                    addeditemscount.clear();
+                                    addedexposurequnatity.clear();
+                                    addedproductid.clear();
+                                    addedremarks.clear();
+                                    addedproductlocation.clear();
+                                    addedcustomerstore.clear();
+                                    addeduom.clear();
+                                    addedproductlocation = [];
+                                    addedcustomerstore = [];
+                                    addeduom = [];
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) {
@@ -343,20 +355,20 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                   },
                                 ),
                                 Activities(
-                                  completedicon:
-                                      CupertinoIcons.check_mark_circled_solid,
-                                  iconcolor: checklist ? Colors.green : pink,
+                                  // completedicon:
+                                  //     CupertinoIcons.check_mark_circled_solid,
+                                  // iconcolor: checklist ? Colors.green : pink,
                                   icon: CupertinoIcons.text_badge_checkmark,
                                   chartext: 'CheckList',
                                   tap: () {
                                     print(task.list.length);
-                                    if (0 == 0) {
+                                    // if (0 == 0) {
                                       setState(() {
                                         changecheckoutcolor = false;
                                       });
-                                      CheckList = [];
-                                      imagescl = [];
-                                      encodeimagecl = [];
+                                      // CheckList = [];
+                                      // imagescl = [];
+                                      // encodeimagecl = [];
 
                                       for (int i = 0; i < task.list.length; i++) {
                                         CheckList.add(false);
@@ -368,7 +380,7 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                           MaterialPageRoute(
                                               builder: (BuildContext context) =>
                                                   UploadLivePhoto()));
-                                    }
+                                    // }
                                   },
                                 ),
                               ],
@@ -840,6 +852,7 @@ class _checkoutbuttonState extends State<checkoutbutton> {
                                           visibilitycheck = false;
                                           shareofshelfcheck = false;
                                           planocheck = false;
+                                          RemoveCompetitionData();
 
                                           Navigator.pushReplacement(
                                               context,
@@ -861,6 +874,11 @@ class _checkoutbuttonState extends State<checkoutbutton> {
                                             ? workingid = null
                                             : workingid = workingid;
                                         await SubmitCheckout();
+                                        if(onlinemode.value) {
+                                          await smtpExampleCheckinCheckout(
+                                              'Check Out details for empid ${DBrequestdata
+                                                  .receivedempid}');
+                                        }
                                         gettodayjp.status[currentoutletindex] =
                                             'done';
                                         setState(() {
@@ -885,7 +903,7 @@ class _checkoutbuttonState extends State<checkoutbutton> {
                                         visibilitycheck = false;
                                         shareofshelfcheck = false;
                                         planocheck = false;
-
+                                        RemoveCompetitionData();
 
 
                                         Navigator.pushReplacement(

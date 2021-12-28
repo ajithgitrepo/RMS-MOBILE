@@ -134,10 +134,11 @@ class _ClientOutletsdataState extends State<ClientOutletsdata> {
                   indexclientselected = index;
                   currentoutletid = clientoutlets.outletid[index];
                   currenttimesheetid = clientoutlets.timesheetid[index];
-                   getTaskList();
+                  print("current TSid for Report------->${currenttimesheetid}");
+                  FMViewOTDet();
                    getAvaiablitity();
                    getVisibility();
-                    getCompetition();
+                   getCompetition();
                    getPlanogram();
                    getShareofshelf();
                   Addedstockdataforclient();
@@ -209,7 +210,7 @@ class _ClientOutletsdataState extends State<ClientOutletsdata> {
                   indexclientselected = _filterindex[index];
                   currentoutletid = clientoutlets.outletid[_filterindex[index]];
                   currenttimesheetid = clientoutlets.timesheetid[_filterindex[index]];
-                  getTaskList();
+                  FMViewOTDet();
                   getAvaiablitity();
                   getVisibility();
                   getCompetition();
@@ -243,7 +244,7 @@ class _ClientOutletsdataState extends State<ClientOutletsdata> {
                                 fontSize: 14.0,fontWeight: FontWeight.bold
                             )),
                         SizedBox(height: 5),
-                        Text('date : ${clientoutlets.lastvisiteddate[_filterindex[index]].toString()}'),
+                        Text('Date : ${clientoutlets.lastvisiteddate[_filterindex[index]].toString()}'),
                         SizedBox(height: 5),
                         Text('Visit Type : ${clientoutlets.isschedulevisit[_filterindex[index]].toString()== "1"? "Scheduled":"UnScheduled"}'),
                         SizedBox(height: 5),
@@ -251,7 +252,7 @@ class _ClientOutletsdataState extends State<ClientOutletsdata> {
                         SizedBox(height: 5),
                         Text('Checkout time : ${clientoutlets.checkouttime[_filterindex[index]].toString()}'),
                         SizedBox(height: 5),
-                        Text('visited by : ${clientoutlets.merchandiserid[_filterindex[index]].toString()}'),
+                        Text('Visited by : ${clientoutlets.merchandiserid[_filterindex[index]].toString()}'),
                       ],
                     ))
             );

@@ -15,6 +15,11 @@ import 'package:camera/camera.dart';
 import 'package:merchandising/api/customer_activites_api/Competitioncheckapi.dart';
 import 'package:merchandising/api/customer_activites_api/add_competitionapi.dart';
 import'package:merchandising/api/api_service.dart';
+import'package:shared_preferences/shared_preferences.dart';
+import'package:merchandising/offlinedata/sharedprefsdta.dart';
+import'package:merchandising/main.dart';
+var capturedcopmtnimg;
+var imagesbytes;
 bool compcheck = false;
 TextEditingController itemname = TextEditingController();
 TextEditingController promtdescp = TextEditingController();
@@ -22,9 +27,10 @@ TextEditingController mrp = TextEditingController();
 TextEditingController sellingprice = TextEditingController();
 TextEditingController company = TextEditingController();
 TextEditingController category = TextEditingController();
-TextEditingController promotion = TextEditingController();
+TextEditingController promotiontype = TextEditingController();
 TextEditingController promodscrptn = TextEditingController();
 File capturedimage = File('dummy.txt');
+
 class CompetitionCheckOne extends StatefulWidget {
   @override
   _CompetitionCheckOneState createState() => _CompetitionCheckOneState();
@@ -32,10 +38,11 @@ class CompetitionCheckOne extends StatefulWidget {
 
 class _CompetitionCheckOneState extends State<CompetitionCheckOne> {
   // final GlobalKey<_CompetitionCheckOneState> _pdfViewerKey = GlobalKey();
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    SaveCompetitionData();
+  }
   GlobalKey<FormState> products = GlobalKey<FormState>();
 
 
@@ -57,32 +64,51 @@ class _CompetitionCheckOneState extends State<CompetitionCheckOne> {
             Spacer(),
             SubmitButton(
               onpress: () async{
-                setState(() {
-                  isApiCallProcess = true;
-                });
-
-                if (validateform() == true) {
+                if ( validateform() == true &&  capturedimage.toString() != 'File: \'dummy.txt\'') {
                     AddCompData.timesheetid = currenttimesheetid;
                     AddCompData.companyname = company.text;
                     AddCompData.brandname = category.text;
                     AddCompData.itemname = itemname.text;
-                    AddCompData.promotype = promotion.text;
+                    AddCompData.promotype = promotiontype.text;
                     AddCompData.mrp = mrp.text;
                     AddCompData.sellingprice = sellingprice.text;
                     AddCompData.promodesc =promodscrptn.text;
-                    var imagesbytes =capturedimage.readAsBytesSync();
+                    imagesbytes =capturedimage.readAsBytesSync();
                     AddCompData.captureimg ='data:image/jpeg;base64,${base64Encode(imagesbytes)}';
+                    capturedcopmtnimg = AddCompData.captureimg;
                     setState(() {
                       isApiCallProcess = false;
                     });
                     compcheck= true;
+                    setState(() {
+                      isApiCallProcess = true;
+                    });
                     await addCompetition();
+                    final prefs = await SharedPreferences.getInstance();
+                    prefs.setString("companydata","${company.text}");
+                    prefs.setString("categorydata",category.text);
+                    prefs.setString("itemdata",itemname.text);
+                    prefs.setString("promotypedata",promotiontype.text);
+                    prefs.setString("promodescdata",promodscrptn.text);
+                    prefs.setString("regpricedata",mrp.text);
+                    prefs.setString("sellpricedata",sellingprice.text);
+                    // prefs.setString("capimgdata", "${capturedcopmtnimg}");
+                    // print("captured img: ${capturedcopmtnimg}");
+
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
                                 CustomerActivities()));
-                  }
+                  }else if(AddCompData.captureimg == null){
+                  print("No captured Img");
+
+                  Flushbar(
+                    message: "Please capture the image before submitting",
+                    duration: Duration(seconds: 5),
+                  )..show(context);
+                }
                 else{
                   setState(() {
                     isApiCallProcess=false;
@@ -161,10 +187,12 @@ class _CompetitionCheckOneState extends State<CompetitionCheckOne> {
                                         hintStyle: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 15.0,
+
                                         ),
                                       ),
                                     ),
                                   ),
+
                                   Container(
                                     margin: EdgeInsets.only(top: 10.0),
                                     padding: EdgeInsets.only(left:10.0),
@@ -219,7 +247,7 @@ class _CompetitionCheckOneState extends State<CompetitionCheckOne> {
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                     child: TextFormField(
-                                      controller: promotion,
+                                      controller: promotiontype,
                                       cursorColor: grey,
                                       validator: (input) =>
                                       !input.isNotEmpty ? "Promotion Type should not be empty" : null,
@@ -315,10 +343,10 @@ class _CompetitionCheckOneState extends State<CompetitionCheckOne> {
                                           margin: EdgeInsets.all(10),
                                           child:
                                           // ignore: unrelated_type_equality_checks
-                                          capturedimage.toString() !=
-                                              'File: \'dummy.txt\''
+                                         capturedimage.toString() != 'File: \'dummy.txt\''
                                               ? GestureDetector(
                                             onTap: () {
+                                              print(base64Image);
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -330,7 +358,7 @@ class _CompetitionCheckOneState extends State<CompetitionCheckOne> {
                                             child: Image(
                                               height: 50,
                                               width: 50,
-                                              image: FileImage(capturedimage),
+                                              image:base64Image!=null?"data:image/jpeg;base64, ${base64Image}":FileImage(capturedimage),
                                             ),
                                           )
                                               : Image(

@@ -61,7 +61,7 @@ class _BarChatDataState extends State<BarChatData> {
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0)),
                     dataSource: data,
                     xValueMapper: (ChartData data, _) => data.x,
-                    yValueMapper: (ChartData data, _) => data.y1
+                    yValueMapper: (ChartData data, _) => data.y
                 ),
                 ColumnSeries<ChartData, String>(
                     //gradient: _linearGradient,
@@ -69,7 +69,7 @@ class _BarChatDataState extends State<BarChatData> {
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0)),
                     dataSource: data,
                     xValueMapper: (ChartData data, _) => data.x,
-                    yValueMapper: (ChartData data, _) => data.y
+                    yValueMapper: (ChartData data, _) => data.y1
                 ),
               ]
           ),

@@ -17,6 +17,11 @@ import 'package:merchandising/api/leavestakenapi.dart';
 import 'package:merchandising/api/myattendanceapi.dart';
 import 'package:merchandising/model/myattendance.dart';
 import 'package:merchandising/api/FMapi/merc_leave_details.dart';
+import 'package:merchandising/api/leaverules.dart';
+import 'package:merchandising/HR/leaverules.dart';
+
+
+
 class HRdashboard extends StatefulWidget {
   @override
   _HRdashboardState createState() => _HRdashboardState();
@@ -489,31 +494,40 @@ class _HRdashboardState extends State<HRdashboard> {
                               ),
                             ),
                           ),
-                          Container(
-                            height: 120,
-                            width: MediaQuery.of(context).size.width/3.2,
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: containerscolor,
-                            ),
-                            child: Center(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.note_add_rounded,
-                                      size: 35,
-                                      color: iconscolor,
-                                    ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      'Leave Rules',
-                                      textAlign: TextAlign.center,style: TextStyle(fontSize: 12),
-                                    ),
-                                  ],
+                          GestureDetector(
+                            onTap: ()async{
+
+                              await leaverulesdata1();
+
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (BuildContext context) => LeaveRules()));
+                            },
+                            child: Container(
+                              height: 120,
+                              width: MediaQuery.of(context).size.width/3.2,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: containerscolor,
+                              ),
+                              child: Center(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.note_add_rounded,
+                                        size: 35,
+                                        color: iconscolor,
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Leave Rules',
+                                        textAlign: TextAlign.center,style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

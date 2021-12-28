@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import '../../ProgressHUD.dart';
 import 'MenuContent.dart';
 import 'package:merchandising/model/camera.dart';
+import 'package:camera/camera.dart';
 import 'package:photo_view/photo_view.dart';
 import 'dart:io';
 import 'package:flutter/rendering.dart';

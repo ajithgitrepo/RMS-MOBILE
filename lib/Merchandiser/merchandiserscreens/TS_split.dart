@@ -37,7 +37,7 @@ class _TimeSheetListSSState extends State<TimeSheetListSS> {
                 Spacer(),
               ],
             ),
-            EmpInfo()
+            EmpInfo(),
           ],
         ),
       ),

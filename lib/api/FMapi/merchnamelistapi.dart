@@ -35,7 +35,7 @@ Future getmerchnamelist() async{
     var decodeddata = jsonDecode(empdata);
     for(int u=0;u<decodeddata['data'].length;u++) {
       merchnamelist.firstname.add('${decodeddata["data"][u]['first_name']} '
-          '${decodeddata["data"][u]['surname']}(${decodeddata["data"][u]['employee_id']})');
+          '(${decodeddata["data"][u]['employee_id']})');
       merchnamelist.employeeid.add(decodeddata["data"][u]['employee_id']);
       merchnamelist.name.add('${decodeddata["data"][u]['first_name']}');
     }
@@ -80,7 +80,7 @@ Future merchnamelistunderCDE() async{
     var decodeddata = jsonDecode(empdata);
     for(int u=0;u<decodeddata['data'].length;u++) {
       MerchUnderCDE.firstname.add('${decodeddata["data"][u]['first_name']}'
-          '${decodeddata["data"][u]['surname']}(${decodeddata["data"][u]['employee_id']})');
+          '(${decodeddata["data"][u]['employee_id']})');
       MerchUnderCDE.employeeid.add(decodeddata["data"][u]['employee_id']);
       MerchUnderCDE.name.add('${decodeddata["data"][u]['first_name']}');
     }
@@ -98,3 +98,4 @@ class MerchUnderCDE{
   static List<String> name=[];
 
 }
+//${decodeddata["data"][u]['surname']}

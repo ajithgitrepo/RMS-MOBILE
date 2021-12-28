@@ -10,8 +10,6 @@ import 'package:merchandising/api/HRapi/empdetailsforreportapi.dart';
 import 'package:merchandising/api/FMapi/cdereportapi.dart';
 import 'package:merchandising/Fieldmanager/add_rep.dart';
 
-
-
 class CDEReportScreen extends StatefulWidget {
   @override
   _CDEReportScreenState createState() => _CDEReportScreenState();
@@ -23,20 +21,22 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
   String _query = "";
   List<dynamic> inputlist;
   List<String> _filterList;
+  List<String> _filterList_Mer_Name;
+  List<String> _filterList_Mer_SName;
+  List<String> _filterList_Cde_Name;
+  List<String> _filterList_Cde_SName;
   List<String> _filterreportingList;
   List<String> _filterstartList;
   List<String> _filterendList;
   @override
   void initState() {
     super.initState();
-    inputlist =  CDEreportdata.merchandisersid;
+    inputlist = CDEreportdata.merchandisersid;
   }
 
   _CDEReportScreenState() {
-
     _searchview.addListener(() {
       if (_searchview.text.isEmpty) {
-
         setState(() {
           _firstSearch = true;
           _query = "";
@@ -52,7 +52,7 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
         if (!currentFocus.hasPrimaryFocus) {
           currentFocus.unfocus();
@@ -62,7 +62,10 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
         appBar: AppBar(
           backgroundColor: pink,
           iconTheme: IconThemeData(color: orange),
-          title: Text("CDE Reporting",style: TextStyle(color: orange),),
+          title: Text(
+            "CDE Reporting",
+            style: TextStyle(color: orange),
+          ),
         ),
         // drawer: Drawer(
         //   child: Menu(),
@@ -71,11 +74,13 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
           children: [
             BackGround(),
             Container(
-              margin: EdgeInsets.fromLTRB(10.0,10,10,0),
+              margin: EdgeInsets.fromLTRB(10.0, 10, 10, 0),
               child: new Column(
                 children: <Widget>[
                   _createSearchView(),
-                  SizedBox(height: 10.0,),
+                  SizedBox(
+                    height: 10.0,
+                  ),
                   _firstSearch ? _createListView() : _performSearch(),
                 ],
               ),
@@ -85,19 +90,19 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
               child: Container(
                 margin: EdgeInsets.all(15.0),
                 child: FloatingActionButton(
-                  onPressed: (){
-
-
+                  onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext
-                            context) =>
+                            builder: (BuildContext context) =>
                                 Addreportcdescreen()));
                   },
                   backgroundColor: pink,
                   elevation: 8.0,
-                  child: Icon(Icons.add,color: orange,),
+                  child: Icon(
+                    Icons.add,
+                    color: orange,
+                  ),
                 ),
               ),
             ),
@@ -111,47 +116,49 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
     return new Container(
       padding: EdgeInsets.only(left: 20.0),
       width: double.infinity,
-      decoration: BoxDecoration(color: pink,
-          borderRadius: BorderRadius.circular(25.0)),
+      decoration:
+          BoxDecoration(color: pink, borderRadius: BorderRadius.circular(25.0)),
       child: new TextField(
         style: TextStyle(color: orange),
         controller: _searchview,
-        cursorColor:orange,
+        cursorColor: orange,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
           focusColor: orange,
           hintText: 'Search by name or EmpID',
           hintStyle: TextStyle(color: orange),
           border: InputBorder.none,
-          icon: Icon(CupertinoIcons.search,color: orange,),
+          icon: Icon(
+            CupertinoIcons.search,
+            color: orange,
+          ),
           isCollapsed: true,
         ),
       ),
     );
   }
+
   Widget _createListView() {
     return new Flexible(
       child: new ListView.builder(
           itemCount: CDEreportdata.merchandisersid.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              height: 120,
+              height: 130,
               margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
               padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
+              width: MediaQuery.of(context).size.width,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
                     children: [
                       Flexible(
-                        child: AutoSizeText("Merchandiser: ${CDEreportdata.merchandisersid[index]}",
+                        child: AutoSizeText(
+                          "Merchandiser: ${CDEreportdata.mername[index] + " " + CDEreportdata.mersname[index] + "(" + CDEreportdata.merchandisersid[index] + ")"}",
                           maxLines: 2,
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -170,7 +177,10 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
                       SizedBox(
                         width: 5,
                       ),
-                      Text(CDEreportdata.cdeempid[index],
+                      Text(
+                          CDEreportdata.cdeempname[index] +
+                              " " +
+                              CDEreportdata.cdeempsname[index],
                           style: TextStyle(
                             fontSize: 15.0,
                           )),
@@ -186,7 +196,7 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
                       SizedBox(
                         width: 5,
                       ),
-                      Text( CDEreportdata.startdate[index],
+                      Text(CDEreportdata.startdate[index],
                           style: TextStyle(
                             fontSize: 15.0,
                           )),
@@ -211,26 +221,38 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
                 ],
               ),
             );
-          }
-      ),
+          }),
     );
   }
 
   Widget _performSearch() {
     _filterList = [];
-    _filterendList =[];
-    _filterstartList =[];
-    _filterreportingList=[];
-    for (int i = 0; i <CDEreportdata.merchandisersid.length; i++) {
+    _filterendList = [];
+    _filterList_Mer_Name = [];
+    _filterList_Mer_SName = [];
+    _filterList_Cde_Name = [];
+    _filterList_Cde_SName = [];
+    _filterstartList = [];
+    _filterreportingList = [];
+    for (int i = 0; i < CDEreportdata.merchandisersid.length; i++) {
       var item = CDEreportdata.merchandisersid[i];
       if (item.toLowerCase().contains(_query.toLowerCase())) {
         _filterList.add(item);
         int index = CDEreportdata.merchandisersid.indexOf(item);
         _filterreportingList.add(CDEreportdata.cdeempid[index]);
-        _filterstartList.add( CDEreportdata.startdate[index]);
+
+        _filterList_Mer_Name.add(CDEreportdata.mername[index]);
+        _filterList_Mer_SName.add(CDEreportdata.mersname[index]);
+
+        _filterList_Cde_Name.add(CDEreportdata.cdeempname[index]);
+        _filterList_Cde_SName.add(CDEreportdata.cdeempsname[index]);
+        _filterstartList.add(CDEreportdata.startdate[index]);
         _filterendList.add(CDEreportdata.enddate[index]);
       }
     }
+
+    // print(_filterList_Cde_Name);
+
     return _createFilteredListView();
   }
 
@@ -246,17 +268,15 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
+              width: MediaQuery.of(context).size.width,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
                     children: [
                       Flexible(
-                        child: AutoSizeText("Merchandiser: ${_filterList[index]}",
+                        child: AutoSizeText(
+                          "Merchandiser: ${_filterList[index]}",
                           maxLines: 2,
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -316,10 +336,7 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
                 ],
               ),
             );
-          }
-      ),
+          }),
     );
   }
 }
-
-

@@ -93,7 +93,7 @@ Future getempdetailsforreport() async{
 }
 
 class reporting {
-  static List<dynamic> feildmanager = [];
+  static List <dynamic> feildmanager = [];
   static List<dynamic> startdate=[];
   static List<dynamic> merchandisers = [];
   static List<dynamic> enddate=[];

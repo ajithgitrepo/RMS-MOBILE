@@ -12,7 +12,7 @@ import 'package:merchandising/api/leaveresult.dart';
 import 'package:merchandising/Fieldmanager/FMdashboard.dart';
 import 'package:merchandising/HR/HRdashboard.dart';
 import 'package:merchandising/Fieldmanager/Leavereporting.dart';
-import'package:merchandising/api/FMapi/leave_reqapi.dart';
+import'package:merchandising/api/FMapi/leave_reportapi.dart';
 int leave;
 
 class ResponsetoLeave extends StatefulWidget {

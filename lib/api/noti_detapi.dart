@@ -30,8 +30,7 @@ Future<void> getNotificationDetails() async {
 
     }
   }
-  print(NotiDetData.title[0]);
-  print(NotiDetData.date[0]);
+
   if(SDResponse.statusCode != 200){
     print(SDResponse.statusCode);
   }

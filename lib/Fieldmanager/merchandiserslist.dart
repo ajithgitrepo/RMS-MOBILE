@@ -8,6 +8,7 @@ import 'package:merchandising/ProgressHUD.dart';
 import 'package:merchandising/api/timesheetmonthly.dart';
 import 'package:merchandising/api/FMapi/merchnamelistapi.dart';
 import 'package:merchandising/main.dart';
+import'package:merchandising/api/leavestakenapi.dart';
 
 
 var tts;
@@ -103,7 +104,7 @@ class _MerchandisersListState extends State<MerchandisersList> {
           hintStyle: TextStyle(color: orange),
           border: InputBorder.none,
           icon: Icon(CupertinoIcons.search,color: orange,),
-          isCollapsed: true,
+         // isCollapsed: true,
         ),
       ),
     );
@@ -118,28 +119,22 @@ class _MerchandisersListState extends State<MerchandisersList> {
             return GestureDetector(
               onTap:()async{
                 // alldateselected=false;
-                //print(merchnamelist.name[index]);
+                // print(merchnamelist.name[index]);
                 timesheet.empid = currentuser.roleid==2?MerchUnderCDE.employeeid[index]:merchnamelist.employeeid[index];
                 timesheet.empname = currentuser.roleid==2?MerchUnderCDE.name[index]:merchnamelist.name[index];
-                // print(timesheet.empname);
+
                 setState(() {
                   isApiCallProcess = true;
                 });
                 await getTimeSheetdaily();
                 await gettimesheetmonthly();
+                await gettimesheetleavetype();
+               // await gettimesheetleavetype1();
+                //await leaveReportData();
                 setState(() {
                   isApiCallProcess = false;
                 });
-                // tts=TMmonthly.day5.length;
-                // tts = TMmonthly.day1.length+TMmonthly.day2.length+TMmonthly.day3.length+TMmonthly.day4.length+TMmonthly.day5.length
-                //     +TMmonthly.day6.length+TMmonthly.day7.length+TMmonthly.day8.length+TMmonthly.day9.length+TMmonthly.day10.length
-                //     +TMmonthly.day11.length+TMmonthly.day12.length+TMmonthly.day13.length+TMmonthly.day14.length+TMmonthly.day15.length
-                //     +TMmonthly.day16.length+TMmonthly.day17.length+TMmonthly.day18.length+TMmonthly.day19.length+TMmonthly.day20.length
-                //     +TMmonthly.day21.length+TMmonthly.day22.length+TMmonthly.day23.length+TMmonthly.day24.length+TMmonthly.day25.length
-                //     +TMmonthly.day26.length+TMmonthly.day27.length+TMmonthly.day28.length+TMmonthly.day29.length+TMmonthly.day30.length
-                //     +TMmonthly.day31.length;
-                //
-                // print("tts:${tts}");
+
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -204,19 +199,10 @@ class _MerchandisersListState extends State<MerchandisersList> {
                 });
                 await getTimeSheetdaily();
                 await gettimesheetmonthly();
+                await gettimesheetleavetype();
                 setState(() {
                   isApiCallProcess = false;
                 });
-                // tts=TMmonthly.day5.length;
-                // tts = TMmonthly.day1.length+TMmonthly.day2.length+TMmonthly.day3.length+TMmonthly.day4.length+TMmonthly.day5.length
-                //     +TMmonthly.day6.length+TMmonthly.day7.length+TMmonthly.day8.length+TMmonthly.day9.length+TMmonthly.day10.length
-                //     +TMmonthly.day11.length+TMmonthly.day12.length+TMmonthly.day13.length+TMmonthly.day14.length+TMmonthly.day15.length
-                //     +TMmonthly.day16.length+TMmonthly.day17.length+TMmonthly.day18.length+TMmonthly.day19.length+TMmonthly.day20.length
-                //     +TMmonthly.day21.length+TMmonthly.day22.length+TMmonthly.day23.length+TMmonthly.day24.length+TMmonthly.day25.length
-                //     +TMmonthly.day26.length+TMmonthly.day27.length+TMmonthly.day28.length+TMmonthly.day29.length+TMmonthly.day30.length
-                //     +TMmonthly.day31.length;
-                //
-                // print("tts:${tts}");
                 Navigator.push(
                     context,
                     MaterialPageRoute(

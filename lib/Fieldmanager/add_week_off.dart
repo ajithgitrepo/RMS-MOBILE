@@ -9,6 +9,7 @@ import 'package:merchandising/api/FMapi/add_brandapi.dart';
 import 'package:merchandising/api/FMapi/merchnamelistapi.dart';
 import'package:merchandising/api/FMapi/add_weekoff_api.dart';
 import 'package:merchandising/api/FMapi/week_off_detailsapi.dart';
+import 'package:merchandising/main.dart';
 
 
 class AddWeekOff extends StatefulWidget {
@@ -120,7 +121,7 @@ class SelectMerch extends StatefulWidget {
 
 class _SelectMerchState extends State<SelectMerch> {
 
-  static List DropDownItems  = merchnamelist.firstname.map((String val) {return new DropdownMenuItem<String>(value: val, child: new Text(val),);}).toList();
+  static List DropDownItems  = currentuser.roleid == 5?merchnamelist.firstname.map((String val) {return new DropdownMenuItem<String>(value: val, child: new Text(val),);}).toList():MerchUnderCDE.firstname.map((String val) {return new DropdownMenuItem<String>(value: val, child: new Text(val),);}).toList();
 
   @override
   Widget build(BuildContext context) {

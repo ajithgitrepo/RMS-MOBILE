@@ -128,7 +128,7 @@ class _ReportingempState extends State<Reportingemp> {
           itemCount: reporting.merchandisers.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              height: 120,
+              height: 130,
               margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
               padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(

@@ -45,6 +45,7 @@ Future<void> getmappedoutlets() async {
         }
       }
       }
+    Distictcategorylist=mapping.categoryname.toSet().toList();
     print("elements : ${mapping.opmid}");
     print(mapping.pdfurl.length);
     print(mapping.pdfurl);
@@ -53,6 +54,7 @@ Future<void> getmappedoutlets() async {
     print(BDResponse.statusCode);
   }
 }
+List<String>Distictcategorylist=[];
 
 class mapping {
   static List<String> outletname = [];
@@ -62,7 +64,7 @@ class mapping {
   static List<String> shelf = [];
   static List<String> target = [];
   static List<dynamic> planogramimage = [];
-  static List<dynamic> categoryname = [];
+  static List<String> categoryname = [];
   static List<int>outletid =[];
   static List<String>pdfurl =[];
 }

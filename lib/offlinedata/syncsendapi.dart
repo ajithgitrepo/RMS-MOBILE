@@ -74,7 +74,7 @@ syncingsenddata()async {
           print("check 1 sync send createlog done");
         }
         else{
-        progress.value++;
+        // progress.value++;
         http.Response response = await http.post(
           Uri.parse(requireurlstosync[i]),
           headers: {

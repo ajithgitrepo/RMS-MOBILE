@@ -10,6 +10,9 @@ import 'package:http/http.dart' as http;
 import 'package:merchandising/main.dart';
 import 'package:merchandising/api/timesheetapi.dart';
 import 'package:merchandising/Merchandiser/merchandiserscreens/timesheetmonthly.dart';
+import 'package:merchandising/api/leavestakenapi.dart';
+
+
 
 var initialDate = DateTime.now();
 DateTime selectedDate;
@@ -189,6 +192,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day1,
                   ),
                 ],
+              ):TMmonthly1.day1.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 0),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day1),
+                ],
               )
                   : SizedBox(),
               SelectedTMmonthly.day2.length != 0
@@ -199,6 +207,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day2,
                   )
                 ],
+              ):TMmonthly1.day2.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 1),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day2),
+                ],
               )
                   : SizedBox(),
               SelectedTMmonthly.day3.length != 0
@@ -208,6 +221,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day3,
                   )
+                ],
+              ):TMmonthly1.day3.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 2),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day3),
                 ],
               )
                   : SizedBox(),
@@ -220,6 +238,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day4,
                   )
                 ],
+              ):TMmonthly1.day4.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 3),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day4),
+                ],
               )
                   : SizedBox(),
               // day4 == true ? day4list() : SizedBox(),
@@ -230,6 +253,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day5,
                   )
+                ],
+              ):TMmonthly1.day5.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 4),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day5),
                 ],
               )
                   : SizedBox(),
@@ -242,6 +270,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day6,
                   )
                 ],
+              ):TMmonthly1.day6.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 5),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day6),
+                ],
               )
                   : SizedBox(),
               // day6 == true ? day6list() : SizedBox(),
@@ -252,6 +285,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day7,
                   )
+                ],
+              ):TMmonthly1.day7.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 6),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day7),
                 ],
               )
                   : SizedBox(),
@@ -264,6 +302,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day8,
                   )
                 ],
+              ):TMmonthly1.day8.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 7),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day8),
+                ],
               )
                   : SizedBox(),
               // day8 == true ? day8list() : SizedBox(),
@@ -274,6 +317,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day9,
                   )
+                ],
+              ):TMmonthly1.day9.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 8),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day9),
                 ],
               )
                   : SizedBox(),
@@ -286,6 +334,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day10,
                   )
                 ],
+              ):TMmonthly1.day10.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 9),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day10),
+                ],
               )
                   : SizedBox(),
 
@@ -296,6 +349,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day11,
                   )
+                ],
+              ):TMmonthly1.day11.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 10),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day11),
                 ],
               )
                   : SizedBox(),
@@ -308,6 +366,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day12,
                   )
                 ],
+              ):TMmonthly1.day12.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 11),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day12),
+                ],
               )
                   : SizedBox(),
 
@@ -318,6 +381,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day13,
                   )
+                ],
+              ):TMmonthly1.day13.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 12),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day13),
                 ],
               )
                   : SizedBox(),
@@ -330,6 +398,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day14,
                   )
                 ],
+              ):TMmonthly1.day14.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 13),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day14),
+                ],
               )
                   : SizedBox(),
 
@@ -340,6 +413,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day15,
                   )
+                ],
+              ):TMmonthly1.day15.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 14),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day15),
                 ],
               )
                   : SizedBox(),
@@ -352,6 +430,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day16,
                   )
                 ],
+              ):TMmonthly1.day16.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 15),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day16),
+                ],
               )
                   : SizedBox(),
 
@@ -362,6 +445,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day17,
                   )
+                ],
+              ):TMmonthly1.day17.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 16),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day17),
                 ],
               )
                   : SizedBox(),
@@ -374,6 +462,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day18,
                   )
                 ],
+              ):TMmonthly1.day18.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 17),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day18),
+                ],
               )
                   : SizedBox(),
 
@@ -384,6 +477,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day19,
                   )
+                ],
+              ):TMmonthly1.day19.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 18),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day19),
                 ],
               )
                   : SizedBox(),
@@ -396,6 +494,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day20,
                   )
                 ],
+              ):TMmonthly1.day20.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 19),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day20),
+                ],
               )
                   : SizedBox(),
 
@@ -406,6 +509,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day21,
                   )
+                ],
+              ):TMmonthly1.day21.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 20),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day21),
                 ],
               )
                   : SizedBox(),
@@ -418,6 +526,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day22,
                   )
                 ],
+              ):TMmonthly1.day22.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 21),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day22),
+                ],
               )
                   : SizedBox(),
 
@@ -428,6 +541,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day23,
                   )
+                ],
+              ):TMmonthly1.day23.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 22),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day23),
                 ],
               )
                   : SizedBox(),
@@ -440,6 +558,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day24,
                   )
                 ],
+              ):TMmonthly1.day24.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 23),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day24),
+                ],
               )
                   : SizedBox(),
 
@@ -450,6 +573,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day25,
                   )
+                ],
+              ):TMmonthly1.day25.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 24),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day25),
                 ],
               )
                   : SizedBox(),
@@ -462,6 +590,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day26,
                   )
                 ],
+              ):TMmonthly1.day26.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 25),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day26),
+                ],
               )
                   : SizedBox(),
 
@@ -472,6 +605,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day27,
                   )
+                ],
+              ):TMmonthly1.day27.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 26),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day27),
                 ],
               )
                   : SizedBox(),
@@ -484,6 +622,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day28,
                   )
                 ],
+              ):TMmonthly1.day28.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 27),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day28),
+                ],
               )
                   : SizedBox(),
 
@@ -494,6 +637,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day29,
                   )
+                ],
+              ):TMmonthly1.day29.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 28),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day29),
                 ],
               )
                   : SizedBox(),
@@ -510,6 +658,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                     inputdata: SelectedTMmonthly.day30,
                   )
                 ],
+              ):TMmonthly1.day30.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 29),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day30),
+                ],
               )
                   : SizedBox(),
               // listOfDates.length > 29
@@ -524,6 +677,11 @@ class _TimesheetyearlyState extends State<Timesheetyearly> {
                   CustomTimesheetWidget(
                     inputdata: SelectedTMmonthly.day31,
                   )
+                ],
+              ):TMmonthly1.day31.length !=0?Column(
+                children: [
+                  Customtimesheetheader(index: 30),
+                  CustomLeaveTypeWidget(inputdata: TMmonthly1.day31),
                 ],
               )
                   : SizedBox(),

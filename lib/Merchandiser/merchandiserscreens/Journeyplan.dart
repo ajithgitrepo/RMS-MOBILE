@@ -124,9 +124,19 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                       ],
                     ),
                     IconButton(onPressed: ()async{
-
-
-                     syncnowjourneyplan(context);
+                      if(onlinemode.value) {
+                        print(onlinemode.value);
+                        syncnowjourneyplan(context);
+                      }
+                      else if(onlinemode.value==false){
+                        print(onlinemode.value);
+                          Flushbar(
+                            message:
+                            "Active internet is required to Refresh Journey Plan",
+                            duration: Duration(
+                                seconds: 3),
+                           )..show(context);
+                      }
 
 
                     }, icon: Icon(CupertinoIcons.refresh_circled_solid,color: orange,size: 30)),
@@ -217,7 +227,7 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                               },
                               child: JourneyPlanHeader(
                                 icon: Icons.calendar_today_outlined,
-                                chartext: " This Week's\nJounery Plan",
+                                chartext: "Week's\nJounery Plan",
                                 textcolor: pressWeek == true
                                     ? Colors.white
                                     : Colors.black,

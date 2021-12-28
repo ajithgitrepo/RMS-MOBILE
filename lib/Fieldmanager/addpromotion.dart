@@ -14,6 +14,7 @@ import'package:merchandising/Fieldmanager/products.dart';
 import 'package:merchandising/api/FMapi/product_detailsapi.dart';
 import 'package:merchandising/api/FMapi/outletapi.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flushbar/flushbar.dart';
 import 'dart:convert';
 import 'dart:io';
 int filefor;
@@ -293,14 +294,23 @@ class _AddPromotionState extends State<AddPromotion> {
                                 AddPromo.todate = ENDdate.toString().substring(0,10);
                                 AddPromo.description = description.text;
                                 await addpromodetails();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            Products()));
+
 
                                 setState(() {
                                   isApiCallProcess = false;
+                                });
+
+                                Flushbar(
+                                  message: "Promotion has been added",
+                                  duration: Duration(seconds:3),
+                                )..show(context);
+
+                                Future.delayed(const Duration(seconds: 2), () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              Products()));
                                 });
                               },
                               child: Container(

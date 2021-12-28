@@ -26,7 +26,7 @@ ValueNotifier<int> progress = new ValueNotifier(0);
 bool currentlysyncing = false;
 List<String> logreport = [];
 List<String> logtime = [];
-String appversionnumber = "v3.3.3";
+String appversionnumber = "v3.3.4";
 String logoutmessage;
 createlog(message, status) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -184,7 +184,7 @@ class _OfflineNotificationState extends State<OfflineNotification> {
           });
         } else {
           Future.delayed(const Duration(seconds: 1), () {
-            createlog("entered to Offline mode", "true");
+            // createlog("entered to Offline mode", "true");
             onlinemode.value = false;
           });
         }

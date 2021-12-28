@@ -17,8 +17,7 @@ import 'package:merchandising/Merchandiser/merchandiserscreens/Promotion Check.d
 import 'dart:convert';
 import 'dart:io';
 import'package:merchandising/Merchandiser/merchandiserscreens/checklist.dart';
-bool takepicplano=false;
-bool takepicCL=false;
+
 class TakePictureScreen extends StatefulWidget {
   @override
   _TakePictureScreenState createState() => _TakePictureScreenState();
@@ -322,10 +321,7 @@ class _PreviewScreenState extends State<PreviewScreen>{
                   MaterialPageRoute(builder: (BuildContext context) => PromotionCheck()));
             }
             if(Selectedscreen == "planogram"){
-              setState(() {
-                takepicplano=true;
-                // takepicCL=true;
-              });
+
               var imagebytes = widget.imgPath.readAsBytesSync();
               ontap == 'before'?
               beforeimages[selectedindex] = widget.imgPath:afterimages[selectedindex]= widget.imgPath;
@@ -336,11 +332,10 @@ class _PreviewScreenState extends State<PreviewScreen>{
             }
 
             if(Selectedscreen == "checklistimage"){
-              setState(() {
-                takepicCL=true;
-              });
-              var imgbyts = widget.imgPath.readAsBytesSync();
+
+              // var imgbyts = widget.imgPath.readAsBytesSync();
               imagescl[selectindexcl]  = widget.imgPath;
+              var imgbyts = widget.imgPath.readAsBytesSync();
               encodeimagecl[selectindexcl]='data:image/jpeg;base64,${base64Encode(imgbyts)}';
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (BuildContext context) => UploadLivePhoto()));

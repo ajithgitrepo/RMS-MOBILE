@@ -88,6 +88,207 @@ class _DashBoardState extends State<DashBoard> {
           const Duration(seconds: 2), ()async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         synctime = DateTime.parse(prefs.getString('lastsyncedonendtime'));
+
+
+
+
+/*
+
+
+        showDialog(context: context, builder:(_) => StatefulBuilder(builder: (context, setState){
+          return AlertDialog(
+            backgroundColor: pink,//alertboxcolor,
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                BorderRadius.all(
+                    Radius.circular(10.0))),
+
+            content: Builder(
+              builder: (context) {
+                // Get available height and width of the build area of this widget. Make a choice depending on the size.
+                return Container(
+
+                  width: MediaQuery.of(context).size.width/1.1,
+                   height: MediaQuery.of(context).size.height/3,
+
+
+                  child: Column(
+                    children: [
+                      Text(
+                        'Skipped Journey Plan',
+                        style: TextStyle(
+                            color: orange,
+                            fontSize: 20),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                        thickness: 0.8,
+                      ),
+                      Text('Reason for Skipping'),
+
+                   Container(
+                      margin: EdgeInsets.only(top: 10),
+                     width: MediaQuery.of(context).size.width/0.8,
+                     height: MediaQuery.of(context).size.height/8,
+
+                     decoration: BoxDecoration(
+                       borderRadius: BorderRadius.circular(10.0),
+                       color: containerscolor,
+                     ),
+                     child: SingleChildScrollView(
+
+                       child: Column(
+
+                         children: [
+
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             children: [
+                               Padding(
+                                 padding: const EdgeInsets.only(right: 10,left: 10),
+                                 child: Text('12-11-2021',style: TextStyle(
+                                     color: Colors.black,
+                                     fontSize: 15),),
+                               ),
+                               Padding(
+                                 padding: const EdgeInsets.only(left: 30),
+                                 child: DropdownButton(
+
+                                   value: _value,
+                                   items: _dropdownItems.map((ListItem item) {
+                                     return DropdownMenuItem<int>(
+                                       child: Text(item.name),
+                                       value: item.value,
+                                     );
+                                   }).toList(),
+                                   onChanged: (value) {
+                                     setState(() {
+                                       _value = value;
+                                     });
+                                   },
+
+
+                                 ),
+                               ),
+
+                             ],
+
+                           ),
+
+
+                           Divider(
+                             color: Colors.black,
+                             thickness: 0.2,
+                           ),
+
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             children: [
+                               Padding(
+                                 padding: const EdgeInsets.only(right: 10,left: 10),
+                                 child: Text('13-11-2021',style: TextStyle(
+                                     color: Colors.black,
+                                     fontSize: 15),),
+                               ),
+                               Padding(
+                                 padding: const EdgeInsets.only(left: 30),
+                                 child: DropdownButton(
+
+                                   value: _value,
+                                   items: _dropdownItems.map((ListItem item) {
+                                     return DropdownMenuItem<int>(
+                                       child: Text(item.name),
+                                       value: item.value,
+                                     );
+                                   }).toList(),
+                                   onChanged: (value) {
+                                     setState(() {
+                                       _value = value;
+                                     });
+                                   },
+
+
+                                 ),
+                               ),
+
+                             ],
+
+                           ),
+
+                           Divider(
+                             color: Colors.black,
+                             thickness: 0.2,
+                           ),
+
+
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             children: [
+                               Padding(
+                                 padding: const EdgeInsets.only(right: 10,left: 10),
+                                 child: Text('14-11-2021',style: TextStyle(
+                                     color: Colors.black,
+                                     fontSize: 15),),
+                               ),
+                               Padding(
+                                 padding: const EdgeInsets.only(left: 30),
+                                 child: DropdownButton(
+
+                                   value: _value,
+                                   items: _dropdownItems.map((ListItem item) {
+                                     return DropdownMenuItem<int>(
+                                       child: Text(item.name),
+                                       value: item.value,
+                                     );
+                                   }).toList(),
+                                   onChanged: (value) {
+                                     setState(() {
+                                       _value = value;
+                                     });
+                                   },
+
+
+                                 ),
+                               ),
+                             ],
+
+                           ),
+                           Divider(
+                             color: Colors.black,
+                             thickness: 0.2,
+                           ),
+
+
+                         ],
+                       ),
+
+                     ),
+                   ),
+
+                   Center(
+                     child: Padding(
+                       padding: const EdgeInsets.only(top:30),
+                       child: TextButton(onPressed: (){
+
+                       }, child: Text('Submit'),style: TextButton.styleFrom(primary:Colors.black,backgroundColor: Colors.orange),),
+                     ),
+                   )
+
+                    ],
+                  ),
+                );
+              },
+            ),
+          );
+        }));
+
+
+*/
+
+
+
+
+
         showDialog(
             context: context,
             builder: (_) => StatefulBuilder(
@@ -130,6 +331,14 @@ class _DashBoardState extends State<DashBoard> {
                     ),
                   );
                 }));
+
+
+
+
+
+
+
+
       });
       fromloginscreen = false;
     }
@@ -147,6 +356,7 @@ class _DashBoardState extends State<DashBoard> {
     return WillPopScope(
       onWillPop: () async => false,
       child: MaterialApp(
+          debugShowCheckedModeBanner: false,
         home: ProgressHUD(
           child: _uiSetup(context),
           inAsyncCall: isApiCallProcess,
@@ -1450,7 +1660,9 @@ class _DashBoardState extends State<DashBoard> {
                                           DBrequestdata.receivedempid;
                                       await getTimeSheetdaily();
                                       await gettimesheetmonthly();
-
+                                      await gettimesheetleavetype();
+                                      //await gettimesheetleavetype1();
+                                     // leaveReportData();
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -1960,4 +2172,25 @@ class ActivityPerformance extends StatelessWidget {
     );
   }
 }
+
+
+
+//dropdown button
+
+class ListItem{
+  int value;
+  String name;
+  ListItem(this.value, this.name);
+}
+
+int _value = 1;
+List<ListItem> _dropdownItems = [
+  ListItem(1, "Annual Leave"),
+  ListItem(2, "Sick Leave"),
+  ListItem(3, "Comp Off"),
+  ListItem(4, "Week Off")
+];
+
+
+
 

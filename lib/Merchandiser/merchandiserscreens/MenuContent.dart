@@ -196,10 +196,10 @@ class _MenuState extends State<Menu> {
                 color: Colors.black54,
               ));
             }
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => NotificationDetails()));
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (BuildContext context) => NotificationDetails()));
           },
         ),
         ListTile(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:merchandising/Merchandiser/merchandiserscreens/Customers%20Activities.dart';
 import 'package:merchandising/Merchandiser/merchandiserscreens/expiry_report.dart';
 import 'package:merchandising/offlinedata/syncreferenceapi.dart';
@@ -17,9 +19,11 @@ import 'package:merchandising/api/Journeyplansapi/todayplan/journeyplanapi.dart'
 import 'package:merchandising/api/Journeyplansapi/todayplan/jpskippedapi.dart';
 import 'package:merchandising/api/Journeyplansapi/todayplan/JPvisitedapi.dart';
 import 'package:merchandising/api/empdetailsapi.dart';
+import 'package:merchandising/api/noti_detapi.dart';
 import 'api/FMapi/outlet brand mappingapi.dart';
 import 'login_page.dart';
 import 'package:merchandising/Merchandiser/merchandiserscreens/merchandiserdashboard.dart';
+import 'package:merchandising/Merchandiser/merchandiserscreens/CompetitionCheckOne.dart';
 import 'dart:async';
 import 'model/rememberme.dart';
 import 'api/FMapi/relieverdet_api.dart';
@@ -27,6 +31,7 @@ import 'api/api_service.dart';
 import 'package:merchandising/HR/HRdashboard.dart';
 import 'api/HRapi/hrdashboardapi.dart';
 import 'package:merchandising/Fieldmanager/FMdashboard.dart';
+import 'dart:convert';
 import 'api/FMapi/fmdbapi.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:merchandising/api/FMapi/fmdbapi.dart';
@@ -48,11 +53,13 @@ import 'offlinedata/backgroundsynchronize.dart';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:merchandising/api/customer_activites_api/visibilityapi.dart';
 import 'package:merchandising/api/customer_activites_api/share_of_shelf_detailsapi.dart';
-import 'package:merchandising/api/customer_activites_api/competition_details.dart';
 import 'package:merchandising/api/customer_activites_api/promotion_detailsapi.dart';
-import 'package:merchandising/api/Journeyplansapi/todayplan/journeyplanapi.dart';
 import 'package:merchandising/api/FMapi/nbl_detailsapi.dart';
 import 'package:merchandising/api/customer_activites_api/planogramdetailsapi.dart';
+import 'package:merchandising/HR/leaverules.dart';
+import 'package:merchandising/HR/editleaverule.dart';
+
+
 
 
 
@@ -95,10 +102,18 @@ Future<void> main() async {
 
 
       ///fetch all the reference data from the local.
+      currentlysyncing = false;
+      print("going to get reference");
       await syncingreferencedata();
+      print("going to send");
       if(onlinemode.value){
+        print("come to send");
+        print(requireurlstosync);
+        print(requirebodytosync);
         syncingsenddata();
       }
+
+
       ///once app is up and running for every 20 minutes we are trying to get reference data.
       // const time = const Duration(minutes: 20);
       // Timer.periodic(time, (Timer t) => syncingreferencedata());
@@ -108,9 +123,29 @@ Future<void> main() async {
       var currentpage = prefs.getString('pageiddata');
       print("current page : $currentpage");
       if(currentpage=="2"){
+
+
         currentoutletid = int.parse(prefs.getString('outletiddata'));
         currenttimesheetid = prefs.getString('timesheetiddata');
         currentoutletindex = int.parse(prefs.getString('currentoutletindexdata'));
+        company.text =  prefs.getString("companydata");
+        category.text = prefs.getString("categorydata");
+        itemname.text = prefs.getString("itemdata");
+        promotiontype.text = prefs.getString("promotypedata");
+        promodscrptn.text = prefs.getString("promodescdata");
+        mrp.text = prefs.getString("regpricedata");
+        sellingprice.text = prefs.getString("sellpricedata");
+        // var savedcopmimg =prefs.getString("capimgdata");
+
+
+        // readasbyteimgcomp = savedimgcomp;
+        //   decodedcompimg = base64Encode(readasbyteimgcomp);
+
+         // var decodedimg = base64Decode(capturedcopmtnimg);
+
+
+        print("getString == ${company.text}");
+        // print("img == $savedcopmimg");
 
       }
       if(currentpage == "1"){
@@ -142,13 +177,16 @@ Future<void> main() async {
         print(currenttimesheetid);
         fromloginscreen = false;
         runApp(MaterialApp(
-            title: 'Rhapsody merchandising solutions',
+
+ title: 'Rhapsody merchandising solutions',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               fontFamily: 'Poppins',
               primaryColor: Colors.white,
               accentColor: orange,),
-            home:  CustomerActivities()
+            home:  CustomerActivities(),
+
+
         ));
       }else{
         runApp(MaterialApp(
@@ -192,6 +230,7 @@ Future<void> main() async {
       getallempdetails();
       getRelieverDetails();
       OutletsForClient();
+       // getNotificationDetails();
       await getFMoutletdetails();
 
       if(userroleid == 2){

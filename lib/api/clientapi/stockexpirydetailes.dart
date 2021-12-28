@@ -81,6 +81,8 @@ class Stockdata {
   static List<dynamic> outlet = [];
 }
 
+
+
 // ignore: non_constant_identifier_names
 Future Addedstockdataformerch() async {
   print("calling added expiry data");
@@ -91,6 +93,7 @@ Future Addedstockdataformerch() async {
   http.Response response = await http.post(
     Uri.parse(
         "https://rms2.rhapsody.ae/api/merchandiser_view_updated_stock_expirey_details"),
+
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -117,6 +120,11 @@ Future Addedstockdataformerch() async {
     Stockdatamerch.period = [];
     Stockdatamerch.expiryperiod = [];
     Stockdatamerch.outlet = [];
+    Stockdatamerch.Productlocation=[];
+    Stockdatamerch.Customerstoregroup=[];
+    Stockdatamerch.Uom=[];
+
+
     print(decodeoutlet['data'].length);
     for (int u = 0; u < decodeoutlet['data'].length; u++) {
       print("here");
@@ -137,6 +145,12 @@ Future Addedstockdataformerch() async {
         Stockdatamerch.nearexpiryvalue
             .add(decodeoutlet['data'][u]['near_expiry_value']);
         Stockdatamerch.outlet.add(decodeoutlet['data'][u]['store_name']);
+        Stockdatamerch.outlet.add(decodeoutlet['data'][u]['store_name']);
+        Stockdatamerch.Productlocation.add(decodeoutlet['data'][u]['prodcut_location']);
+        Stockdatamerch.Customerstoregroup.add(decodeoutlet['data'][u]['customer_storegroup']);
+        Stockdatamerch.Uom.add(decodeoutlet['data'][u]['uom']);
+
+
       }
     }
   }
@@ -161,4 +175,11 @@ class Stockdatamerch {
   static List<dynamic> period = [];
   static List<dynamic> expiryperiod = [];
   static List<dynamic> outlet = [];
+  static List<dynamic> Productlocation =[];
+  static List<dynamic> Customerstoregroup =[];
+  static List<dynamic> Uom =[];
+
+
+
+
 }

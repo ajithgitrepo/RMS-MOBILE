@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:merchandising/Fieldmanager/FMdashboard.dart';
 import 'package:merchandising/main.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:flushbar/flushbar.dart';
@@ -14,7 +15,10 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:convert';
 import 'dart:io';
-import'package:merchandising/api/FMapi/leave_reqapi.dart';
+import'package:merchandising/api/FMapi/leave_reportapi.dart';
+import 'package:flushbar/flushbar.dart';
+import'package:merchandising/api/leavestakenapi.dart';
+
 
 class LeaveReporting extends StatefulWidget {
   Function onsubmit;
@@ -56,13 +60,14 @@ class _LeaveReportingState extends State<LeaveReporting> {
                 child: SearchableDropdown.single(
                   underline: SizedBox(),
                   iconEnabledColor: orange,
-                  items: currentuser.roleid == 5 ? merchandisers : merchundercde,
+                  items: currentuser.roleid == 5?merchandisers:merchundercde,
                   value: currentuser.roleid == 5
                       ? selectedmerchandiser
                       : selectmerchundercde,
                   hint: "Select Merchandiser",
                   searchHint: "Select Merchandiser",
                   onChanged: (value) {
+                    print("OnChanged ----->  ${value}");
                     if (currentuser.roleid == 5) {
                       selectedmerchandiser = value;
                     } else {
@@ -133,7 +138,7 @@ class _LeaveReportingState extends State<LeaveReporting> {
                         ),
                       ),
                     ),
-              Container(
+              selectedReason=="Sick Leave"?Container(
                 margin: EdgeInsets.only(bottom: 10.0),
                 padding: EdgeInsets.fromLTRB(10.0,0,18,10),
                 decoration: BoxDecoration(
@@ -168,57 +173,60 @@ class _LeaveReportingState extends State<LeaveReporting> {
                         :SizedBox()
                   ],
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 10.0),
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      "Select Dates",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Spacer(),
-                    Text(
-                      Selecteddate != null
-                          ? Selecteddate
-                          : "",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    IconButton(
-                      icon: Icon(CupertinoIcons.calendar,color: showdatepicker ? orange:Colors.black,),
-                      onPressed: () {
-                        setState(() {
-                          showdatepicker = !showdatepicker;
-                        });
-                        //_selectDate(context);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-
-              showdatepicker ? Container(
-                margin: EdgeInsets.only(bottom: 10.0),
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: SfDateRangePicker(
-                  view: DateRangePickerView.month,
-                  selectionMode: DateRangePickerSelectionMode.range,
-                  monthViewSettings:
-                  DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
-                  onSelectionChanged: _onSelectionChanged,
-                ),
               ):SizedBox(),
+              // Container(
+              //   margin: EdgeInsets.only(bottom: 10.0),
+              //   padding: EdgeInsets.only(left: 8.0, right: 8.0),
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.circular(10),
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         "Select Dates",
+              //         style: TextStyle(fontSize: 16),
+              //       ),
+              //       Spacer(),
+              //       Text(
+              //         Selecteddate != null
+              //             ? Selecteddate
+              //             : "",
+              //         style: TextStyle(fontSize: 16),
+              //       ),
+              //       IconButton(
+              //         icon: Icon(CupertinoIcons.calendar,color: showdatepicker ? orange:Colors.black,),
+              //         onPressed: () {
+              //           setState(() {
+              //             showdatepicker = !showdatepicker;
+              //           });
+              //           //_selectDate(context);
+              //         },
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              //
+              // showdatepicker ? Container(
+              //   margin: EdgeInsets.only(bottom: 10.0),
+              //   padding: EdgeInsets.only(left: 8.0, right: 8.0),
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.circular(10),
+              //   ),
+              //   child: SfDateRangePicker(
+              //     view: DateRangePickerView.month,
+              //     selectionMode: DateRangePickerSelectionMode.range,
+              //     monthViewSettings:
+              //     DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
+              //     onSelectionChanged: _onSelectionChanged,
+              //   ),
+              // ):SizedBox(),
+              StartDate(),
+              EndDate(),
+
               Container(
-                margin: EdgeInsets.only(bottom: 10.0),
+                margin: EdgeInsets.only(top:10.0),
                 padding: EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -255,12 +263,14 @@ class _LeaveReportingState extends State<LeaveReporting> {
                         message: "Please Choose Merchandiser.",
                         duration: Duration(seconds: 3),
                       )..show(context);
-                    } else if (Selecteddate == null) {
-                      Flushbar(
-                        message: "Please Choose Date.",
-                        duration: Duration(seconds: 3),
-                      )..show(context);
-                    } else if (selectedReason == null) {
+                    }
+                    // else if (Selecteddate == null) {
+                    //   Flushbar(
+                    //     message: "Please Choose Date.",
+                    //     duration: Duration(seconds: 3),
+                    //   )..show(context);
+                    // }
+                    else if (selectedReason == null) {
                       Flushbar(
                         message: "Please Choose Reason.",
                         duration: Duration(seconds: 3),
@@ -272,15 +282,28 @@ class _LeaveReportingState extends State<LeaveReporting> {
                       )..show(context);
                     } else {
                       print("came");
-                      // leaverequestdata.type=selectedReason;
-                      // leaverequestdata.startdate=startDate;
-                      // leaverequestdata.enddate = endDate;
-                      // leaverequestdata.reason = remarks.text;
-                      // leaverequestdata.image = base64doc;
-                      //
-                      // await leaverequestwithtype();
-                    widget.onsubmit();
-                      print("done");
+                      leaverequestdata.empid=currentuser.roleid==5?'Emp${selectedmerchandiser.replaceAll(new RegExp(r'[^0-9]'), '')}':'Emp${selectmerchundercde.replaceAll(new RegExp(r'[^0-9]'), '')}';;
+                      leaverequestdata.type=selectedReason;
+                      leaverequestdata.startdate=startdate.toLocal().toString().substring(0,10);
+                      leaverequestdata.enddate = ENDdate.toLocal().toString().substring(0,10);
+                      leaverequestdata.reason = remarks.text;
+                      leaverequestdata.image = base64doc;
+                      await leaverequestwithtype();
+                      // widget.onsubmit();
+
+                      Flushbar(
+                        message: "Leave Report has been submitted",
+                        duration: Duration(seconds:3),
+                      )..show(context);
+
+                      Future.delayed(const Duration(seconds: 2), () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    FieldManagerDashBoard()));
+                      });
+
                     }
                   },
                   style:
@@ -289,6 +312,8 @@ class _LeaveReportingState extends State<LeaveReporting> {
                     "Submit",
                     style: TextStyle(color: orange),
                   ))
+
+
             ],
           ),
         ),
@@ -326,7 +351,7 @@ class _LeaveReportingState extends State<LeaveReporting> {
     });
     return _file;
   }
-  List<String> Reasons = [ "Week OFF","Comp OFF","Annual Leave","Public holiday","Sick Leave"];
+  List<String> Reasons = [ "Week_off","Comp_off","Annual_Leave","Public_holiday","Sick_Leave"];
   DateTime tomoroww = DateTime.now().add(Duration(days: 1));
   DateTime StratDate = DateTime.now().subtract(
       Duration(days: int.parse(DateFormat('dd').format(DateTime.now())) - 1));
@@ -373,3 +398,138 @@ bool displayothers = false;
 var Selecteddate;
 var others = new TextEditingController();
 var remarks = new TextEditingController();
+
+
+
+
+
+
+class StartDate extends StatefulWidget {
+  @override
+  _StartDateState createState() => _StartDateState();
+}
+DateTime tomoroww = DateTime.now().subtract(Duration(days: 30));
+DateTime startdate = DateTime.now().subtract(Duration(days: 30));
+
+class _StartDateState extends State<StartDate> {
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: tomoroww,
+      lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: orange,
+              onPrimary: Colors.white,
+              surface: orange,
+              onSurface: Colors.black,
+            ),
+            dialogBackgroundColor: Colors.grey[100],
+          ),
+          child: child,
+        );
+      },
+    );
+    if (picked != null && picked != startdate)
+      setState(() {
+        startdate = picked;
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 10.0),
+      padding: EdgeInsets.only(left: 10.0),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10.0)),
+      child: Row(
+        children: [
+          Text(
+            "Start Date",
+            style: TextStyle(fontSize: 16),
+          ),
+          Spacer(),
+          Text(
+            "${startdate.toLocal()}".split(' ')[0],
+            style: TextStyle(fontSize: 16),
+          ),
+          IconButton(
+            icon: Icon(CupertinoIcons.calendar),
+            onPressed: () => _selectDate(context),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+DateTime tomorow = DateTime.now().subtract(Duration(days: 30));
+
+DateTime ENDdate = DateTime.now().subtract(Duration(days: 30));
+class EndDate extends StatefulWidget {
+  @override
+  _EndDateState createState() => _EndDateState();
+}
+
+class _EndDateState extends State<EndDate> {
+
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: tomorow,
+      lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: orange,
+              onPrimary: Colors.white,
+              surface: orange,
+              onSurface: Colors.black,
+            ),
+            dialogBackgroundColor: Colors.grey[100],
+          ),
+          child: child,
+        );
+      },
+    );
+    if (picked != null && picked != EndDate)
+      setState(() {
+        ENDdate = picked;
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 10.0),
+      padding: EdgeInsets.only(left: 10.0),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10.0)),
+      child: Row(
+        children: [
+          Text(
+            "End Date",
+            style: TextStyle(fontSize: 16),
+          ),
+          Spacer(),
+          Text(
+            "${ENDdate.toLocal()}".split(' ')[0],
+            style: TextStyle(fontSize: 16),
+          ),
+          IconButton(
+            icon: Icon(CupertinoIcons.calendar),
+            onPressed: () => _selectDate(context),
+          ),
+        ],
+      ),
+    );
+  }
+}

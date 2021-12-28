@@ -1,4 +1,4 @@
-import 'dart:ffi';
+//import 'dart:ffi';
 import 'package:merchandising/api/avaiablityapi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -134,127 +134,132 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
         // drawer: Drawer(
         //   child: Menu(),
         // ),
-        body: Stack(
-          children: [
-            BackGround(),
-            ProgressHUD(
-              opacity: 0.3,
-              inAsyncCall: isApiCallProcess,
-              child: Column(
-                children: [
-                  OutletDetails(),
-                  Container(
-                    margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white),
-                            width: MediaQuery.of(context).size.width/2.15,
-                            child: DropdownButton<String>(
-                                underline: SizedBox(),
-                                isExpanded: true,
-                                iconEnabledColor: orange,
-                                elevation: 20,
-                                dropdownColor: Colors.white,
-                                items: Distintcategory.map((String val) {
-                                  return new DropdownMenuItem<String>(
-                                    value: val,
-                                    child: new Text(val),
-                                  );
-                                }).toList(),
-                                hint: Text("Category"),
-                                value: Selectedcategory,
-                                onChanged: (newVal) {
-                                  setState(() {
-                                    isApiCallProcess=true;
-                                  });
-
-                                  Selectedcategory = newVal;
-                                  if(Selectedbrand==null){
-                                    InputList=[];
-                                    for(int i =0; i < defaulflist.length;i++){
-                                      if(Avaiablity.category[i] == Selectedcategory){
-                                        InputList.add(Avaiablity.fullname[i]);
-                                        shuffledchecklist.add(Avaiablity.checkvalue[i]);
-                                        shuffledreasons.add(Avaiablity.reason[i]);
-                                      }
-                                    }
-                                  }else{
-                                    InputList=[];
-                                    for(int i =0; i < defaulflist.length;i++){
-                                      if(Avaiablity.category[i] == Selectedcategory && Avaiablity.brand[i] == Selectedbrand){
-                                        InputList.add(Avaiablity.fullname[i]);
-                                        shuffledchecklist.add(Avaiablity.checkvalue[i]);
-                                        shuffledreasons.add(Avaiablity.reason[i]);
-                                      }
-                                    }
-                                  }
-                                  setState(() {
-                                   isApiCallProcess=false;
-
-                                  });
-                                })),
-                        Container(
-                            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white),
-                            width: MediaQuery.of(context).size.width/2.15,
-                            child: DropdownButton<String>(
-                                underline: SizedBox(),
-                                isExpanded: true,
-                                iconEnabledColor: orange,
-                                elevation: 20,
-                                dropdownColor: Colors.white,
-                                items: Distintbrands.map((String val) {
-                                  return new DropdownMenuItem<String>(
-                                    value: val,
-                                    child: new Text(val),
-                                  );
-                                }).toList(),
-                                hint: Text("Brand"),
-                                value: Selectedbrand,
-                                onChanged: (newVal) {
-                                  setState(() {
-                                    isApiCallProcess=true;
-                                  });
-                                  Selectedbrand = newVal;
-                                  if(Selectedcategory ==null){
-                                    InputList=[];
-                                    for(int i =0; i < defaulflist.length;i++){
-                                      if(Avaiablity.brand[i] == Selectedbrand){
-                                        InputList.add(Avaiablity.fullname[i]);
-                                      }
-                                    }
-                                  }else{
-                                    InputList=[];
-                                    for(int i =0; i < defaulflist.length;i++){
-                                      if(Avaiablity.category[i] == Selectedcategory && Avaiablity.brand[i] == Selectedbrand){
-                                        InputList.add(Avaiablity.fullname[i]);
-                                      }
-                                    }
-                                  }
-                                  setState(() {
-                                    isApiCallProcess=false;
-                                  });
-                                })),
-                      ],
+        body: OfflineNotification(
+          body: Stack(
+            children: [
+              BackGround(),
+              ProgressHUD(
+                opacity: 0.3,
+                inAsyncCall: isApiCallProcess,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: onlinemode.value ?0:25,
                     ),
-                  ),
-                  _createSearchView(),
-                  _firstSearch
-                      ? _createListView()
-                      : _performSearch(),
-                ],
-              ),
-            ),
+                    OutletDetails(),
+                    Container(
+                      margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white),
+                              width: MediaQuery.of(context).size.width/2.15,
+                              child: DropdownButton<String>(
+                                  underline: SizedBox(),
+                                  isExpanded: true,
+                                  iconEnabledColor: orange,
+                                  elevation: 20,
+                                  dropdownColor: Colors.white,
+                                  items: Distintcategory.map((String val) {
+                                    return new DropdownMenuItem<String>(
+                                      value: val,
+                                      child: new Text(val),
+                                    );
+                                  }).toList(),
+                                  hint: Text("Category"),
+                                  value: Selectedcategory,
+                                  onChanged: (newVal) {
+                                    setState(() {
+                                      isApiCallProcess=true;
+                                    });
 
-            NBlFloatingButton(),
-          ],
+                                    Selectedcategory = newVal;
+                                    if(Selectedbrand==null){
+                                      InputList=[];
+                                      for(int i =0; i < defaulflist.length;i++){
+                                        if(Avaiablity.category[i] == Selectedcategory){
+                                          InputList.add(Avaiablity.fullname[i]);
+                                          shuffledchecklist.add(Avaiablity.checkvalue[i]);
+                                          shuffledreasons.add(Avaiablity.reason[i]);
+                                        }
+                                      }
+                                    }else{
+                                      InputList=[];
+                                      for(int i =0; i < defaulflist.length;i++){
+                                        if(Avaiablity.category[i] == Selectedcategory && Avaiablity.brand[i] == Selectedbrand){
+                                          InputList.add(Avaiablity.fullname[i]);
+                                          shuffledchecklist.add(Avaiablity.checkvalue[i]);
+                                          shuffledreasons.add(Avaiablity.reason[i]);
+                                        }
+                                      }
+                                    }
+                                    setState(() {
+                                     isApiCallProcess=false;
+
+                                    });
+                                  })),
+                          Container(
+                              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white),
+                              width: MediaQuery.of(context).size.width/2.15,
+                              child: DropdownButton<String>(
+                                  underline: SizedBox(),
+                                  isExpanded: true,
+                                  iconEnabledColor: orange,
+                                  elevation: 20,
+                                  dropdownColor: Colors.white,
+                                  items: Distintbrands.map((String val) {
+                                    return new DropdownMenuItem<String>(
+                                      value: val,
+                                      child: new Text(val),
+                                    );
+                                  }).toList(),
+                                  hint: Text("Brand"),
+                                  value: Selectedbrand,
+                                  onChanged: (newVal) {
+                                    setState(() {
+                                      isApiCallProcess=true;
+                                    });
+                                    Selectedbrand = newVal;
+                                    if(Selectedcategory ==null){
+                                      InputList=[];
+                                      for(int i =0; i < defaulflist.length;i++){
+                                        if(Avaiablity.brand[i] == Selectedbrand){
+                                          InputList.add(Avaiablity.fullname[i]);
+                                        }
+                                      }
+                                    }else{
+                                      InputList=[];
+                                      for(int i =0; i < defaulflist.length;i++){
+                                        if(Avaiablity.category[i] == Selectedcategory && Avaiablity.brand[i] == Selectedbrand){
+                                          InputList.add(Avaiablity.fullname[i]);
+                                        }
+                                      }
+                                    }
+                                    setState(() {
+                                      isApiCallProcess=false;
+                                    });
+                                  })),
+                        ],
+                      ),
+                    ),
+                    _createSearchView(),
+                    _firstSearch
+                        ? _createListView()
+                        : _performSearch(),
+                  ],
+                ),
+              ),
+
+              NBlFloatingButton(),
+            ],
+          ),
         ));
   }
   Widget _createSearchView() {

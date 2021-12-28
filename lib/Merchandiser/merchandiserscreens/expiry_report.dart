@@ -1,4 +1,6 @@
+
 import 'package:flutter/painting.dart';
+import 'package:merchandising/Merchandiser/merchandiserscreens/merchandiserdashboard.dart';
 import 'package:merchandising/api/api_service.dart';
 import 'package:flutter/rendering.dart';
 import 'package:merchandising/HR/HRdashboard.dart';
@@ -18,6 +20,27 @@ import 'package:merchandising/model/database.dart';
 import 'package:merchandising/api/clientapi/stockexpirydetailes.dart';
 import 'package:merchandising/model/dropdownsearchrepo.dart';
 
+
+
+
+
+List<String> PdtLocation = ["STORE","BACK DOOR","FRONT DOOR","ENTRANCE","MAIN GATE","CENTER"];
+String PdtLocationValue;
+String prolocation="";
+
+
+List<String> Customer = ["AL MAYA","AUH COOP","SHARJAH COOP","EMIRATES COOP","WAITROSE","AL AIN COOP","LULU","CARREFOUR","SPINNEYS","GT","UNION COOP","CHOITHRAM","WEST ZONE","SAFEER","NESTO","OTHERS"];
+String CustomerValue;
+String cusvalue="";
+
+
+List<String> UOM = ["BAG","BUNDLE","BOX","CASE","CARTON","DOZEN","PIECE","PACK","SINGLE"];
+String UOMValue;
+String uomvalue="";
+
+
+
+
 var productname = "select from the above";
 var packtype = 'Regular';
 var range = 'Regular';
@@ -28,7 +51,7 @@ String selecttype;
 String SelectedPeriod;
 String selectpack;
 List selecttypelist =
-    ["SKU", "ZREP", "Product Name", "Barcode"].map((String val) {
+["SKU", "ZREP", "Product Name", "Barcode"].map((String val) {
   return new DropdownMenuItem<String>(
     value: val,
     child: new Text(val),
@@ -41,6 +64,7 @@ List productdetails = Expiry.productdetails.toSet().toList().map((String val) {
     child: new Text(val),
   );
 }).toList();
+
 List barcode = Expiry.barcode.toSet().toList().map((String val) {
   return new DropdownMenuItem<String>(
     value: val,
@@ -69,6 +93,7 @@ List inputlist = selectedList.map((String val) {
 
 TextEditingController remarks = TextEditingController();
 TextEditingController productcontroller = TextEditingController();
+DropdownMenuItem jj= DropdownMenuItem();
 
 bool isApiCallProcess = false;
 
@@ -80,6 +105,24 @@ class ExpiryReport extends StatefulWidget {
 bool expirycheck = false;
 
 class _ExpiryReportState extends State<ExpiryReport> {
+
+
+  String PdtLocationValue;
+  String CustomerValue;
+  String UOMValue;
+
+String prolocation="";
+String cusvalue="";
+String uomvalue="";
+
+  void getDropDownItem(){
+    setState(() {
+      prolocation = PdtLocationValue;
+      cusvalue = CustomerValue;
+      uomvalue = UOMValue;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
@@ -126,9 +169,12 @@ class _ExpiryReportState extends State<ExpiryReport> {
                             expirypc = addeditemscount[u];
                             pcexpirydate = addedexpirydate[u];
                             exposureqntypc = addedexposurequnatity[u];
-                            remarksifany = addedremarks[u] == ""
-                                ? "no remarks entered"
-                                : addedremarks[u];
+                            remarksifany = addedremarks[u] == "" ? "no remarks entered" : addedremarks[u];
+                            productlocation = addedproductlocation[u];
+                            customerstoregroup = addedcustomerstore[u];
+                            uom = addeduom[u];
+                            print("UOM: $uom");
+                            print(addeduom[u].toString());
                             await addexpiryproducts();
                           }
 
@@ -140,6 +186,9 @@ class _ExpiryReportState extends State<ExpiryReport> {
                             addedexpirydate = [];
                             addedexposurequnatity = [];
                             addedremarks = [];
+                            addedproductlocation = [];
+                            addedcustomerstore = [];
+                            addeduom = [];
                           });
                           expirycheck = true;
                           Navigator.pushReplacement(
@@ -184,12 +233,13 @@ class _ExpiryReportState extends State<ExpiryReport> {
                               child: Scaffold(
                                 backgroundColor: Colors.transparent,
                                 appBar: PreferredSize(
-                                  preferredSize: Size.fromHeight(kToolbarHeight),
+                                  preferredSize:
+                                  Size.fromHeight(kToolbarHeight),
                                   child: Container(
                                     margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                                     decoration: BoxDecoration(
                                       borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
+                                      BorderRadius.all(Radius.circular(10)),
                                       color: Colors.white,
                                     ),
                                     child: TabBar(
@@ -206,8 +256,8 @@ class _ExpiryReportState extends State<ExpiryReport> {
                                   ),
                                 ),
                                 body: TabBarView(
-                                    //physics: NeverScrollableScrollPhysics(),
-                                    // controller: _controller,
+                                  //physics: NeverScrollableScrollPhysics(),
+                                  // controller: _controller,
                                     children: [
                                       SingleChildScrollView(
                                         child: Column(
@@ -219,263 +269,125 @@ class _ExpiryReportState extends State<ExpiryReport> {
                                               decoration: BoxDecoration(
                                                 color: pink,
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                               ),
                                               child: Column(
                                                 children: [
-                                                  // Container(
-                                                  //   margin: EdgeInsets.only(top: 10.0),
-                                                  //   padding: EdgeInsets.only(left: 10.0),
-                                                  //   width: double.infinity,
-                                                  //   decoration: BoxDecoration(
-                                                  //       color: Colors.white,
-                                                  //       borderRadius:
-                                                  //           BorderRadius.circular(10.0)),
-                                                  //   child: DropdownButton(
-                                                  //     elevation: 0,
-                                                  //     dropdownColor: Colors.white,
-                                                  //     isExpanded: true,
-                                                  //     underline: SizedBox(),
-                                                  //     iconEnabledColor: orange,
-                                                  //     iconSize: 35.0,
-                                                  //     value: selecttype,
-                                                  //     onChanged: (newVal) {
-                                                  //       setState(() {
-                                                  //         selecttype = newVal;
-                                                  //         if (newVal == 'Barcode') {
-                                                  //           inputlist = barcode;
-                                                  //         } else
-                                                  //           if (newVal == 'Product Name') {
-                                                  //           inputlist = productdetails;
-                                                  //         } else if (newVal == 'ZREP') {
-                                                  //           inputlist = zrep;
-                                                  //         } else {
-                                                  //           inputlist = sku;
-                                                  //         }
-                                                  //       });
-                                                  //     },
-                                                  //     items: selecttypelist,
-                                                  //     hint: Text(
-                                                  //       "Filter By ",
-                                                  //       style: TextStyle(color: Colors.grey),
-                                                  //     ),
-                                                  //   ),
-                                                  // ),
-                                                  // Container(
-                                                  //   margin: EdgeInsets.only(top: 10.0),
-                                                  //   width: double.infinity,
-                                                  //   decoration: BoxDecoration(
-                                                  //       color: Colors.white,
-                                                  //       borderRadius:
-                                                  //           BorderRadius.circular(10.0)),
-                                                  //   child: SearchableDropdown.single(
-                                                  //     underline: SizedBox(),
-                                                  //     items: inputlist,
-                                                  //     value: selectcode,
-                                                  //     hint: "Select Product",
-                                                  //     searchHint: "Select Product",
-                                                  //     onChanged: (value) {
-                                                  //       if (value != null) {
-                                                  //         setState(() {
-                                                  //           isApiCallProcess = true;
-                                                  //         });
-                                                  //         if (inputlist == barcode) {
-                                                  //           productname = Expiry.productdetails[Expiry
-                                                  //               .barcode
-                                                  //               .indexOf(value)];
-                                                  //           print(productname);
-                                                  //         } else
-                                                  //           if (inputlist ==
-                                                  //             sku) {
-                                                  //           productname = Expiry.productdetails[Expiry.sku.indexOf(value)];
-                                                  //           packtype = Expiry.type[Expiry.sku.indexOf(value)];
-                                                  //           range = Expiry.range[Expiry.sku.indexOf(value)];
-                                                  //           print(productname);
-                                                  //         } else if (inputlist == zrep) {
-                                                  //           productname = Expiry.productdetails[Expiry.zrepcodes.indexOf(value)];
-                                                  //           packtype = Expiry.type[Expiry.zrepcodes.indexOf(value)];
-                                                  //           range = Expiry.range[Expiry.zrepcodes.indexOf(value)];
-                                                  //           print(productname);
-                                                  //         } else {
-                                                  //           productname = value;
-                                                  //           packtype = Expiry.type[Expiry.productdetails.indexOf(value)];
-                                                  //           range = Expiry.range[Expiry.productdetails.indexOf(value)];
-                                                  //         }
-                                                  //         setState(() {
-                                                  //           selectcode = value;
-                                                  //           isApiCallProcess = false;
-                                                  //         });
-                                                  //       }
-                                                  //     },
-                                                  //     isExpanded: true,
-                                                  //     iconEnabledColor: orange,
-                                                  //     iconSize: 25.0,
-                                                  //   ),
-                                                  // ),
                                                   DropDownField(
                                                       controller:
-                                                          productcontroller,
+                                                      productcontroller,
                                                       value: selectedproduct,
-                                                      labelText: 'Select product',
+                                                      labelText:
+                                                      'Select product',
                                                       hintText:
-                                                          "Search by Product-ZREP-SKU-Barcode",
-                                                      items:
-                                                          Expiry.productfullname,
+                                                      "Search by Product-ZREP-SKU-Barcode",
+                                                      items: Expiry
+                                                          .productfullname,
                                                       hintStyle: TextStyle(
                                                           color: orange,
                                                           fontSize: 10.0,
                                                           fontWeight:
-                                                              FontWeight.w500),
+                                                          FontWeight.w500),
                                                       textStyle: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 14.0,
                                                           fontWeight:
-                                                              FontWeight.w500),
+                                                          FontWeight.w500),
                                                       labelStyle: TextStyle(
                                                           color: Colors.grey,
                                                           fontSize: 14.0,
                                                           fontWeight:
-                                                              FontWeight.w400),
+                                                          FontWeight.w400),
                                                       onValueChanged:
                                                           (dynamic newValue) {
                                                         selectedproduct =
                                                             newValue;
                                                         indexofselectedproduct =
-                                                            Expiry.productfullname
+                                                            Expiry
+                                                                .productfullname
                                                                 .indexOf(
-                                                                    selectedproduct);
+                                                                selectedproduct);
                                                         print(
                                                             indexofselectedproduct);
                                                         print(selectedproduct);
                                                         setState(() {
                                                           productname = Expiry
-                                                                  .productdetails[
-                                                              indexofselectedproduct];
-                                                          packtype = Expiry.type[
-                                                              indexofselectedproduct];
+                                                              .productdetails[
+                                                          indexofselectedproduct];
+                                                          packtype = Expiry
+                                                              .type[
+                                                          indexofselectedproduct];
                                                         });
                                                       }),
                                                   Column(
                                                     children: [
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
-                                                                top: 10.0,
-                                                                left: 5.0,
-                                                                right: 5.0),
+                                                        const EdgeInsets
+                                                            .only(
+                                                            top: 10.0,
+                                                            left: 5.0,
+                                                            right: 5.0),
                                                         child: Row(
                                                           mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                           children: [
                                                             Text(
                                                               "Product : ",
                                                               style: TextStyle(
-                                                                  color: orange),
+                                                                  color:
+                                                                  orange),
                                                             ),
                                                             Flexible(
                                                                 child: Text(
-                                                              productname,
-                                                              maxLines: 3,
-                                                              style: TextStyle(
-                                                                  color: orange),
-                                                            )),
+                                                                  productname,
+                                                                  maxLines: 3,
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                      orange),
+                                                                )),
                                                           ],
                                                         ),
                                                       ),
                                                       packtype == null
                                                           ? SizedBox()
                                                           : Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      top: 10.0,
-                                                                      left: 5.0,
-                                                                      right: 5.0),
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    "type : ",
-                                                                    style: TextStyle(
-                                                                        color:
-                                                                            orange),
-                                                                  ),
-                                                                  Flexible(
-                                                                      child: Text(
-                                                                    packtype,
-                                                                    maxLines: 3,
-                                                                    style: TextStyle(
-                                                                        color:
-                                                                            orange),
-                                                                  )),
-                                                                ],
-                                                              ),
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .only(
+                                                            top: 10.0,
+                                                            left: 5.0,
+                                                            right:
+                                                            5.0),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              "type : ",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                  orange),
                                                             ),
-                                                      // Padding(
-                                                      //   padding: const EdgeInsets.only(
-                                                      //       top: 10.0, left: 5.0, right: 5.0),
-                                                      //   child: Row(
-                                                      //     mainAxisAlignment:
-                                                      //     MainAxisAlignment.spaceBetween,
-                                                      //     children: [
-                                                      //       Text(
-                                                      //         "range : ",
-                                                      //         style: TextStyle(color: orange),
-                                                      //       ),
-                                                      //       Flexible(
-                                                      //           child: Text(
-                                                      //             range,
-                                                      //             maxLines: 3,
-                                                      //             style: TextStyle(color: orange),
-                                                      //           )),
-                                                      //     ],
-                                                      //   ),
-                                                      // ),
+                                                            Flexible(
+                                                                child:
+                                                                Text(
+                                                                  packtype,
+                                                                  maxLines: 3,
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                      orange),
+                                                                )),
+                                                          ],
+                                                        ),
+                                                      ),
                                                     ],
                                                   ),
                                                   EndDate(),
                                                   Peice(),
-                                                  /*Expanded(
-                                    child: DefaultTabController(
-                                      length: 3, // length of tabs
-                                      initialIndex: 0,
-                                      child:Scaffold(
-                                        backgroundColor: Colors.transparent,
-                                        appBar: PreferredSize(
-                                          preferredSize: Size.fromHeight(kToolbarHeight),
-                                          child: Container(
-                                                margin: EdgeInsets.fromLTRB(0, 10.0, 0.0, 0),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                  color: Colors.white,
-                                                ),
-                                                child: TabBar(
-                                              //    controller: _controller,
-                                                  labelColor: orange,
-                                                  unselectedLabelColor: Colors.black,
-                                                  indicatorColor: orange,
-                                                  tabs: [
-                                                    Tab(text: 'Piece'),
-                                                    Tab(text: 'Box'),
-                                                    Tab(text: 'Cotton'),
-                                                  ],
-                                                ),
-                                              ),
-                                        ),
-                                        body: TabBarView(
-                                          //physics: NeverScrollableScrollPhysics(),
-                                           // controller: _controller,
-                                            children: [
-                                              Peice(),
-                                              Box(),
-                                              Cases(),
-                                            ]),
-                                      ),
-                                      ),
-                                  ),*/
+
                                                   Container(
                                                     margin: EdgeInsets.only(
                                                         top: 10.0),
@@ -483,16 +395,17 @@ class _ExpiryReportState extends State<ExpiryReport> {
                                                         left: 10.0),
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                      BorderRadius.circular(
+                                                          10),
                                                       color: Colors.white,
                                                     ),
                                                     child: TextFormField(
                                                       controller: remarks,
                                                       cursorColor: grey,
                                                       decoration:
-                                                          new InputDecoration(
-                                                        border: InputBorder.none,
+                                                      new InputDecoration(
+                                                        border:
+                                                        InputBorder.none,
                                                         focusColor: orange,
                                                         hintText: "Remarks",
                                                         hintStyle: TextStyle(
@@ -502,145 +415,368 @@ class _ExpiryReportState extends State<ExpiryReport> {
                                                       ),
                                                     ),
                                                   ),
+
+                                                  // Container(
+                                                  //   margin: EdgeInsets.only(
+                                                  //       top: 10, bottom: 5),
+                                                  //   width: double.infinity,
+                                                  //   decoration: BoxDecoration(
+                                                  //     color: Colors.white,
+                                                  //     borderRadius:
+                                                  //         BorderRadius.circular(
+                                                  //             10),
+                                                  //   ),
+                                                  //   child: SearchableDropdown
+                                                  //       .single(
+                                                  //     closeButton: SizedBox(),
+                                                  //     underline: SizedBox(),
+                                                  //     items: _dropdownItems1
+                                                  //         .map(
+                                                  //             (ListItem1 item) {
+                                                  //       return DropdownMenuItem<
+                                                  //           int>(
+                                                  //         value: item.value,
+                                                  //         child:
+                                                  //             Text(item.name),
+                                                  //       );
+                                                  //     }).toList(),
+                                                  //     value: _value,
+                                                  //     hint: "Select Locations",
+                                                  //     searchHint:
+                                                  //         "Select Location",
+                                                  //     onChanged: (value) {
+                                                  //       _value = value;
+                                                  //       print("ProductLocationvalueDropdown: $_value");
+                                                  //     },
+                                                  //     isExpanded: true,
+                                                  //   ),
+                                                  // ),
+
+                                                  Container(
+                                                    margin: EdgeInsets.only(top: 10, bottom: 5),
+                                                    width: double.infinity,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                    child: SearchableDropdown.single(
+                                                      closeButton: SizedBox(),
+                                                      underline: SizedBox(),
+                                                      items: PdtLocation.map((String val) {
+                                                        return new DropdownMenuItem<String>(
+                                                          value: val,
+                                                          child:Text(val.toString()),
+                                                        );
+                                                      }).toList(),
+                                                      value: PdtLocationValue,
+                                                      hint: "Select Location",
+                                                      searchHint: "Select Location",
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          PdtLocationValue = value;
+
+                                                        });
+
+                                                      },
+                                                      isExpanded: true,
+                                                    ),
+                                                  ),
+
+
+                                                  Container(
+                                                    margin: EdgeInsets.only(top: 5, bottom: 5),
+                                                    width: double.infinity,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                    child: SearchableDropdown.single(
+                                                      closeButton: SizedBox(),
+                                                      underline: SizedBox(),
+                                                      items: Customer.map((String val) {
+                                                        return new DropdownMenuItem<String>(
+                                                          value: val,
+                                                          child: new Text(val),
+                                                        );
+                                                      }).toList(),
+                                                      value: CustomerValue,
+                                                      hint: "Select Customer",
+                                                      searchHint: "Select Customer",
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          CustomerValue = value;
+
+                                                        });
+                                                      },
+                                                      isExpanded: true,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(top: 5, bottom: 5),
+                                                    width: double.infinity,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                    child: SearchableDropdown.single(
+                                                      closeButton: SizedBox(),
+                                                      underline: SizedBox(),
+                                                      items: UOM.map((String val) {
+                                                        return new DropdownMenuItem<String>(
+                                                          value: val,
+                                                          child: new Text(val),
+                                                        );
+
+
+                                                      }).toList(),
+                                                      value:UOMValue,
+                                                      hint: "Select UOM",
+                                                      searchHint: "Select UOM",
+                                                      onChanged: (value) {
+                                                            setState(() {
+                                                              UOMValue = value;
+
+                                                            });
+
+                                                      },
+
+
+
+                                                      isExpanded: true,
+                                                    ),
+                                                  ),
+
+
+
+
                                                 ],
                                               ),
                                             ),
                                             TextButton(
                                                 onPressed: () async {
-                                                  if (expirypeciescount.text !=
-                                                          "" &&
-                                                      quantity.text != "") {
-                                                    if (int.parse(
-                                                            quantity.text) <=
-                                                        int.parse(
-                                                            expirypeciescount
-                                                                .text)) {
-                                                      if (productname != null &&
-                                                          "${ENDdate.toLocal()}"
-                                                                  .split(
-                                                                      ' ')[0] !=
-                                                              "${tomoroww.toLocal()}"
-                                                                  .split(
-                                                                      ' ')[0]) {
-                                                        print("correct");
-                                                        Storecode = outletid;
-                                                        productid = Expiry.id[
-                                                            Expiry.productdetails
-                                                                .indexOf(
-                                                                    productname)];
-                                                        expirypc =
-                                                            expirypeciescount
-                                                                .text;
-                                                        pcexpirydate =
-                                                            "${ENDdate.toLocal()}"
-                                                                .split(' ')[0];
-                                                        periodchoosed =
-                                                            SelectedPeriod;
-                                                        exposureqntypc =
-                                                            quantity.text == ""
-                                                                ? 0
-                                                                : quantity.text;
-                                                        pricepc = Expiry
-                                                                .priceofitem[
-                                                            indexofselectedproduct];
-                                                        filledby =
-                                                            '${DBrequestdata.receivedempid}';
-                                                        remarksifany =
-                                                            remarks.text == ""
-                                                                ? 0
-                                                                : remarks.text;
-                                                        {
-                                                          setState(() {
-                                                            isApiCallProcess =
-                                                                true;
-                                                          });
-                                                          //await addexpiryproducts();
-                                                          addedproductid.add(
-                                                              Expiry.id[Expiry
-                                                                  .productdetails
-                                                                  .indexOf(
-                                                                      productname)]);
-                                                          addedproductname.add(
-                                                              '${Expiry.zrepcodes[Expiry.productdetails.indexOf(productname)]}-$productname');
-                                                          addedexpirydate.add(
-                                                              "${DateFormat("yyyy-MM-dd").format(ENDdate)}");
-                                                          addeditemscount.add(
-                                                              int.parse(
-                                                                  expirypeciescount
-                                                                      .text));
-                                                          addedexposurequnatity
-                                                              .add(int.parse(
-                                                                  quantity.text));
-                                                          addedpriceperitem
-                                                              .add(pricepc);
-                                                          addedremarks.add(
-                                                              remarks.text == null
-                                                                  ? ""
-                                                                  : remarks.text);
 
-                                                          productname =
-                                                              "select from the above";
-                                                          selecttype = null;
-                                                          packtype = null;
-                                                          expirypeciescount
-                                                              .clear();
-                                                          quantity.clear();
-                                                          peiceprice.clear();
-                                                          productcontroller
-                                                              .clear();
-                                                          remarks.clear();
-                                                          setState(() {
-                                                            isApiCallProcess =
-                                                                false;
-                                                          });
-                                                          Flushbar(
-                                                            message:
-                                                                "data updated sucessfully",
-                                                            duration: Duration(
-                                                                seconds: 3),
-                                                          )..show(context);
-                                                        }
-                                                      } else {
-                                                        Flushbar(
-                                                          message: productname ==
-                                                                  null
-                                                              ? "please Select Product should not be null "
-                                                              : "please select a vaild product Expiry date",
-                                                          duration: Duration(
-                                                              seconds: 3),
-                                                        )..show(context);
-                                                      }
-                                                    } else {
-                                                      Flushbar(
-                                                        message:
-                                                            "Exposure Quantity cannot be greater than Items Count",
-                                                        duration:
-                                                            Duration(seconds: 3),
-                                                      )..show(context);
-                                                    }
-                                                  } else {
-                                                    Flushbar(
-                                                      message: quantity.text == ""
-                                                          ? "Exposure Quantity is required"
-                                                          : "Near Expiry Pieces Count is required",
-                                                      duration:
-                                                          Duration(seconds: 3),
-                                                    )..show(context);
-                                                  }
+
+          setState(() {
+
+          Addedexpirydata();
+
+          });
+
+          if(UOMValue!=null){
+          if(CustomerValue!=null) {
+          if (PdtLocationValue != null) {
+          if (expirypeciescount.text !=
+          "" &&
+          quantity.text != "") {
+          if (int.parse(
+          quantity.text) <=
+          int.parse(
+          expirypeciescount
+              .text)) {
+          if (productname != null &&
+          "${ENDdate.toLocal()}"
+              .split(
+          ' ')[0] !=
+          "${tomoroww.toLocal()}"
+              .split(
+          ' ')[0]) {
+
+          print("correct");
+          Storecode = outletid;
+          productid = Expiry.id[
+          Expiry
+              .productdetails
+              .indexOf(
+          productname)];
+          expirypc =
+          expirypeciescount
+              .text;
+          pcexpirydate =
+          "${ENDdate.toLocal()}"
+              .split(' ')[0];
+          periodchoosed =
+          SelectedPeriod;
+          exposureqntypc =
+          quantity.text == ""
+          ? 0
+              : quantity.text;
+          pricepc = Expiry
+              .priceofitem[
+          indexofselectedproduct];
+          filledby =
+          '${DBrequestdata.receivedempid}';
+          remarksifany =
+          remarks.text == ""
+          ? 0
+              : remarks.text;
+
+          // productlocation = PdtLocationValue == "" ? 0 : PdtLocationValue;
+          // customerstoregroup = CustomerValue == "" ? 0 : CustomerValue;
+          // uom = UOMValue == "" ? 0 : UOMValue;
+
+          {
+          setState(() {
+          isApiCallProcess =
+          true;
+          });
+          //await addexpiryproducts();
+          addedproductid.add(
+          Expiry.id[Expiry
+              .productdetails
+              .indexOf(
+          productname)]);
+          addedproductname.add(
+          '${Expiry.zrepcodes[Expiry.productdetails.indexOf(
+          productname)]}-$productname');
+          // addedexpirydate.clear();
+          addedexpirydate.add(
+          "${DateFormat("yyyy-MM-dd").format(ENDdate)}");
+          addeditemscount.add(
+          int.parse(
+          expirypeciescount
+              .text));
+          addedexposurequnatity
+              .add(int.parse(
+          quantity
+              .text));
+          addedpriceperitem
+              .add(pricepc);
+          addedremarks.add(
+          remarks.text ==
+          null
+          ? ""
+              : remarks
+              .text);
+
+          addedproductlocation.add(PdtLocationValue );
+          addedcustomerstore.add(CustomerValue);
+          addeduom.add(UOMValue );
+
+
+          productname =
+          "select from the above";
+          selecttype = null;
+          packtype = null;
+          expirypeciescount.clear();
+          quantity.clear();
+          peiceprice.clear();
+          productcontroller.clear();
+          remarks.clear();
+
+
+          // prolocation = "";
+          // cusvalue = "";
+          // uomvalue = "";
+
+
+          PdtLocationValue="";
+          CustomerValue="";
+          UOMValue="";
+
+
+
+          Flushbar(
+          message:
+          "data updated sucessfully",
+          duration: Duration(
+          seconds: 3),
+          )
+          ..show(context);
+          }
+          } else {
+          Flushbar(
+          message: productname ==
+          null
+          ? "please Select Product should not be null "
+              : "please select a vaild product Expiry date",
+          duration: Duration(
+          seconds: 3),
+          )
+          ..show(context);
+          }
+          } else {
+          Flushbar(
+          message:
+          "Exposure Quantity cannot be greater than Items Count",
+          duration: Duration(
+          seconds: 3),
+          )
+          ..show(context);
+          }
+          } else {
+          Flushbar(
+          message: quantity.text ==
+          ""
+          ? "Exposure Quantity is required"
+              : "Near Expiry Pieces Count is required",
+          duration:
+          Duration(seconds: 3),
+          )
+          ..show(context);
+          }
+          } else {
+          Flushbar(
+          message: PdtLocationValue ==
+          ""
+          ? "Please Select Product Location"
+              : "Product Location is required",
+          duration:
+          Duration(seconds: 3),
+          )
+          ..show(context);
+          }
+          }else{
+          Flushbar(
+          message: CustomerValue==
+          ""
+          ? "Please select Customer"
+              : "Customer is required",
+          duration:
+          Duration(seconds: 3),
+          )
+          ..show(context);
+          }
+          }else{
+          Flushbar(
+    message: UOMValue==
+        ""
+        ? "Please Select UOM"
+        : "Please Fill The Empty Field",
+    duration:
+    Duration(seconds: 3),
+  )
+    ..show(context);
+          }
+
+
+
+
+                                                  // Navigator.push(context,
+                                                  //     MaterialPageRoute(builder: (BuildContext context) => ExpiryReport()));
+                                                  setState(() {
+                                                    isApiCallProcess =
+                                                    false;
+                                                  });
+
+
+
                                                 },
                                                 style: ButtonStyle(
                                                     backgroundColor:
-                                                        MaterialStateProperty.all(
-                                                            pink)),
+                                                    MaterialStateProperty
+                                                        .all(pink)),
                                                 child: Text(
                                                   "SAVE",
-                                                  style: TextStyle(color: orange),
+                                                  style:
+                                                  TextStyle(color: orange),
                                                 ))
                                           ],
                                         ),
                                       ),
+
                                       Addedexpirydata(),
-                                      SubmittedData()
+                                      SubmittedData(),
+
                                     ]),
                               ),
                             ),
@@ -735,6 +871,7 @@ TextEditingController quantity = TextEditingController();
 TextEditingController expirypeciescount = TextEditingController();
 TextEditingController peiceprice = TextEditingController();
 
+
 class _PeiceState extends State<Peice> {
   @override
   Widget build(BuildContext context) {
@@ -793,7 +930,7 @@ class _PeiceState extends State<Peice> {
             cursorColor: grey,
             keyboardType: TextInputType.number,
             validator: (input) =>
-                !input.isNotEmpty ? "should not be empty" : null,
+            !input.isNotEmpty ? "should not be empty" : null,
             decoration: new InputDecoration(
               border: InputBorder.none,
               focusColor: orange,
@@ -839,7 +976,7 @@ class _PeiceState extends State<Peice> {
             cursorColor: grey,
             keyboardType: TextInputType.number,
             validator: (input) =>
-                !input.isNotEmpty ? "Department should not be empty" : null,
+            !input.isNotEmpty ? "Department should not be empty" : null,
             decoration: new InputDecoration(
               border: InputBorder.none,
               focusColor: orange,
@@ -895,8 +1032,9 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
   void initState() {
     super.initState();
     inputlist = addedproductname;
-    inputlist.sort();
+    // inputlist.sort();
   }
+
 
   _AddedexpirydataState() {
     _searchview.addListener(() {
@@ -951,9 +1089,10 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
                       expirypc = addeditemscount[u];
                       pcexpirydate = addedexpirydate[u];
                       exposureqntypc = addedexposurequnatity[u];
-                      remarksifany = addedremarks[u] == ""
-                          ? "no remarks entered"
-                          : addedremarks[u];
+                      remarksifany = addedremarks[u] == "" ? "no remarks entered" : addedremarks[u];
+                      productlocation = addedproductlocation[u];
+                      customerstoregroup = addedcustomerstore[u];
+                      uom = addeduom[u];
                       Map stockdata = {
                         "timesheet_id": currenttimesheetid,
                         "product_id": productid,
@@ -961,7 +1100,12 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
                         "near_expiry": expirypc,
                         "expiry_date": pcexpirydate,
                         "exposure_qty": exposureqntypc,
-                        "remarks": remarksifany
+                        "remarks": remarksifany,
+                        "prodcut_location": productlocation,
+                        "customer_storegroup": customerstoregroup,
+                        "uom": uom,
+
+
                       };
                       http.Response Response = await http.post(
                         addexpiryDetail,
@@ -969,7 +1113,7 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
                           'Content-Type': 'application/json',
                           'Accept': 'application/json',
                           'Authorization':
-                              'Bearer ${DBrequestdata.receivedtoken}',
+                          'Bearer ${DBrequestdata.receivedtoken}',
                         },
                         body: jsonEncode(stockdata),
                       );
@@ -981,6 +1125,10 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
                     addedexpirydate = [];
                     addedexposurequnatity = [];
                     addedremarks = [];
+                    addedproductlocation = [];
+                    addedcustomerstore = [];
+                    addeduom = [];
+
                     await Addedstockdataformerch();
                     setState(() {
                       isApiCallProcess = false;
@@ -1018,7 +1166,7 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
       padding: EdgeInsets.only(left: 20.0, right: 20.0),
       width: double.infinity,
       decoration:
-          BoxDecoration(color: pink, borderRadius: BorderRadius.circular(10.0)),
+      BoxDecoration(color: pink, borderRadius: BorderRadius.circular(10.0)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -1029,7 +1177,7 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
               cursorColor: orange,
               decoration: InputDecoration(
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+                EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
                 focusColor: orange,
                 hintText: 'Search by SKU/ZREP',
                 hintStyle: TextStyle(color: orange),
@@ -1070,7 +1218,7 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
                             backgroundColor: alertboxcolor,
                             shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0))),
+                                BorderRadius.all(Radius.circular(10.0))),
                             content: Builder(
                               builder: (context) {
                                 // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -1114,6 +1262,10 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
                                             addedexposurequnatity
                                                 .removeAt(index);
                                             addedremarks.removeAt(index);
+                                            addedproductlocation
+                                                .removeAt(index);
+                                            addedcustomerstore.removeAt(index);
+                                            addeduom.removeAt(index);
                                             addedpriceperitem.removeAt(index);
                                           });
                                           Navigator.pushReplacement(
@@ -1121,7 +1273,7 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
                                               MaterialPageRoute(
                                                   builder:
                                                       (BuildContext context) =>
-                                                          ExpiryReport()));
+                                                      ExpiryReport()));
                                         },
                                         child: Container(
                                           height: 30,
@@ -1129,7 +1281,7 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
                                           decoration: BoxDecoration(
                                             color: Colors.red,
                                             borderRadius:
-                                                BorderRadius.circular(5),
+                                            BorderRadius.circular(5),
                                           ),
                                           child: Center(
                                               child: Text('YES',
@@ -1241,18 +1393,57 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
                     SizedBox(height: 5),
                     addedremarks[index] != ""
                         ? Row(
-                            children: [
-                              Text('Remarks:',
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                  )),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(addedremarks[index].toString()),
-                            ],
-                          )
-                        : SizedBox(),
+                      children: [
+                        Text('Remarks:',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            )),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(addedremarks[index].toString()),
+                      ],
+                    )
+                        : SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Text('product location:',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            )),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(addedproductlocation[index].toString()),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Text('customer store:',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            )),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(addedcustomerstore[index].toString()),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Text('UOM:',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            )),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(addeduom[index].toString()),
+                      ],
+                    ),
+                    SizedBox(height: 5),
                   ],
                 ),
               ),
@@ -1352,6 +1543,9 @@ List<int> addeditemscount = [];
 List<int> addedexposurequnatity = [];
 List<String> addedremarks = [];
 List<int> addedproductid = [];
+List<String> addedproductlocation = [];
+List<String> addedcustomerstore = [];
+List<String> addeduom = [];
 
 class SubmittedData extends StatefulWidget {
   const SubmittedData({Key key}) : super(key: key);
@@ -1394,46 +1588,46 @@ class _SubmittedDataState extends State<SubmittedData> {
   Widget build(BuildContext context) {
     return Stockdatamerch.productname.length > 0
         ? Column(
-            children: <Widget>[
-              _createSearchView(),
-              SizedBox(
-                height: 10.0,
-              ),
-              _firstSearch ? _createListView() : _performSearch(),
-            ],
-          )
+      children: <Widget>[
+        _createSearchView(),
+        SizedBox(
+          height: 10.0,
+        ),
+        _firstSearch ? _createListView() : _performSearch(),
+      ],
+    )
         : GestureDetector(
-            onTap: () async {
-              setState(() {
-                isApiCallProcess = true;
-              });
-              await Addedstockdataformerch();
+      onTap: () async {
+        setState(() {
+          isApiCallProcess = true;
+        });
+        await Addedstockdataformerch();
 
-              setState(() {
-                isApiCallProcess = false;
-              });
-              if (Stockdatamerch.productname.length == 0) {
-                Flushbar(
-                  message: "No data submitted to this outlet",
-                  duration: Duration(seconds: 3),
-                )..show(context);
-              }
-            },
-            child: Center(
-              child: Container(
-                margin: EdgeInsets.only(right: 10.00),
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Color(0xffFFDBC1),
-                  borderRadius: BorderRadius.circular(10.00),
-                ),
-                child: Text(
-                  'Get Submitted Data',
-                  style: TextStyle(color: Colors.black, fontSize: 15),
-                ),
-              ),
-            ),
-          );
+        setState(() {
+          isApiCallProcess = false;
+        });
+        if (Stockdatamerch.productname.length == 0) {
+          Flushbar(
+            message: "No data submitted to this outlet",
+            duration: Duration(seconds: 3),
+          )..show(context);
+        }
+      },
+      child: Center(
+        child: Container(
+          margin: EdgeInsets.only(right: 10.00),
+          padding: EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            color: Color(0xffFFDBC1),
+            borderRadius: BorderRadius.circular(10.00),
+          ),
+          child: Text(
+            'Get Submitted Data',
+            style: TextStyle(color: Colors.black, fontSize: 15),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _createSearchView() {
@@ -1442,7 +1636,7 @@ class _SubmittedDataState extends State<SubmittedData> {
       padding: EdgeInsets.only(left: 20.0, right: 20.0),
       width: double.infinity,
       decoration:
-          BoxDecoration(color: pink, borderRadius: BorderRadius.circular(10.0)),
+      BoxDecoration(color: pink, borderRadius: BorderRadius.circular(10.0)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -1453,7 +1647,7 @@ class _SubmittedDataState extends State<SubmittedData> {
               cursorColor: orange,
               decoration: InputDecoration(
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+                EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
                 focusColor: orange,
                 hintText: 'Search by SKU/ZREP',
                 hintStyle: TextStyle(color: orange),
@@ -1482,14 +1676,14 @@ class _SubmittedDataState extends State<SubmittedData> {
   Widget _createListView() {
     return Expanded(
       child: ListView.builder(
-          //physics: const NeverScrollableScrollPhysics(),
-          //shrinkWrap: true,
+        //physics: const NeverScrollableScrollPhysics(),
+        //shrinkWrap: true,
           itemCount: Stockdatamerch.productname.length,
           itemBuilder: (BuildContext context, int index) {
             print(Stockdatamerch.productname);
             print("$index - ${Stockdatamerch.productname[index]}");
             return Container(
-              height: 150,
+              height: 170,
               margin: EdgeInsets.only(bottom: 10, left: 10.0, right: 10.0),
               padding: EdgeInsets.all(5.0),
               decoration: BoxDecoration(
@@ -1504,9 +1698,9 @@ class _SubmittedDataState extends State<SubmittedData> {
                   children: [
                     SingleChildScrollView(
                         child: Text(
-                      "${Stockdatamerch.productname[index]}",
-                      style: TextStyle(color: orange),
-                    )),
+                          "${Stockdatamerch.productname[index]}",
+                          style: TextStyle(color: orange),
+                        )),
                     //Text("Outlet : ${Stockdata.outlet[index]}"),
                     Text(
                         "Expiry Date : ${Stockdatamerch.expirydate[index].toString()}"),
@@ -1519,6 +1713,10 @@ class _SubmittedDataState extends State<SubmittedData> {
                         "Remarks : ${Stockdatamerch.remarks[index].toString()}"),
                     Text(
                         "Captured on : ${Stockdatamerch.captureddate[index].toString()}"),
+                    Text("Product Location : ${Stockdatamerch.Productlocation[index].toString()}"),
+                    Text("Customer StoreGroup :${Stockdatamerch.Customerstoregroup[index].toString()}"),
+                    Text("UOM :${Stockdatamerch.Uom[index].toString()}"),
+
                   ],
                 ),
               ),
@@ -1545,12 +1743,12 @@ class _SubmittedDataState extends State<SubmittedData> {
   Widget _createFilteredListView() {
     return Expanded(
       child: ListView.builder(
-          //physics: const NeverScrollableScrollPhysics(),
-          //shrinkWrap: true,
+        //physics: const NeverScrollableScrollPhysics(),
+        //shrinkWrap: true,
           itemCount: _filterindex.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              height: 150,
+              height: 170,
               margin: EdgeInsets.only(bottom: 10, left: 10.0, right: 10.0),
               padding: EdgeInsets.all(5.0),
               decoration: BoxDecoration(
@@ -1565,9 +1763,9 @@ class _SubmittedDataState extends State<SubmittedData> {
                   children: [
                     SingleChildScrollView(
                         child: Text(
-                      "${Stockdatamerch.productname[_filterindex[index]]}",
-                      style: TextStyle(color: orange),
-                    )),
+                          "${Stockdatamerch.productname[_filterindex[index]]}",
+                          style: TextStyle(color: orange),
+                        )),
                     //Text("Outlet : ${Stockdata.outlet[index]}"),
                     Text(
                         "Expiry Date : ${Stockdatamerch.expirydate[_filterindex[index]].toString()}"),
@@ -1578,8 +1776,13 @@ class _SubmittedDataState extends State<SubmittedData> {
                         "Exposure Quantity : ${Stockdatamerch.exposurequantity[_filterindex[index]].toString()}"),
                     Text(
                         "Remarks : ${Stockdatamerch.remarks[_filterindex[index]].toString()}"),
-                    Text(
-                        "Captured on : ${Stockdatamerch.captureddate[_filterindex[index]].toString()}"),
+                    Text("Captured on : ${Stockdatamerch.captureddate[_filterindex[index]].toString()}"),
+
+
+                    Text("Product Location : ${Stockdatamerch.Productlocation[_filterindex[index]].toString()}"),
+                    Text("Customer StoreGroup :${Stockdatamerch.Customerstoregroup[_filterindex[index]].toString()}"),
+                    Text("UOM :${Stockdatamerch.Uom[_filterindex[index]].toString()}"),
+
                   ],
                 ),
               ),

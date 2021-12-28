@@ -110,14 +110,14 @@ class _FieldManagerDashBoardState extends State<FieldManagerDashBoard> {
             drawer: GestureDetector(
               onTap: ()async{
                 print("Menu Tapped");
-                setState(() {
-                  isApiCallProcess=true;
-                });
-
-                await getNotificationDetails();
-                setState(() {
-                  isApiCallProcess=false;
-                });
+                // setState(() {
+                //   isApiCallProcess=true;
+                // });
+                //
+                // await getNotificationDetails();
+                // setState(() {
+                //   isApiCallProcess=false;
+                // });
 
 
               },
@@ -316,7 +316,7 @@ class _FieldManagerDashBoardState extends State<FieldManagerDashBoard> {
                                             child: Text(
                                               "Today Outlets",
                                               style: TextStyle(fontSize: 12),
-                                            ),
+                                            )
                                           ),
                                         ),
                                         Padding(
@@ -450,6 +450,7 @@ class _FieldManagerDashBoardState extends State<FieldManagerDashBoard> {
                               });
                               // await merchnamelistunderCDE();
                               await getJourneyPlanweekly();
+                              currentuser.roleid == 5? await getmerchnamelist(): await merchnamelistunderCDE();
 
                               setState(() {
                                 isApiCallProcess=false;
@@ -484,8 +485,7 @@ class _FieldManagerDashBoardState extends State<FieldManagerDashBoard> {
                                       ),
 
                                       SizedBox(height: 10),
-                                      Text(
-                                        'Journey Plan',
+                                      Text('Journey Plan',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(fontSize: 15),
                                       ),
@@ -542,7 +542,20 @@ class _FieldManagerDashBoardState extends State<FieldManagerDashBoard> {
                               for(int i =0; i<listOfDates.length;i++){
                                 selecteddates.add(false);
                               }
-                              print(selecteddates.length);
+
+                              setState(() {
+                                isApiCallProcess = true;
+
+                              });
+
+                              // await gettimesheetleavetype();
+
+                              setState(() {
+                                isApiCallProcess = false;
+                              });
+                              // print(selecteddates.length);
+
+
 
                               Navigator.push(
                                   context,
@@ -730,7 +743,7 @@ class _FieldManagerDashBoardState extends State<FieldManagerDashBoard> {
                                 children: [
                                   Text(FMdashboarddata.leavebalance.toString(), style: TextStyle(
                                       fontWeight: FontWeight.bold, fontSize: 30),),
-                                  Text("Leave Balance",style: TextStyle(fontSize: 15),),
+                                  Text(" Leave\nBalance",style: TextStyle(fontSize: 15),),
                                 ],
                               ),
                             ),
@@ -836,7 +849,7 @@ class _FieldManagerDashBoardState extends State<FieldManagerDashBoard> {
                                     color: iconscolor,
                                   ),
 
-                                  Text("CDE Reporting"),
+                                  Text(" CDE\nReporting"),
 
                                 ],
                               ),
@@ -864,12 +877,15 @@ class _FieldManagerDashBoardState extends State<FieldManagerDashBoard> {
                               size: 50,
                             ),
                             Spacer(flex: 2),
-                            Text(
+                            currentuser.roleid==5?Text(
                               'Welcome to the new field manager\ninterface of RMS.'
                                   ' Hope you have a\ngreat day ahead!',
                               style: new TextStyle(fontSize: 15
                               ),
-                            ),
+                            ):Text('Welcome to the new CDE interface\nof RMS.'
+                                ' Hope you have a\ngreat day ahead!',
+                              style: new TextStyle(fontSize: 15
+                              )),
                             Spacer(
                               flex: 2,
                             ),

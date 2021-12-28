@@ -15,12 +15,16 @@ import 'package:merchandising/offlinedata/sharedprefsdta.dart';
 import 'package:merchandising/api/Journeyplansapi/todayplan/journeyplanapi.dart';
 import'package:intl/intl.dart';
 
+
+
+
+
+
 bool splitsf = false;
 bool checkoutdatasubmitted =false;
 bool checkindatasubmitted =false;
 bool checkoutrequested =false;
 bool checkinrequested =false;
-
 int comid;
 Uri expectedvisitchart = Uri.parse("https://rms2.rhapsody.ae/api/outlet_expected_outlet_chart");
 Uri OutletSurvey = Uri.parse("https://rms2.rhapsody.ae/api/add_outlet_survey");
@@ -128,7 +132,14 @@ Uri CDEdashboard = Uri.parse("https://rms2.rhapsody.ae/api/cde_dashboard");
 Uri CDEReportingDet = Uri.parse("https://rms2.rhapsody.ae/api/cde_reporting_to_details");
 Uri AddReportCDE = Uri.parse("https://rms2.rhapsody.ae/api/add_cde");
 Uri CDEApproveTimeSheet = Uri.parse("https://rms2.rhapsody.ae/api/cde_timesheet_approval");
-Uri LeaveRequestwithtype = Uri.parse("https://rms2.rhapsody.ae/api/leave_request");
+Uri LeaveReportwithtype = Uri.parse("https://rms2.rhapsody.ae/api/leave_request");
+Uri LeaveReportDetails = Uri.parse("https://rms2.rhapsody.ae/api/leave_details_view_by_fieldmanager");
+Uri FMViewOutletTaskDetails = Uri.parse("https://rms2.rhapsody.ae/api/fieldmanager_view_outlet_task_response");
+Uri LeaveRuleDetails = Uri.parse("https://rms2.rhapsody.ae/api/leave_rule_details");
+Uri LeaveRuleUpdtae = Uri.parse("https://rms2.rhapsody.ae/api/update_leave_rule");
+
+
+
 
 int ischatscreen;
 bool newmsgavaiable = false;
@@ -472,19 +483,27 @@ class checkinoutdata{
   static var checkoutlocation;
   static var checkid;
 }
-void addattendence() async {
-  http.Response cicoresponse = await http.post(attendancein,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-    },
-  );
-  print(cicoresponse.body);
+void addattendence() async {  
+  Map data = {
+    "emp_id":"${DBrequestdata.receivedempid}"
+  };
+
+  // http.Response cicoresponse = await http.post(attendancein,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //   },
+  // );
+  // print(cicoresponse.body);
+  adddataforsync("https://rms2.rhapsody.ae/api/attendance_in",jsonEncode(data) ,"");
+
+
 }
 
 Future<bool> checkin() async {
   checkinrequested = true;
+  checkindatasubmitted = true;
   var checkid = checkinoutdata.checkid;
   var checkintime = checkinoutdata.checkintime;
   var checkinlocation = checkinoutdata.checkinlocation;
@@ -496,7 +515,7 @@ Future<bool> checkin() async {
   };
   adddataforsync("https://rms2.rhapsody.ae/api/check_in_out",jsonEncode(checkinoutresponse),"Checkin at $checkintime for the timesheet $checkid at $checkinlocation");
   CreateLog("checked in $checkintime for the timesheet $checkid at $checkinlocation", "true");
-  checkindatasubmitted = true;
+
   // print(checkinoutresponse);
   // http.Response cicoresponse = await http.post(CICOurl,
   //   headers: {
@@ -645,6 +664,47 @@ Future getTaskList() async{
   print('task data : ${task.list}');
  }
 
+
+Future getTaskListFM() async{
+  Map taskbody =
+  {
+    "outlet_id" : currentoutletid,
+  };
+  print(jsonEncode(taskbody));
+  http.Response response = await http.post(taskdetailes,
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+    },
+    body: jsonEncode(taskbody),
+  );
+  print(response.body);
+  if(response.statusCode==200){
+  taskFM.list=[];
+  taskFM.id=[];
+  taskFM.iscompleted=[];
+  String data = response.body;
+  var decodeODData = jsonDecode(data);
+  for(int i=0; i<decodeODData['data'].length;i++){
+    taskFM.list.add(decodeODData['data'][i]['task_list']);
+    taskFM.id.add(decodeODData['data'][i]['id']);
+    taskFM.iscompleted.add(decodeODData['data'][i]['is_completed']);
+  }
+  // }
+  print('task data : ${task.list}');
+}
+
+  }
+class taskFM{
+  static List<String>list=[];
+  static List<int>id=[];
+  static List<int>iscompleted=[];
+  static List<String> imgurl =[];
+
+}
+
+
 Future sendtaskresponse() async{
 
   Map taskbody =
@@ -719,7 +779,7 @@ Future<void> getTotalJnyTime() async {
     'timesheet_id': currenttimesheetid,
   };
   print("TSid Tapped:${DBrequestData}");
-  http.Response SDResponse = await http.post(TotalJnryTime,
+  http.Response SDResponse =await http.post(TotalJnryTime,
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -836,3 +896,52 @@ class OutletSurveySubmit{
   static var competitor;
   static var stockexpiry;
 }
+
+
+
+
+
+Future<void> FMViewOTDet() async{
+  Map taskbodyfm =
+  {
+    "timesheet_id" : currenttimesheetid,
+  };
+  print(jsonEncode(taskbodyfm));
+  http.Response fmviewTD = await http.post(FMViewOutletTaskDetails,
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+    },
+    body: jsonEncode(taskbodyfm),
+  );
+  print(fmviewTD.body);
+  if(fmviewTD.statusCode==200){
+    fmviewtaskdata.url=[];
+    fmviewtaskdata.list = [];
+    print("fm view task details done");
+
+    String data = fmviewTD.body;
+    var decodeODData = jsonDecode(data);
+    for(int u=0; u<decodeODData['data'].length;u++){
+      print("check1");
+
+      if((decodeODData['data'][u]['img_url'])!=null) {
+        print("check2");
+        fmviewtaskdata.url.add("https://rms2.rhapsody.ae/task_file/${decodeODData['data'][u]['img_url']}");
+        fmviewtaskdata.list.add(decodeODData['data'][u]['task_list']);
+      }
+
+    }
+    print('task data : ${task.list}');
+  }
+
+}
+
+class fmviewtaskdata{
+
+  static List<dynamic> url = [];
+  static List<String> list = [];
+
+}
+

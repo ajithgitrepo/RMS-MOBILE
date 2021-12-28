@@ -18,6 +18,8 @@ import 'package:merchandising/model/Yearlytimesheet.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:intl/intl.dart';
 import 'package:flushbar/flushbar.dart';
+import'package:merchandising/api/leavestakenapi.dart';
+
 
 bool isApiCallProcess = false;
 String Approveddates;
@@ -313,6 +315,7 @@ class _TimeSheetListState extends State<TimeSheetList> {
                                 )),
                           ],
                         ),
+
                         pressAttentionYTB
                             ? selectedDate != null
                                 ? Text(
@@ -358,10 +361,10 @@ class _TimeSheetListState extends State<TimeSheetList> {
                                                 .outletname[index];
                                         currenttimesheetid =
                                             TimeSheetdatadaily.tsid[index];
-
-                                        print(
-                                            "TS is for SS:${currenttimesheetid}");
-
+                                        //
+                                        // print(
+                                        //     "TS is for SS:${currenttimesheetid}");
+                                        //
                                         setState(() {
                                           isApiCallProcess = true;
                                         });
@@ -501,6 +504,13 @@ class _TimeSheetListState extends State<TimeSheetList> {
                             pressAttentionTODAY = false;
                             pressAttentionYTB = false;
                           });
+
+
+
+                          // gettimesheetleavetype();
+                        //  gettimesheetleavetype1();
+                          // leaveReportData();
+
                         },
                         child: Container(
                           height: 40,
@@ -660,7 +670,7 @@ class _TimeSheetdailyState extends State<TimeSheetdaily> {
 
             return GestureDetector(
               onTap: () async {
-                for (int i = 0;
+               for (int i = 0;
                     i < TimeSheetdatadaily.checkintime.length;
                     i++) {
                   outletnameSS.add("");

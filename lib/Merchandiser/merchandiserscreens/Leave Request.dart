@@ -177,6 +177,10 @@ class _leavestatusPageState extends State<leavestatusPage> {
                       ],
                     ),
                     Spacer(),
+
+                        // Text(leavedataResponse.leavetype[index].toString()),
+
+                        // Text(leavedataResponse.leavetype[index]),
                   ],
                 ),
               );

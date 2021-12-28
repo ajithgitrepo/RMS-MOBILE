@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import '../../ProgressHUD.dart';
 import 'MenuContent.dart';
 import 'package:merchandising/model/camera.dart';
+import 'package:camera/camera.dart';
 import 'package:photo_view/photo_view.dart';
 import 'dart:io';
 import 'package:flutter/rendering.dart';
@@ -106,6 +107,8 @@ class _UploadLivePhotoState extends State<UploadLivePhoto> {
 
                   });
                   checklist=true;
+
+
                   Navigator.pop(
                       context,
                       MaterialPageRoute(
@@ -134,142 +137,151 @@ class _UploadLivePhotoState extends State<UploadLivePhoto> {
             ProgressHUD(
               opacity: 0.3,
               inAsyncCall: isApicallProcess,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: onlinemode.value ?0:25,
-                  ),
-                  OutletDetails(),
-                  Column(
-                    children: [
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: onlinemode.value ?0:25,
+                    ),
+                    OutletDetails(),
+                    Column(
+                      children: [
 
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height/1.3,
-                        width: double.infinity,
-                        child: SingleChildScrollView(
-                          child: new ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount:task.list.length,
-                              itemBuilder:
-                                  (BuildContext
-                              context,
-                                  int index) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: pink,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  padding:EdgeInsets.all(10.0),
-                                  margin:EdgeInsets.only(top:10.0,left: 10,right:10),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        CheckList[index] ==
-                                            false
-                                            ? CheckList[
-                                        index] =
-                                        true
-                                            : CheckList[
-                                        index] =
-                                        false;
-                                      });
-                                    },
-                                    child: Column(
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height/1.3,
+                          width: double.infinity,
+                          child: SingleChildScrollView(
+                            child: new ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount:task.list.length,
+                                itemBuilder:
+                                    (BuildContext
+                                context,
+                                    int index) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: pink,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    padding:EdgeInsets.all(10.0),
+                                    margin:EdgeInsets.only(top:10.0,left: 10,right:10),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          CheckList[index] ==
+                                              false
+                                              ? CheckList[
+                                          index] =
+                                          true
+                                              : CheckList[
+                                          index] =
+                                          false;
+                                        });
+                                      },
+                                      child: Column(
 
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment
-                                              .spaceEvenly,
-                                          children: [
-                                            Text(
-                                              task.list[
-                                              index],
-                                              style: TextStyle(
-                                                  fontSize:
-                                                  16),
-                                            ),
-
-
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .spaceEvenly,
+                                            children: [
+                                              Text(
+                                                task.list[
+                                                index],
+                                                style: TextStyle(
+                                                    fontSize:
+                                                    16),
+                                              ),
 
 
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              margin:EdgeInsets.only(top:10),
-                                              // ignore: unrelated_type_equality_checks
-                                              child: imagescl[index].toString() !=
-                                                  'File: \'dummy.txt\''
-                                                  ? GestureDetector(
-                                                onTap: () {
+
+
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                margin:EdgeInsets.only(top:10),
+                                                // ignore: unrelated_type_equality_checks
+                                                child: imagescl[index].toString() !=
+                                                    'File: \'dummy.txt\''
+                                                    ? GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (BuildContext context) =>
+                                                                PreveiwScreen(
+
+
+                                                                  input: imagescl[index],
+                                                                )));
+                                                  },
+                                                  child: Image(
+                                                    height: 60,
+                                                    image: FileImage(imagescl[index]),
+                                                  ),
+                                                )
+                                                    : Image(
+                                                  height: 60,
+                                                  image: AssetImage('images/capture.png'),
+                                                ),
+                                              ),
+                                              SizedBox(width: 5),
+                                              GestureDetector(
+                                                onTap: ()async{
+                                                  Selectedscreen = "checklistimage";
+                                                  selectindexcl = index;
+                                                  WidgetsFlutterBinding.ensureInitialized();
+
+                                                  // Obtain a list of the available cameras on the device.
+                                                  final cameras = await availableCameras();
+
+                                                  // Get a specific camera from the list of available cameras.
+                                                  final firstCamera = cameras.first;
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (BuildContext context) =>
-                                                              PreveiwScreen(
-
-
-                                                                input: imagescl[index],
+                                                              TakePictureScreen(
                                                               )));
                                                 },
-                                                child: Image(
-                                                  height: 60,
-                                                  image: FileImage(imagescl[index]),
-                                                ),
-                                              )
-                                                  : Image(
-                                                height: 60,
-                                                image: AssetImage('images/capture.png'),
+                                                child:Icon(CupertinoIcons.photo_camera_solid,) ,
                                               ),
-                                            ),
-                                            SizedBox(width: 5),
-                                            GestureDetector(
-                                              onTap: (){
-                                                Selectedscreen = "checklistimage";
-                                                selectindexcl = index;
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (BuildContext context) =>
-                                                            TakePictureScreen(
-                                                            )));
-                                              },
-                                              child:Icon(CupertinoIcons.photo_camera_solid,) ,
-                                            ),
-                                            SizedBox(width: 10),
-                                            Icon(
-                                              CheckList[index] ==
-                                                  true
-                                                  ? CupertinoIcons
-                                                  .check_mark_circled_solid
-                                                  : CupertinoIcons
-                                                  .xmark_circle_fill,
-                                              color: CheckList[index] ==
-                                                  true
-                                                  ? orange
-                                                  : Colors
-                                                  .grey,
-                                              size: 30,
-                                            ),
+                                              SizedBox(width: 10),
+                                              Icon(
+                                                CheckList[index] ==
+                                                    true
+                                                    ? CupertinoIcons
+                                                    .check_mark_circled_solid
+                                                    : CupertinoIcons
+                                                    .xmark_circle_fill,
+                                                color: CheckList[index] ==
+                                                    true
+                                                    ? orange
+                                                    : Colors
+                                                    .grey,
+                                                size: 30,
+                                              ),
 
-                                          ],
-                                        )
+                                            ],
+                                          )
 
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }),
+                                  );
+                                }),
+                          ),
                         ),
-                      ),
 
-                    ],
-                  )
-                ],
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
             NBlFloatingButton(),

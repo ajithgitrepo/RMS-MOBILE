@@ -31,82 +31,91 @@ syncingreferencedata()async {
   lastsyncedon = DateTime.parse(prefs.getString('lastsyncedondate'));
   if(lastsyncedon!=null){
     lastsyncedendtime = DateTime.parse(prefs.getString('lastsyncedonendtime'));
-     difference = DateTime.now().difference(lastsyncedendtime);
-     print("difference: ${difference.inMinutes}");
-     print("${DateFormat('yyyy-MM-dd').format(lastsyncedon)} = ${DateFormat('yyyy-MM-dd').format(DateTime.now())}");
+    difference = DateTime.now().difference(lastsyncedendtime);
+    print("difference: ${difference.inMinutes}");
+    print("${DateFormat('yyyy-MM-dd').format(lastsyncedon)} = ${DateFormat('yyyy-MM-dd').format(DateTime.now())}");
   }
-    if (currentlysyncing && onlinemode.value) {
-      currentlysyncing = true;
-      currentstep = 0;
-      print("Syncing");
-      var date = DateTime.now();
-      var starttime = DateTime.now();
-      loginfromloginpage = false;
-      await loginapi();
-      // progress.value = 25;
-      await getJourneyPlan();
-      await SOSDetailsoffline();
-      PlanoDetailsoffline();
-      await PromoDetailsoffline();
-      await CheckListDetailsoffline();
-      // progress.value = 35;
-      getallempdetails();
-      getempdetails();
-      // progress.value = 40;
-      getaddedexpiryproducts();
-      getstockexpiryproducts();
-      getempdetailsforreport();
-      DBRequestmonthly();
-      getskippedJourneyPlan();
-      getvisitedJourneyPlan();
-      getJourneyPlanweekly();
-      getSkipJourneyPlanweekly();
-      getVisitJourneyPlanweekly();
-      Expectedchartvisits();
-      chartvisits();
-      progress.value=85;
-      await getalljpoutletsdata();
-      NBLdetailsoffline();
-      VisibilityDetailsoffline();
-       progress.value = 97;
-      await DBRequestdaily();
-       progress.value = 99;
-      currentlysyncing = false;
-      var endtime = DateTime.now();
-      await lastsynced(date, starttime, endtime);
-       progress.value = 100;
-    }else{
-      DBRequestmonthly();
-      getaddedexpiryproducts();
-      getempdetails();
-      getempdetailsforreport();
-      getstockexpiryproducts();
-      await DBRequestdaily();
-      await callfrequently();
-      getempdetails();
-      getallempdetails();
-      getaddedexpiryproducts();
-      getstockexpiryproducts();
-      getempdetailsforreport();
-      getJourneyPlan();
-      getskippedJourneyPlan();
-      getvisitedJourneyPlan();
-      getSkipJourneyPlanweekly();
-      getVisitJourneyPlanweekly();
-      getJourneyPlanweekly();
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      offlineoutletdeatiles = prefs.getStringList('alljpoutlets');
-      outletvisitsdata = prefs.getStringList('alljpoutletschart');
-      outletEvisitsdata = prefs.getStringList('alljpoutletsEchart');
-      offlinevisibilitydata=prefs.getStringList('visibilitydetdata');
-      offlinesosdata=prefs.getStringList('shareofshelfdetdata');
-      offlineplanodata=prefs.getStringList('planodetaildata');
-      offlinepromodata=prefs.getStringList('promodetaildata');
-      offlinechecklistdata=prefs.getStringList('checklistdetaildata');
-      offlinenbldata = prefs.getStringList('nbldetaildata');
-      const time = const Duration(seconds: 120);
-      Timer.periodic(time, (Timer t) => callfrequently());
-    }
+  if (currentlysyncing && onlinemode.value) {
+    currentstep = 0;
+    print("Syncing");
+    var date = DateTime.now();
+    var starttime = DateTime.now();
+    loginfromloginpage = false;
+    await loginapi();
+    progress.value = 25;
+    await getJourneyPlan();
+    progress.value = 30;
+    PlanoDetailsoffline();
+    progress.value=32;
+    await SOSDetailsoffline();
+    await PromoDetailsoffline();
+    await CheckListDetailsoffline();
+     // progress.value = 45;
+    getallempdetails();
+    getempdetails();
+    // progress.value = 40;
+    getaddedexpiryproducts();
+    getstockexpiryproducts();
+    // progress.value = 48;
+    getempdetailsforreport();
+    DBRequestmonthly();
+    getskippedJourneyPlan();
+    // progress.value = 50;
+
+    getvisitedJourneyPlan();
+    getJourneyPlanweekly();
+    getSkipJourneyPlanweekly();
+    getVisitJourneyPlanweekly();
+    Expectedchartvisits();
+    chartvisits();
+    progress.value=90;
+    await DBRequestdaily();
+    progress.value=95;
+    await getalljpoutletsdata();
+     progress.value = 98;
+    NBLdetailsoffline();
+    VisibilityDetailsoffline();
+    // progress.value = 95;
+     // progress.value = 99;
+
+
+    currentlysyncing = false;
+    var endtime = DateTime.now();
+    await lastsynced(date, starttime, endtime);
+      progress.value = 100;
+  }else{
+    print("test");
+    DBRequestmonthly();
+    getaddedexpiryproducts();
+    getempdetails();
+    getempdetailsforreport();
+    getstockexpiryproducts();
+    await DBRequestdaily();
+    await callfrequently();
+    getempdetails();
+    getallempdetails();
+    getaddedexpiryproducts();
+    getstockexpiryproducts();
+    getempdetailsforreport();
+    getJourneyPlan();
+    getskippedJourneyPlan();
+    getvisitedJourneyPlan();
+    getSkipJourneyPlanweekly();
+    getVisitJourneyPlanweekly();
+    getJourneyPlanweekly();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    offlineoutletdeatiles = prefs.getStringList('alljpoutlets');
+    outletvisitsdata = prefs.getStringList('alljpoutletschart');
+    outletEvisitsdata = prefs.getStringList('alljpoutletsEchart');
+    offlinevisibilitydata=prefs.getStringList('visibilitydetdata');
+    offlinesosdata=prefs.getStringList('shareofshelfdetdata');
+    offlineplanodata=prefs.getStringList('planodetaildata');
+    offlinepromodata=prefs.getStringList('promodetaildata');
+    offlinechecklistdata=prefs.getStringList('checklistdetaildata');
+    offlinenbldata = prefs.getStringList('nbldetaildata');
+    const time = const Duration(seconds: 120);
+    Timer.periodic(time, (Timer t) => callfrequently());
+  }
 }
 
 
@@ -114,7 +123,7 @@ getalljpoutletsdata()async{
   offlineoutletdeatiles=[];
   print("length:${gettodayjp.outletids.length}");
   for(int i=0;i<gettodayjp.outletids.length;i++){
-    progress.value++;
+    // progress.value++;
     int outletid = gettodayjp.outletids[i];
     Map ODrequestDataforcheckin = {
       "emp_id": "${DBrequestdata.receivedempid}",
@@ -210,7 +219,7 @@ VisibilityDetailsoffline()async{
 SOSDetailsoffline()async{
   offlinesosdata=[];
   for(int i=0;i<gettodayjp.id.length;i++){
-    progress.value++;
+     progress.value++;
     int timesheetid = gettodayjp.id[i];
     Map body = {
       "time_sheet_id" : "$timesheetid"
@@ -257,7 +266,7 @@ PlanoDetailsoffline()async{
     if(OCResponse.statusCode == 200){
       offlineplanodata.add(OCResponse.body);
     }
-    print("share of shelf list length:${offlineplanodata.length}");
+    print("Planogram list length:${offlineplanodata.length}");
   }
   planodetail(offlineplanodata);
 }
@@ -266,7 +275,7 @@ PlanoDetailsoffline()async{
 PromoDetailsoffline()async{
   offlinepromodata=[];
   for(int i=0;i<gettodayjp.outletids.length;i++){
-    progress.value++;
+     progress.value++;
     int outletid = gettodayjp.outletids[i];
     Map body = {
       "outlet_id" : "$outletid"
@@ -295,7 +304,7 @@ PromoDetailsoffline()async{
 CheckListDetailsoffline()async{
   offlinechecklistdata=[];
   for(int i=0;i<gettodayjp.outletids.length;i++){
-    progress.value++;
+    // progress.value++;
     int outletid = gettodayjp.outletids[i];
     Map body = {
       "outlet_id" : "$outletid"

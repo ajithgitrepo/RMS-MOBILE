@@ -10,6 +10,7 @@ import'package:merchandising/api/customer_activites_api/add_shareofshelfapi.dart
 import 'package:merchandising/api/api_service.dart';
 
 
+
 var shareindex;
 var actualindex;
 List <double> totalshare =[];
@@ -95,31 +96,32 @@ class _ShareShelfState extends State<ShareShelf> {
               Spacer(),
               SubmitButton(
                 ontap: ()async{
-                  if(validateform()==true){
+                  if(validateform()==false) {
                     setState(() {
                       isApicallProcess = true;
                     });
-                    AddShareData.totalshare=[];
-                    AddShareData.share=[];
+                    AddShareData.totalshare = [];
+                    AddShareData.share = [];
                     AddShareData.actualpercent = [];
                     AddShareData.actual = [];
                     AddShareData.reason = [];
-                    for(int i=0;i<ShareData.categoryname.length;i++){
+                    for (int i = 0; i < ShareData.categoryname.length; i++) {
                       AddShareData.totalshare.add(total[i].text);
                       AddShareData.share.add(share[i].text);
                       AddShareData.actual.add(actual[i].text);
-                      AddShareData.actualpercent.add(actualpercent[i].toStringAsFixed(2));
+                      AddShareData.actualpercent.add(
+                          actualpercent[i].toStringAsFixed(2));
                       AddShareData.reason.add(reasonforsos[i].text);
                     }
                     //AddShareData.brandid = ShareData.brandid;
                     // AddShareData.outletid = outletrequestdata.outletidpressed;
                     // AddShareData.timesheetid = checkinoutdata.checkid;
                     AddShareData.categoryname = ShareData.categoryname;
-                    AddShareData.categoryid =ShareData.categoryid;
+                    AddShareData.categoryid = ShareData.categoryid;
                     AddShareData.target = ShareData.target;
                     AddShareData.totalshare = AddShareData.share;
-                    AddShareData.actualpercent=AddShareData.actualpercent;
-                    AddShareData.share=AddShareData.actual;
+                    AddShareData.actualpercent = AddShareData.actualpercent;
+                    AddShareData.share = AddShareData.actual;
                     await addShareofshelfdata();
                     // shareofshelfcheck = true;
                     setState(() {
@@ -128,8 +130,7 @@ class _ShareShelfState extends State<ShareShelf> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                CustomerActivities()));
+                            builder: (BuildContext context) => CustomerActivities()));
                   }
                 },
               ),

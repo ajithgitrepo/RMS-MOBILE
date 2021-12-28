@@ -468,9 +468,18 @@ class _AddJourneyPlanState extends State<AddJourneyPlan> {
                             ],
                           ),
                         ),
-                      ]),
+
+
+
+
+
+                      ]
+                  ),
                 ),
               ),
+
+
+
               Align(
                 alignment: Alignment.bottomRight,
                 child: GestureDetector(
@@ -525,7 +534,7 @@ class _AddJourneyPlanState extends State<AddJourneyPlan> {
   Widget _createListView() {
     return new Flexible(
       child: new  ListView.builder(
-          shrinkWrap: true,
+         // shrinkWrap: true,
           itemCount: currentuser.roleid==5?merchnamelist.firstname.length:MerchUnderCDE.firstname.length,
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
@@ -623,6 +632,7 @@ class _AddJourneyPlanState extends State<AddJourneyPlan> {
                 setState(() {
                   isApiCallProcess = true;
                 });
+                currentlysyncing = true;
                 await getJourneyPlanweekly();
                 setState(() {
                   isApiCallProcess = false;

@@ -75,6 +75,9 @@ var exposureqntybs;
 var pricebs;
 var filledby;
 var remarksifany;
+var productlocation;
+var customerstoregroup;
+var uom;
 
 String brand;
 Future getstockexpiryproducts() async{
@@ -133,15 +136,19 @@ Future<int> addexpiryproducts() async{
     "near_expiry"  :  expirypc,
     "expiry_date" : pcexpirydate,
     "exposure_qty"  : exposureqntypc,
-    "remarks" : remarksifany
-  };
+    "remarks" : remarksifany,
+    "prodcut_location" : productlocation,
+     "customer_storegroup" : customerstoregroup,
+     "uom" : uom,
+
+};
   print(jsonEncode(stockdata));
   adddataforsync("https://rms2.rhapsody.ae/api/add_stock_expiry_new",jsonEncode(stockdata),"expiry report for product id :$productid for the timesheet $currenttimesheetid, items count : $expirypc, expiry date : $pcexpirydate");
    //http.Response Response = await http.post(addexpiryDetail,
   //   headers: {
   //     'Content-Type': 'application/json',
   //     'Accept': 'application/json',
-  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //     'Authorization': 'BeaKrer ${DBrequestdata.receivedtoken}',
   //   },
   //      body: jsonEncode(stockdata),
   // );

@@ -18,6 +18,7 @@ import'package:merchandising/Fieldmanager/products.dart';
 
 import 'package:merchandising/api/FMapi/outletapi.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flushbar/flushbar.dart';
 import 'dart:convert';
 import 'dart:io' show Platform;
 import 'dart:io';
@@ -171,13 +172,19 @@ class _AddNBLState extends State<AddNBL> {
                                 isApiCallProcess=false;
                               });
 
-                              print("Outlet id:${AddNBLData.outletid}");
-                              print("NBL File:${AddNBLData.nblfile}");
+                                Flushbar(
+                                  message: "NBL has been added",
+                                  duration: Duration(seconds:3),
+                                )..show(context);
+
+
+                            Future.delayed(const Duration(seconds: 2), () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (BuildContext context) =>
                                           Products()));
+                            });
 
                             },
                             child: Container(

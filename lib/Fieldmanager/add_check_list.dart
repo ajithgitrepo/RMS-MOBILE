@@ -10,6 +10,7 @@ import 'package:merchandising/ProgressHUD.dart';
 import 'package:merchandising/Merchandiser/merchandiserscreens/MenuContent.dart';
 import'package:merchandising/api/FMapi/add_checklist_api.dart';
 import'package:merchandising/Fieldmanager/products.dart';
+import 'package:flushbar/flushbar.dart';
 
 int itemno;
 
@@ -215,18 +216,25 @@ class _CheckListState extends State<CheckList> {
                               }
                               await addchecklistdata();
 
+
                               setState(() {
                                 isApiCallProcess = false;
                               });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          Products()));
 
+                              Flushbar(
+                                message: "Check List has been added",
+                                duration: Duration(seconds:3),
+                              )..show(context);
 
+                              Future.delayed(const Duration(seconds: 2), () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            Products()));
+                              });
 
-                            },
+                              },
                               style: ButtonStyle(
                                   backgroundColor:
                                   MaterialStateProperty.all(orange)),

@@ -6,6 +6,7 @@ import 'package:merchandising/offlinedata/syncsendapi.dart';
 import 'distanceinmeters.dart';
 import 'package:location_permissions/location_permissions.dart';
 import 'package:merchandising/Constants.dart';
+
 double lat;
 double long;
 String currentlocation;

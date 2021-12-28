@@ -5,19 +5,19 @@ import 'dart:async';
 import 'dart:io';
 import 'package:merchandising/Merchandiser/merchandiserscreens/Visibility.dart';
 Future<void> getVisibility() async {
-  // Map body = {
-  //   "time_sheet_id" : "$currenttimesheetid"
-  // };
-  // http.Response VisibilityResponse = await http.post(VisibilityDetails,
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'Accept': 'application/json',
-  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-  //   },
-  //   body: jsonEncode(body),
-  // );
-  // if (VisibilityResponse.statusCode == 200) {
-  //   print(body);
+   Map body = {
+     "time_sheet_id" : "$currenttimesheetid"
+   };
+   http.Response VisibilityResponse = await http.post(VisibilityDetails,
+     headers: {
+       'Content-Type': 'application/json',
+       'Accept': 'application/json',
+       'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+     },
+     body: jsonEncode(body),
+   );
+   if (VisibilityResponse.statusCode == 200) {
+     print(body);
     VisibilityData.productid = [];
     VisibilityData.brandid = [];
     VisibilityData.productname = [];
@@ -33,7 +33,7 @@ Future<void> getVisibility() async {
 
     print('Visibility done');
 
-    String availabititybody = offlinevisibilitydata[currentoutletindex];
+    String availabititybody = VisibilityResponse.body;
     var decodeddata = jsonDecode(availabititybody);
     if(decodeddata['data'].length==0){
       print("No Data");
@@ -56,7 +56,7 @@ Future<void> getVisibility() async {
           VisibilityData.ooscatdata.add(decodeddata['data'][u]['category_name']);
           VisibilityData.oosreason.add(decodeddata['data'][u]['reason']);
         }else if(decodeddata['data'][u]['is_available'] == '1'){
-          print("Ohh double yes");
+
           visibilitycheck = true;
           print(decodeddata['data'][u]['image_url']);
           VisibilityData.inscatdata.add(decodeddata['data'][u]['category_name']);
@@ -88,7 +88,7 @@ Future<void> getVisibility() async {
     //   //VisibilityData.brandid.add(BrandData.brandid[BrandData.brandname.indexOf(VisibilityData.categoryid[u])]);
     // }
   }
-// }
+ }
 
 
 

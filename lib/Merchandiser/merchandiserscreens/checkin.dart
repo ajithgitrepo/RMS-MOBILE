@@ -19,7 +19,14 @@ import 'package:merchandising/api/Journeyplansapi/todayplan/journeyplanapi.dart'
 import 'package:merchandising/api/FMapi/nbl_detailsapi.dart';
 import 'package:merchandising/api/myattendanceapi.dart';
 import 'package:merchandising/api/clientapi/stockexpirydetailes.dart';
-
+import 'package:enough_mail/enough_mail.dart';
+import 'package:merchandising/api/api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:enough_mail/smtp/smtp_exception.dart';
+import 'package:enough_mail/smtp/smtp_exception.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+import 'dart:io';
 import 'package:merchandising/api/clientapi/stockexpirydetailes.dart';
 import'package:merchandising/Merchandiser/merchandiserscreens/Journeyplan.dart';
 
@@ -127,6 +134,10 @@ class _CheckInState extends State<CheckIn> {
             await getAvaiablitity();
             await getmyattandance();
             addattendence();
+            if(onlinemode.value) {
+              await smtpExampleCheckinCheckout(
+                  'Check In details for empid ${DBrequestdata.receivedempid}');
+            }
             setState(() {
               isApiCallProcess = false;
             });
@@ -321,6 +332,11 @@ class _ForceCheckinState extends State<ForceCheckin> {
                                                 getNBLdetails();
                                                 getShareofshelf();
                                                 SubmitCheckin();
+                                                if(onlinemode.value) {
+                                                  await smtpExampleCheckinCheckout(
+                                                      'Check In details for empid ${DBrequestdata
+                                                          .receivedempid}');
+                                                }
                                                 // await getAvaiablitity();
                                                 // await getmyattandance();
                                                 //  if(noattendance.noatt=="attadded"){
@@ -400,6 +416,11 @@ class _ForceCheckinState extends State<ForceCheckin> {
                                                     getShareofshelf();
                                                   // await getAvaiablitity();
                                                     await SubmitCheckin();
+                                                    if(onlinemode.value) {
+                                                      await smtpExampleCheckinCheckout(
+                                                          'Check In details for empid ${DBrequestdata
+                                                              .receivedempid}');
+                                                    }
                                                     setState(() {
                                                       isApiCallProcess = false;
                                                     });
@@ -472,6 +493,58 @@ class _ForceCheckinState extends State<ForceCheckin> {
         )),
       ),
     );
+  }
+}
+
+String userName = 'ramananv@thethoughtfactory.ae';
+String password = 'rv13@ttf';
+String domain = 'thethoughtfactory.ae';
+bool isPopServerSecure = true;
+String smtpServerHost = 'mail.$domain';
+int smtpServerPort = 587;
+bool isSmtpServerSecure = false;
+var now = DateTime.now();
+var checkintimetosend = DateFormat('HH:mm:ss').format(now);
+
+
+
+
+Future<void> smtpExampleCheckinCheckout(body) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var currentpage = prefs.getString('pageiddata');
+  print (".......");
+  final client = SmtpClient('thethoughtfactory.ae', isLogEnabled: true);
+  print (".......:${client}");
+
+  try {
+    await client.connectToServer(smtpServerHost, smtpServerPort,
+        isSecure: isSmtpServerSecure);
+    try{await client.ehlo();} on HandshakeException catch(e){print(e);}
+
+    print (".......");
+    if (client.serverInfo.supportsAuth(AuthMechanism.plain)) {
+      try{      await client.authenticate(userName, password, AuthMechanism.plain); print ("..............");
+      }catch(e){print('SMTP failed with $e');}
+      print('plain');
+    } else if (client.serverInfo.supportsAuth(AuthMechanism.login)) {
+      await client.authenticate(userName, password, AuthMechanism.login);
+      print('login');
+    } else {
+      return;
+    }
+    final builder = MessageBuilder.prepareMultipartAlternativeMessage();
+    builder.from = [MailAddress('My name', 'ramananv@thethoughtfactory.ae')];
+    builder.to = [MailAddress('Your name', 'vilvaroja@gmail.com')];
+    builder.subject = body;
+    builder.addTextPlain(currentpage!="2"?"Emp id: ${DBrequestdata.receivedempid} TimeSheet id: ${currenttimesheetid}"
+        "Check In Time: $checkintimetosend Check In Location: ${getaddress.currentaddress } ":"Emp id: ${DBrequestdata.receivedempid} TimeSheet id: ${currenttimesheetid}"
+        "Check Out Time: $checkintimetosend Check Out Location: ${getaddress.currentaddress } ");
+    // builder.addTextHtml('<p>hello <b>world</b></p>');
+    final mimeMessage = builder.buildMimeMessage();
+    final sendResponse = await client.sendMessage(mimeMessage);
+    print('message sent: ${sendResponse.isOkStatus}');
+  } on SmtpException catch (e) {
+    print('SMTP failed with $e');
   }
 }
 //

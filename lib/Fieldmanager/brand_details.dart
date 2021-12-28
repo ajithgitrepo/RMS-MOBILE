@@ -24,7 +24,6 @@ class _BrandDetailsState extends State<BrandDetails> {
   _BrandDetailsState() {
     _searchview.addListener(() {
       if (_searchview.text.isEmpty) {
-
         setState(() {
           _firstSearch = true;
           _query = "";
