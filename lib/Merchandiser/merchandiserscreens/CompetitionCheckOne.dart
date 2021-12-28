@@ -60,7 +60,7 @@ class _CompetitionCheckOneState extends State<CompetitionCheckOne> {
                 setState(() {
                   isApiCallProcess = true;
                 });
-                var imagesbytes =capturedimage.readAsBytesSync();
+
                 if (validateform() == true) {
                     AddCompData.timesheetid = currenttimesheetid;
                     AddCompData.companyname = company.text;
@@ -70,6 +70,7 @@ class _CompetitionCheckOneState extends State<CompetitionCheckOne> {
                     AddCompData.mrp = mrp.text;
                     AddCompData.sellingprice = sellingprice.text;
                     AddCompData.promodesc =promodscrptn.text;
+                    var imagesbytes =capturedimage.readAsBytesSync();
                     AddCompData.captureimg ='data:image/jpeg;base64,${base64Encode(imagesbytes)}';
                     setState(() {
                       isApiCallProcess = false;
@@ -82,6 +83,11 @@ class _CompetitionCheckOneState extends State<CompetitionCheckOne> {
                             builder: (BuildContext context) =>
                                 CustomerActivities()));
                   }
+                else{
+                  setState(() {
+                    isApiCallProcess=false;
+                  });
+                }
                 }
             ),
           ],
@@ -90,270 +96,275 @@ class _CompetitionCheckOneState extends State<CompetitionCheckOne> {
       // drawer: Drawer(
       //   child: Menu(),
       // ),
-      body: Stack(
-        children: [
-          BackGround(),
-          ProgressHUD(
-            opacity: 0.3,
-            inAsyncCall: isApiCallProcess,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  OutletDetails(),
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.all(10),
-                    child: Form(
-                      key: keyone,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            height: 30,
-                            width: 120,
-                            margin: EdgeInsets.only(left: 10),
-                            decoration: BoxDecoration(
-                              color: orange,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10.0),
-                                  topRight: Radius.circular(10.0)),
+      body: OfflineNotification(
+        body: Stack(
+          children: [
+            BackGround(),
+            ProgressHUD(
+              opacity: 0.3,
+              inAsyncCall: isApiCallProcess,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: onlinemode.value ?0:25,
+                    ),
+                    OutletDetails(),
+                    Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.all(10),
+                      child: Form(
+                        key: keyone,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              height: 30,
+                              width: 120,
+                              margin: EdgeInsets.only(left: 10),
+                              decoration: BoxDecoration(
+                                color: orange,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10.0),
+                                    topRight: Radius.circular(10.0)),
+                              ),
+                              child: Center(
+                                  child: Text(
+                                    "Competitor Info",
+                                    style: TextStyle(color: Colors.white),
+                                  )),
                             ),
-                            child: Center(
-                                child: Text(
-                                  "Competitor Info",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(10.00),
-                            decoration: BoxDecoration(
-                                color: pink, borderRadius: BorderRadius.circular(10.0)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  //margin: EdgeInsets.only(top: 10.0),
-                                  padding: EdgeInsets.only(left:10.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: TextFormField(
-                                    controller: company,
-                                    cursorColor: grey,
-                                    validator: (input) =>
-                                    !input.isNotEmpty ? "Company Name should not be empty" : null,
-                                    decoration: new InputDecoration(
-                                      border: InputBorder.none,
-                                      focusColor: orange,
-                                      hintText: "Company Name",
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 15.0,
-                                      ),
+                            Container(
+                              padding: EdgeInsets.all(10.00),
+                              decoration: BoxDecoration(
+                                  color: pink, borderRadius: BorderRadius.circular(10.0)),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    //margin: EdgeInsets.only(top: 10.0),
+                                    padding: EdgeInsets.only(left:10.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10.0),
                                     ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0),
-                                  padding: EdgeInsets.only(left:10.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: TextFormField(
-                                    controller: category,
-                                    cursorColor: grey,
-                                    validator: (input) =>
-                                    !input.isNotEmpty ? "Category Name should not be empty" : null,
-                                    decoration: new InputDecoration(
-                                      border: InputBorder.none,
-                                      focusColor: orange,
-                                      hintText: "Category Name",
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 15.0,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0),
-                                  padding: EdgeInsets.only(left:10.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: TextFormField(
-                                    controller: itemname,
-                                    cursorColor: grey,
-                                    validator: (input) =>
-                                    !input.isNotEmpty ? "Item should not be empty" : null,
-                                    decoration: new InputDecoration(
-                                      border: InputBorder.none,
-                                      focusColor: orange,
-                                      hintText: "Item Name",
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 15.0,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0),
-                                  padding: EdgeInsets.only(left:10.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: TextFormField(
-                                    controller: promotion,
-                                    cursorColor: grey,
-                                    validator: (input) =>
-                                    !input.isNotEmpty ? "Promotion Type should not be empty" : null,
-                                    decoration: new InputDecoration(
-                                      border: InputBorder.none,
-                                      focusColor: orange,
-                                      hintText: "Promotion Type",
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 15.0,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0),
-                                  padding: EdgeInsets.only(left:10.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: TextFormField(
-                                    controller: promodscrptn,
-                                    cursorColor: grey,
-                                    maxLines: 3,
-                                    validator: (input) =>
-                                    !input.isNotEmpty ? "Promotion Description should not be empty" : null,
-                                    decoration: new InputDecoration(
-                                      border: InputBorder.none,
-                                      focusColor: orange,
-                                      hintText: "Promotion Description",
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 15.0,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0),
-                                  padding: EdgeInsets.only(left:10.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: TextFormField(
-                                    controller: mrp,
-                                    cursorColor: grey,
-                                    validator: (input) =>
-                                    !input.isNotEmpty ? "regular price should not be empty" : null,
-                                    decoration: new InputDecoration(
-                                      border: InputBorder.none,
-                                      focusColor: orange,
-                                      hintText: "Enter Regular Price",
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 15.0,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0),
-                                  padding: EdgeInsets.only(left:10.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: TextFormField(
-                                    controller: sellingprice,
-                                    cursorColor: grey,
-                                    validator: (input) => !input.isNotEmpty
-                                        ? "Selling Price should not be empty"
-                                        : null,
-                                    decoration: new InputDecoration(
-                                      border: InputBorder.none,
-                                      focusColor: orange,
-                                      hintText: "Enter Selling Price Here",
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 15.0,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left:10.0),
-                                  child: Row(
-                                    children: [
-                                      Text("Capture Image"),
-                                      Spacer(),
-                                      Container(
-                                        margin: EdgeInsets.all(10),
-                                        child:
-                                        // ignore: unrelated_type_equality_checks
-                                        capturedimage.toString() !=
-                                            'File: \'dummy.txt\''
-                                            ? GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (BuildContext context) =>
-                                                        PreveiwScreen(
-                                                          input: capturedimage,
-                                                        )));
-                                          },
-                                          child: Image(
-                                            height: 50,
-                                            width: 50,
-                                            image: FileImage(capturedimage),
-                                          ),
-                                        )
-                                            : Image(
-                                          width: 50,
-                                          image: AssetImage('images/capture.png'),
+                                    child: TextFormField(
+                                      controller: company,
+                                      cursorColor: grey,
+                                      validator: (input) =>
+                                      !input.isNotEmpty ? "Company Name should not be empty" : null,
+                                      decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        focusColor: orange,
+                                        hintText: "Company Name",
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 15.0,
                                         ),
                                       ),
-                                      IconButton(
-                                          icon: Icon(
-                                            CupertinoIcons.photo_camera_solid,
-                                            color: Colors.grey[700],
-                                          ),
-                                          onPressed: () {
-                                            _showSelectionDialog(context);
-                                          }),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10.0),
+                                    padding: EdgeInsets.only(left:10.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: TextFormField(
+                                      controller: category,
+                                      cursorColor: grey,
+                                      validator: (input) =>
+                                      !input.isNotEmpty ? "Category Name should not be empty" : null,
+                                      decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        focusColor: orange,
+                                        hintText: "Category Name",
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 15.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10.0),
+                                    padding: EdgeInsets.only(left:10.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: TextFormField(
+                                      controller: itemname,
+                                      cursorColor: grey,
+                                      validator: (input) =>
+                                      !input.isNotEmpty ? "Item should not be empty" : null,
+                                      decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        focusColor: orange,
+                                        hintText: "Item Name",
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 15.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10.0),
+                                    padding: EdgeInsets.only(left:10.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: TextFormField(
+                                      controller: promotion,
+                                      cursorColor: grey,
+                                      validator: (input) =>
+                                      !input.isNotEmpty ? "Promotion Type should not be empty" : null,
+                                      decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        focusColor: orange,
+                                        hintText: "Promotion Type",
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 15.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10.0),
+                                    padding: EdgeInsets.only(left:10.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: TextFormField(
+                                      controller: promodscrptn,
+                                      cursorColor: grey,
+                                      maxLines: 3,
+                                      validator: (input) =>
+                                      !input.isNotEmpty ? "Promotion Description should not be empty" : null,
+                                      decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        focusColor: orange,
+                                        hintText: "Promotion Description",
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 15.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10.0),
+                                    padding: EdgeInsets.only(left:10.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: TextFormField(
+                                      controller: mrp,
+                                      cursorColor: grey,
+                                      validator: (input) =>
+                                      !input.isNotEmpty ? "regular price should not be empty" : null,
+                                      decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        focusColor: orange,
+                                        hintText: "Enter Regular Price",
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 15.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10.0),
+                                    padding: EdgeInsets.only(left:10.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: TextFormField(
+                                      controller: sellingprice,
+                                      cursorColor: grey,
+                                      validator: (input) => !input.isNotEmpty
+                                          ? "Selling Price should not be empty"
+                                          : null,
+                                      decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        focusColor: orange,
+                                        hintText: "Enter Selling Price Here",
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 15.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left:10.0),
+                                    child: Row(
+                                      children: [
+                                        Text("Capture Image"),
+                                        Spacer(),
+                                        Container(
+                                          margin: EdgeInsets.all(10),
+                                          child:
+                                          // ignore: unrelated_type_equality_checks
+                                          capturedimage.toString() !=
+                                              'File: \'dummy.txt\''
+                                              ? GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (BuildContext context) =>
+                                                          PreveiwScreen(
+                                                            input: capturedimage,
+                                                          )));
+                                            },
+                                            child: Image(
+                                              height: 50,
+                                              width: 50,
+                                              image: FileImage(capturedimage),
+                                            ),
+                                          )
+                                              : Image(
+                                            width: 50,
+                                            image: AssetImage('images/capture.png'),
+                                          ),
+                                        ),
+                                        IconButton(
+                                            icon: Icon(
+                                              CupertinoIcons.photo_camera_solid,
+                                              color: Colors.grey[700],
+                                            ),
+                                            onPressed: () {
+                                              _showSelectionDialog(context);
+                                            }),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          NBlFloatingButton(
-            //key: _pdfViewerKey,
-          ),
-        ],
+            NBlFloatingButton(
+              //key: _pdfViewerKey,
+            ),
+          ],
+        ),
       ),
     );
   }

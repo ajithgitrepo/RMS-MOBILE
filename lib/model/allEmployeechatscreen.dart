@@ -98,10 +98,12 @@ class _AllChatScreenState extends State<AllChatScreen> {
                                 children: [
                                   GestureDetector(
                                     onLongPress: (){
-                                        if(currentuser.roleid == 5){
+                                      print("Role id");
+                                      print(currentuser.roleid);
+                                        if(currentuser.roleid == 5||currentuser.roleid == 2){
                                           selectedpeople =[];
                                           allmerchselected = false;
-                                          for(int i=0; i<merchnamelist.name.length;i++){
+                                          for(int i=0; currentuser.roleid==5?i<merchnamelist.name.length:i<MerchUnderCDE.name.length;i++){
                                             selectedpeople.add(false);
                                           }
                                           print(messagetext);
@@ -151,12 +153,12 @@ class _AllChatScreenState extends State<AllChatScreen> {
                                                                           setState(() {
                                                                             if(allmerchselected){
                                                                               allmerchselected = false;
-                                                                              for(int i=0;i<merchnamelist.name.length;i++){
+                                                                              for(int i=0;currentuser.roleid==5?i<merchnamelist.name.length:i<MerchUnderCDE.name.length;i++){
                                                                                 selectedpeople[i]=false;
                                                                               }
                                                                             }else{
                                                                               allmerchselected = true;
-                                                                              for(int i=0;i<merchnamelist.name.length;i++){
+                                                                              for(int i=0;currentuser.roleid==5?i<merchnamelist.name.length:i<MerchUnderCDE.name.length;i++){
                                                                                 selectedpeople[i]=true;
                                                                               }
                                                                             }
@@ -192,7 +194,7 @@ class _AllChatScreenState extends State<AllChatScreen> {
                                                                       shrinkWrap: true,
                                                                       physics: NeverScrollableScrollPhysics(),
                                                                       itemCount:
-                                                                      merchnamelist.name.length,
+                                                                      currentuser.roleid==5?merchnamelist.name.length:MerchUnderCDE.name.length,
                                                                       itemBuilder:
                                                                           (BuildContext
                                                                       context,
@@ -208,7 +210,8 @@ class _AllChatScreenState extends State<AllChatScreen> {
                                                                                 SizedBox(
                                                                                   width: MediaQuery.of(context).size.width/1.7,
                                                                                   child: Text(
-                                                                                    merchnamelist.name[index],
+                                                                                    currentuser.roleid==5?
+                                                                                    merchnamelist.name[index]:MerchUnderCDE.name[index],
                                                                                     style: TextStyle(fontSize: 16),
                                                                                     textAlign: TextAlign.start,
                                                                                   ),
@@ -248,8 +251,8 @@ class _AllChatScreenState extends State<AllChatScreen> {
                                                                 onTap: ()async{
                                                                   for(int i =0; i <selectedpeople.length; i++){
                                                                     if(selectedpeople[i]){
-                                                                      print(merchnamelist.employeeid[i]);
-                                                                      var receiver = merchnamelist.employeeid[i];
+                                                                      // print(merchnamelist.employeeid[i]);
+                                                                      var receiver =currentuser.roleid==5? merchnamelist.employeeid[i]:MerchUnderCDE.employeeid[i];
                                                                       FirebaseFirestore.instance.collection('$receiver.${DBrequestdata.receivedempid}').add({'text': messagetext, 'sender': '${DBrequestdata.receivedempid}','time': '${DateTime.now()}',});
                                                                       await FirebaseFirestore.instance.collection('${DBrequestdata.receivedempid}.$receiver').add({'text': messagetext, 'sender': '${DBrequestdata.receivedempid}','time': '${DateTime.now()}',});
                                                                     }
@@ -313,10 +316,10 @@ class _AllChatScreenState extends State<AllChatScreen> {
                                 children: [
                                   GestureDetector(
                                     onLongPress: (){
-                                      if(currentuser.roleid == 5){
+                                      if(currentuser.roleid == 5||currentuser.roleid == 2){
                                         selectedpeople =[];
                                         allmerchselected = false;
-                                        for(int i=0; i<merchnamelist.name.length;i++){
+                                        for(int i=0; currentuser.roleid==5?i<merchnamelist.name.length:i<MerchUnderCDE.name.length;i++){
                                           selectedpeople.add(false);
                                         }
                                         print(messagetext);
@@ -366,12 +369,12 @@ class _AllChatScreenState extends State<AllChatScreen> {
                                                                         setState(() {
                                                                           if(allmerchselected){
                                                                             allmerchselected = false;
-                                                                            for(int i=0;i<merchnamelist.name.length;i++){
+                                                                            for(int i=0;currentuser.roleid==5?i<merchnamelist.name.length:i<MerchUnderCDE.name.length;i++){
                                                                               selectedpeople[i]=false;
                                                                             }
                                                                           }else{
                                                                             allmerchselected = true;
-                                                                            for(int i=0;i<merchnamelist.name.length;i++){
+                                                                            for(int i=0;currentuser.roleid==5?i<merchnamelist.name.length:i<MerchUnderCDE.name.length;i++){
                                                                               selectedpeople[i]=true;
                                                                             }
                                                                           }
@@ -407,7 +410,7 @@ class _AllChatScreenState extends State<AllChatScreen> {
                                                                     shrinkWrap: true,
                                                                     physics: NeverScrollableScrollPhysics(),
                                                                     itemCount:
-                                                                    merchnamelist.name.length,
+                                                                    currentuser.roleid==5?merchnamelist.name.length:MerchUnderCDE.name.length,
                                                                     itemBuilder:
                                                                         (BuildContext
                                                                     context,
@@ -423,7 +426,7 @@ class _AllChatScreenState extends State<AllChatScreen> {
                                                                               SizedBox(
                                                                                 width: MediaQuery.of(context).size.width/1.7,
                                                                                 child: Text(
-                                                                                  merchnamelist.name[index],
+                                                                                  currentuser.roleid==5?merchnamelist.name[index]:MerchUnderCDE.name[index],
                                                                                   style: TextStyle(fontSize: 16),
                                                                                   textAlign: TextAlign.start,
                                                                                 ),
@@ -463,8 +466,8 @@ class _AllChatScreenState extends State<AllChatScreen> {
                                                               onTap: ()async{
                                                                 for(int i =0; i <selectedpeople.length; i++){
                                                                   if(selectedpeople[i]){
-                                                                    print(merchnamelist.employeeid[i]);
-                                                                    var receiver = merchnamelist.employeeid[i];
+                                                                     print(currentuser.roleid==5?merchnamelist.employeeid[i]:MerchUnderCDE.employeeid[i]);
+                                                                    var receiver = currentuser.roleid==5?merchnamelist.employeeid[i]:MerchUnderCDE.employeeid[i];
                                                                     FirebaseFirestore.instance.collection('$receiver.${DBrequestdata.receivedempid}').add({'text': messagetext, 'sender': '${DBrequestdata.receivedempid}','time': '${DateTime.now()}',});
                                                                     await FirebaseFirestore.instance.collection('${DBrequestdata.receivedempid}.$receiver').add({'text': messagetext, 'sender': '${DBrequestdata.receivedempid}','time': '${DateTime.now()}',});
                                                                   }

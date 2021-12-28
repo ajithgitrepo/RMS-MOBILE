@@ -5,19 +5,19 @@ import 'dart:async';
 import 'dart:io';
 import 'package:merchandising/Merchandiser/merchandiserscreens/Visibility.dart';
 Future<void> getVisibility() async {
-  Map body = {
-    "time_sheet_id" : "$currenttimesheetid"
-  };
-  http.Response VisibilityResponse = await http.post(VisibilityDetails,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-    },
-    body: jsonEncode(body),
-  );
-  if (VisibilityResponse.statusCode == 200) {
-    print(body);
+  // Map body = {
+  //   "time_sheet_id" : "$currenttimesheetid"
+  // };
+  // http.Response VisibilityResponse = await http.post(VisibilityDetails,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //   },
+  //   body: jsonEncode(body),
+  // );
+  // if (VisibilityResponse.statusCode == 200) {
+  //   print(body);
     VisibilityData.productid = [];
     VisibilityData.brandid = [];
     VisibilityData.productname = [];
@@ -33,7 +33,7 @@ Future<void> getVisibility() async {
 
     print('Visibility done');
 
-    String availabititybody = VisibilityResponse.body;
+    String availabititybody = offlinevisibilitydata[currentoutletindex];
     var decodeddata = jsonDecode(availabititybody);
     if(decodeddata['data'].length==0){
       print("No Data");
@@ -88,8 +88,8 @@ Future<void> getVisibility() async {
     //   //VisibilityData.brandid.add(BrandData.brandid[BrandData.brandname.indexOf(VisibilityData.categoryid[u])]);
     // }
   }
+// }
 
-}
 
 
 class VisibilityData{

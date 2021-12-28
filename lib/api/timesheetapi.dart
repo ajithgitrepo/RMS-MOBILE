@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:merchandising/clients/reports.dart';
 import 'package:merchandising/main.dart';
 import 'api_service.dart';
 import 'package:intl/intl.dart';
@@ -65,9 +66,74 @@ class TimeSheetdatadaily{
   static List<dynamic> checkouttime=[];
   static List<dynamic> tsid =[];
 }
-class TimeSheetspdatadaily{
-  static List<dynamic> outletname=[];
-  static List<dynamic> checkintime=[];
-  static List<dynamic> checkouttime=[];
+// class TimeSheetspdatadaily{
+//   static List<dynamic> outletname=[];
+//   static List<dynamic> checkintime=[];
+//   static List<dynamic> checkouttime=[];
+// }
+
+
+
+ DateTime now = DateTime.now();
+ DateFormat formatter =DateFormat('dd-MM-yyyy');
+ String todaydateapprove = formatter.format(now);
+
+Future CDETimeSheetApproval() async{
+
+
+  Map approvedatatoday = {
+    'emp_id' : '${DBrequestdata.receivedempid}',
+    'from_date':'${todaydateapprove}',
+    'to_date':'${todaydateapprove}',
+  };
+  print(jsonEncode(approvedatatoday));
+
+  http.Response addapprove = await http.post(CDEApproveTimeSheet,
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+    },
+    body:jsonEncode(approvedatatoday),
+  );
+  print(addapprove.body);
+  print(pressAttentionMTB);
 
 }
+
+
+
+
+
+Future CDETimeSheetApprovalmonth() async{
+
+   DateTime now = DateTime.now();
+   DateFormat formatter =DateFormat('dd-MM-yyyy');
+   String todaydate = formatter.format(now);
+
+
+  final DateTime monthly = DateTime.now();
+  final DateFormat monthformat = DateFormat('01-MM-yyyy');
+  final String monthdate = monthformat.format(monthly);
+  Map approvedatamonth = {
+    'emp_id' : '${DBrequestdata.receivedempid}',
+    'from_date':'${monthdate}',
+    'to_date':'${todaydate}',
+
+  };
+   print(jsonEncode(approvedatamonth));
+
+  http.Response addapprove = await http.post(CDEApproveTimeSheet,
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+    },
+    body:jsonEncode(approvedatamonth),
+  );
+  print(addapprove.body);
+  print(pressAttentionMTB);
+
+}
+
+

@@ -59,6 +59,9 @@ dependencies:
   enough_mail:
   getwidget: ^2.0.3
   syncfusion_flutter_charts: ^19.2.44+1
+  month_picker_dialog: ^0.4.0
+  syncfusion_flutter_datepicker: ^19.2.55
+
 
 dev_dependencies:
   flutter_test:

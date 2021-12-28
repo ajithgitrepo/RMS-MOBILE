@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../api_service.dart';
 import 'package:merchandising/Merchandiser/merchandiserscreens/Visibility.dart';
-
+import 'package:merchandising/Constants.dart';
 class AddVisiData {
   static int outletid;
   static int timesheetid;
@@ -33,15 +33,16 @@ Future addVisibilitydata() async {
     "pois" :  AddVisiData.poi
   };
   print(jsonEncode(addvisibility));
-  http.Response availresponse = await http.post(
-    AddVisibility,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-    },
-    body: jsonEncode(addvisibility),
-  );
-  print(availresponse.body);
+  adddataforsync("https://rms2.rhapsody.ae/api/add_visibility",jsonEncode(addvisibility),"Visibility added for the timesheet id $currenttimesheetid");
+  // http.Response availresponse = await http.post(
+  //   AddVisibility,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //   },
+  //   body: jsonEncode(addvisibility),
+  // );
+  // print(availresponse.body);
   print("Add Visibility done");
 }

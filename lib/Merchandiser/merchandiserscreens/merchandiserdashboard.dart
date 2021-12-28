@@ -77,7 +77,7 @@ class _DashBoardState extends State<DashBoard> {
 
   @override
   void initState() {
-    createlog("navigated to DashBoard","true");
+    // createlog("navigated to DashBoard","true");
     currentpagestatus('0', '0', '0','0');
     ischatscreen = 0;
     //synctime=null;
@@ -175,7 +175,7 @@ class _DashBoardState extends State<DashBoard> {
             ),
             GestureDetector(
                 onTap: () async{
-                  createlog("startday tapped","true");
+                  // createlog("startday tapped","true");
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   synctime = DateTime.parse(prefs.getString('lastsyncedonendtime'));
                   if(DateFormat('yyyy-MM-dd').format(synctime).toString() == DateFormat('yyyy-MM-dd').format(DateTime.now()).toString() && synctime!=null){
@@ -195,8 +195,7 @@ class _DashBoardState extends State<DashBoard> {
                         print(workingid);
                         print(gettodayjp.id[u]);
                         chekinoutlet.checkinoutletid = gettodayjp.storecodes[u];
-                        chekinoutlet.checkinoutletname =
-                            gettodayjp.storenames[u];
+                        chekinoutlet.checkinoutletname = gettodayjp.storenames[u];
                         chekinoutlet.checkinarea = gettodayjp.outletarea[u];
                         chekinoutlet.checkincity = gettodayjp.outletcity[u];
                         chekinoutlet.checkinstate = gettodayjp.outletcountry[u];
@@ -436,7 +435,7 @@ class _DashBoardState extends State<DashBoard> {
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () async {
-                                                      createlog("Roll Call OK tapped","true");
+                                                      // createlog("Roll Call OK tapped","true");
                                                       if (uniform &&
                                                           unit &&
                                                           transport &&
@@ -547,7 +546,7 @@ class _DashBoardState extends State<DashBoard> {
                                               Center(
                                                 child: GestureDetector(
                                                   onTap: () async {
-                                                    createlog("unfinished outlet OK tapped","true");
+                                                    // createlog("unfinished outlet OK tapped","true");
 
                                                     setState(() {
                                                       isApiCallProcess = true;
@@ -714,7 +713,7 @@ class _DashBoardState extends State<DashBoard> {
                                             children: [
                                               GestureDetector(
                                                 onTap: () async {
-                                                  createlog("synchronize page from startday","true");
+                                                  // createlog("synchronize page from startday","true");
                                                   SharedPreferences prefs = await SharedPreferences.getInstance();
                                                   message = prefs.getStringList('addtoservermessage');
                                                   if (message == null) {
@@ -997,7 +996,7 @@ class _DashBoardState extends State<DashBoard> {
                                                                             children: [
                                                                               GestureDetector(
                                                                                 onTap: () async {
-                                                                                  createlog("Roll Call OK tapped","true");
+                                                                                  // createlog("Roll Call OK tapped","true");
                                                                                   if (uniform &&
                                                                                       unit &&
                                                                                       transport &&
@@ -1108,7 +1107,7 @@ class _DashBoardState extends State<DashBoard> {
                                                                           Center(
                                                                             child: GestureDetector(
                                                                               onTap: () async {
-                                                                                createlog("unfinished outlet OK tapped","true");
+                                                                                // createlog("unfinished outlet OK tapped","true");
 
                                                                                 setState(() {
                                                                                   isApiCallProcess = true;
@@ -1278,7 +1277,8 @@ class _DashBoardState extends State<DashBoard> {
         ),
       ),
       drawer: GestureDetector(
-        onTap: (){ createlog("Menu tapped","true");
+        onTap: (){
+          // createlog("Menu tapped","true");
        },
         child: Drawer(
           child: Menu(),
@@ -1310,8 +1310,7 @@ class _DashBoardState extends State<DashBoard> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                createlog("MTB tapped","true");
-
+                                // createlog("MTB tapped","true");
                                 setState(() {
                                   pressAttentionMTB = true;
                                   pressAttentionTODAY = false;
@@ -1349,7 +1348,7 @@ class _DashBoardState extends State<DashBoard> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                createlog("today tapped","true");
+                                // createlog("today tapped","true");
                                 setState(() {
                                   pressAttentionTODAY = true;
                                   pressAttentionMTB = false;
@@ -1435,7 +1434,7 @@ class _DashBoardState extends State<DashBoard> {
                       GestureDetector(
                         onTap: ()async{
                           if(onlinemode.value){
-                                    createlog("time sheet tapped", "true");
+                                    // createlog("time sheet tapped", "true");
                                     SharedPreferences prefs =
                                         await SharedPreferences.getInstance();
                                     requireurlstosync =
@@ -1550,7 +1549,7 @@ class _DashBoardState extends State<DashBoard> {
                           SizedBox(height: 5,),
                           GestureDetector(
                             onTap: ()async{
-                              createlog("leave tapped","true");
+                              // createlog("leave tapped","true");
                               if(onlinemode.value){
                                         setState(() {
                                           isApiCallProcess = true;
@@ -1620,7 +1619,7 @@ class _DashBoardState extends State<DashBoard> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          createlog("HQ Communication tapped","true");
+                          // createlog("HQ Communication tapped","true");
                           if(onlinemode.value){
                             setState(() {
                               ischatscreen = 1;

@@ -92,7 +92,7 @@ class _PlanogramCheckPhase1State extends State<PlanogramCheckPhase1> {
                 AddPlanoData.planoimage = PlanoDetails.image;
                AddPlanoData.categoryid = PlanoDetails.categoryid;
                 await addPlanogramdata();
-                planocheck=true;
+                // planocheck=true;
                 setState(() {
                   isApicallProcess = false;
                 });
@@ -109,32 +109,37 @@ class _PlanogramCheckPhase1State extends State<PlanogramCheckPhase1> {
       // drawer: Drawer(
       //   child: Menu(),
       // ),
-      body: Stack(
-        children: [
-          BackGround(),
-          ProgressHUD(
-            opacity: 0.3,
-            inAsyncCall: isApicallProcess,
-            child: Column(
-              children: [
-                OutletDetails(),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(10.0,0,10,0),
-                    child: new Column(
-                      children: <Widget>[
-                        _createSearchView(),
-                        SizedBox(height: 10.0,),
-                        _firstSearch ? _createListView() : _performSearch(),
-                      ],
+      body: OfflineNotification(
+        body: Stack(
+          children: [
+            BackGround(),
+            ProgressHUD(
+              opacity: 0.3,
+              inAsyncCall: isApicallProcess,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: onlinemode.value ?0:25,
+                  ),
+                  OutletDetails(),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(10.0,0,10,0),
+                      child: new Column(
+                        children: <Widget>[
+                          _createSearchView(),
+                          SizedBox(height: 10.0,),
+                          _firstSearch ? _createListView() : _performSearch(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          NBlFloatingButton(),
-        ],
+            NBlFloatingButton(),
+          ],
+        ),
       ),
     );
   }

@@ -46,6 +46,13 @@ import'package:merchandising/api/HRapi/empdetailsapi.dart';
 import'package:merchandising/api/cde api/cdedashboard.dart';
 import 'offlinedata/backgroundsynchronize.dart';
 import 'package:background_fetch/background_fetch.dart';
+import 'package:merchandising/api/customer_activites_api/visibilityapi.dart';
+import 'package:merchandising/api/customer_activites_api/share_of_shelf_detailsapi.dart';
+import 'package:merchandising/api/customer_activites_api/competition_details.dart';
+import 'package:merchandising/api/customer_activites_api/promotion_detailsapi.dart';
+import 'package:merchandising/api/Journeyplansapi/todayplan/journeyplanapi.dart';
+import 'package:merchandising/api/FMapi/nbl_detailsapi.dart';
+import 'package:merchandising/api/customer_activites_api/planogramdetailsapi.dart';
 
 
 
@@ -77,16 +84,21 @@ Future<void> main() async {
     ///merchandiser's role id is 6
     if(userroleid == 6){
       //BackgroundFetch.configure(config, onFetch)
-      BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
-      initPlatformState();
+      // BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+      // initPlatformState();
       //BackgroundConfig();
-      print("background fetch detail's : ${prefs.getString('fetch_events')}");
+      // print("background fetch detail's : ${prefs.getString('fetch_events')}");
       /// first we are trying to get any unsynced data that was in the local storage.
       message = prefs.getStringList('addtoservermessage');
       requireurlstosync = prefs.getStringList('addtoserverurl');
       requirebodytosync = prefs.getStringList('addtoserverbody');
+
+
       ///fetch all the reference data from the local.
       await syncingreferencedata();
+      if(onlinemode.value){
+        syncingsenddata();
+      }
       ///once app is up and running for every 20 minutes we are trying to get reference data.
       // const time = const Duration(minutes: 20);
       // Timer.periodic(time, (Timer t) => syncingreferencedata());
@@ -117,6 +129,15 @@ Future<void> main() async {
       }else if(currentpage == "2"){
         await getLocation();
         await outletwhencheckin();
+        getTaskList();
+        getVisibility();
+        getPlanogram();
+        getPromotionDetails();
+        // Addedstockdataformerch();
+        await getNBLdetails();
+        getShareofshelf();
+        NBLdetailsoffline();
+
         print("KPI current page timesheet id");
         print(currenttimesheetid);
         fromloginscreen = false;

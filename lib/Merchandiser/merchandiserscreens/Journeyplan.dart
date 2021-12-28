@@ -16,26 +16,33 @@ import 'package:merchandising/api/Journeyplansapi/todayplan/journeyplanapi.dart'
 import 'package:merchandising/Merchandiser/merchandiserscreens/weeklyjpwidgets/weeklyjp.dart';
 import 'package:merchandising/Merchandiser/merchandiserscreens/weeklyjpwidgets/weeklyskipjp.dart';
 import 'package:merchandising/Merchandiser/merchandiserscreens/weeklyjpwidgets/weeklyvisitjp.dart';
-
-import 'package:merchandising/api/customer_activites_api/Competitioncheckapi.dart';
-import 'package:merchandising/api/api_service.dart';
+import 'package:merchandising/offlinedata/syncdata.dart';
 import 'Customers Activities.dart';
-import 'package:merchandising/model/Location_service.dart';
+import'package:merchandising/offlinedata/syncreferenceapi.dart';
+import 'package:intl/intl.dart';
+import 'package:flushbar/flushbar.dart';
+import 'package:getwidget/getwidget.dart';
+import'package:merchandising/model/distanceinmeters.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'package:merchandising/Constants.dart';
 import 'package:merchandising/api/customer_activites_api/visibilityapi.dart';
 import 'package:merchandising/api/customer_activites_api/share_of_shelf_detailsapi.dart';
 import 'package:merchandising/api/customer_activites_api/competition_details.dart';
 import 'package:merchandising/api/customer_activites_api/promotion_detailsapi.dart';
-import 'package:merchandising/api/FMapi/outlet%20brand%20mappingapi.dart';
-import 'package:merchandising/api/customer_activites_api/planogramdetailsapi.dart';
-import 'package:merchandising/api/myattendanceapi.dart';
-
-import 'package:merchandising/api/avaiablityapi.dart';
-import 'package:intl/intl.dart';
-import 'package:flushbar/flushbar.dart';
-
-
-import 'package:merchandising/api/clientapi/stockexpirydetailes.dart';
+import 'package:merchandising/api/Journeyplansapi/todayplan/journeyplanapi.dart';
 import 'package:merchandising/api/FMapi/nbl_detailsapi.dart';
+import 'package:merchandising/api/customer_activites_api/planogramdetailsapi.dart';
+import 'package:merchandising/api/avaiablityapi.dart';
+import 'package:merchandising/api/Journeyplansapi/todayplan/jpskippedapi.dart';
+import 'package:merchandising/api/Journeyplansapi/todayplan/JPvisitedapi.dart';
+import 'package:merchandising/api/Journeyplansapi/weekly/jpplanned.dart';
+import 'package:merchandising/api/Journeyplansapi/weekly/jpskipped.dart';
+import 'package:merchandising/api/Journeyplansapi/weekly/jpvisited.dart';
+import 'package:merchandising/api/empdetailsapi.dart';
+import 'package:merchandising/model/database.dart';
+import 'package:merchandising/api/HRapi/empdetailsforreportapi.dart';
+import 'package:merchandising/api/HRapi/empdetailsapi.dart';
 
 List<String> breakspl = [];
 bool jptimecal = false;
@@ -116,6 +123,13 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                         EmpInfo()
                       ],
                     ),
+                    IconButton(onPressed: ()async{
+
+
+                     syncnowjourneyplan(context);
+
+
+                    }, icon: Icon(CupertinoIcons.refresh_circled_solid,color: orange,size: 30)),
                     GestureDetector(
                       onTap: () {
                         createlog("map view tapped","true");
@@ -453,6 +467,8 @@ class _State extends State<JourneyListBuilder> {
 
               return GestureDetector(
                 onTap: () async {
+                  print("schecduled");
+                  print(gettodayjp.isscheduled[index]);
                   createlog("Outlet from JP tapped","true");
                   currentoutletindex = index;
                   if (gettodayjp.status[index] == 'done') {
@@ -489,7 +505,7 @@ class _State extends State<JourneyListBuilder> {
                                                           FontWeight.bold),
                                                 ),
                                                 Text(
-                                                    "It seems you have already finished this Outlet\nDo you want to do Split Shift?(online mode)",
+                                                    "It seems you have already finished this Outlet\nDo you want to do Split Shift?",
                                                     style: TextStyle(
                                                         fontSize: 13.6)),
                                                 SizedBox(
@@ -501,7 +517,9 @@ class _State extends State<JourneyListBuilder> {
                                                   children: [
                                                     GestureDetector(
                                                       onTap: () async {
-                                                        if(onlinemode.value){
+                                                        createlog("Split Shift checked in tapped","true");
+
+                                                        // if(onlinemode.value){
                                                           jptimecal = true;
                                                           currentoutletid =
                                                               gettodayjp
@@ -512,8 +530,7 @@ class _State extends State<JourneyListBuilder> {
                                                                   .id[index];
                                                           var currenttime =
                                                               DateTime.now();
-                                                          splitbreak.type =
-                                                              "Split Shift";
+                                                          // splitbreak.type ="Split Shift";
                                                           splitbreak
                                                               .citime = DateFormat(
                                                                   'HH:mm:ss')
@@ -530,18 +547,17 @@ class _State extends State<JourneyListBuilder> {
                                                             isApiCallProcess =
                                                                 true;
                                                           });
-                                                          // getTaskList();
-                                                          // getVisibility();
-                                                          // getPlanogram();
-                                                          // getPromotionDetails();
+                                                          getTaskList();
+                                                          getVisibility();
+                                                          getPlanogram();
+                                                          getPromotionDetails();
                                                           // getAvaiablitity();
-                                                          // getShareofshelf();
+                                                          getShareofshelf();
                                                           // Addedstockdataformerch();
-                                                          // getNBLdetails();
+                                                          getNBLdetails();
                                                           await merchbreak();
-                                                          await getTotalJnyTime();
-                                                          outletselectedfordetails =
-                                                              index;
+                                                          // await getTotalJnyTime();
+                                                          outletselectedfordetails = index;
                                                           await outletwhencheckin();
                                                           setState(() {
                                                             isApiCallProcess =
@@ -553,14 +569,14 @@ class _State extends State<JourneyListBuilder> {
                                                                   builder: (BuildContext
                                                                           context) =>
                                                                       CustomerActivities()));
-                                                        }else{
-                                                          Flushbar(
-                                                            message:
-                                                            "Active internet required",
-                                                            duration: Duration(
-                                                                seconds: 3),
-                                                          )..show(context);
-                                                        }
+                                                        // }else{
+                                                        //   Flushbar(
+                                                        //     message:
+                                                        //     "Active internet required",
+                                                        //     duration: Duration(
+                                                        //         seconds: 3),
+                                                        //   )..show(context);
+                                                        // }
                                                       },
                                                       child: Container(
                                                         height: 40,
@@ -647,8 +663,7 @@ class _State extends State<JourneyListBuilder> {
                                   width: 5,
                                 ),
                                 gettodayjp.isscheduled[index] == 0
-                                    ? Text(
-                                        '(unscheduled)',
+                                    ? Text('(unscheduled)',
                                         style: TextStyle(
                                             fontSize: 13.0, color: orange),
                                       )
@@ -722,5 +737,117 @@ class _State extends State<JourneyListBuilder> {
                 ),
               );
             });
+  }
+}
+
+
+syncnowjourneyplan(context)async{
+  if (onlinemode.value) {
+    currentlysyncing = true;
+    showDialog(
+        context: context ,
+        barrierDismissible: false,
+        builder: (_) => StatefulBuilder(
+            builder: (context, setState) {
+              progress.value = 10;
+              currentlysyncing = true;
+              return ValueListenableBuilder<int>(
+                  valueListenable: progress,
+                  builder: (context, value, child) {
+                    return AlertDialog(
+                      backgroundColor: alertboxcolor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.all(
+                              Radius.circular(
+                                  10.0))),
+                      content: Builder(
+                        builder: (context) {
+                          // Get available height and width of the build area of this widget. Make a choice depending on the size.
+                          return Column(
+                            mainAxisSize:
+                            MainAxisSize.min,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Refreshing',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18),
+                                  ),
+                                  SizedBox(width:5),
+                                  currentlysyncing ?SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(color: orange,strokeWidth: 2,)):SizedBox(),
+                                ],
+                              ),
+                              Divider(
+                                color: Colors.black,
+                                thickness: 0.8,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "${progress.value} %",
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight:
+                                    FontWeight.bold,
+                                    color: orange),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              GFProgressBar(
+                                  percentage: (progress.value)/100,
+                                  backgroundColor:
+                                  Colors.black26,
+                                  progressBarColor:
+                                  orange),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Center(
+                                  child: Text(
+                                    'Please don\'t turn off your data, or close the app',
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        color:
+                                        Colors.black),
+                                    textAlign:
+                                    TextAlign.center,
+                                  )),
+                            ],
+                          );
+                        },
+                      ),
+                    );
+                  });
+            }));
+
+    progress.value = 30;
+    currentlysyncing = true;
+    await syncingreferencedata();
+    progress.value = 100;
+    currentlysyncing = false;
+    dispose.value = true;
+    await distinmeters();
+    Navigator.pop(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext
+            context) =>
+                JourneyPlanPage()));
+
+
+  } else {
+    Flushbar(
+      message: "Make sure you had an active internet",
+      duration: Duration(seconds: 3),
+    );
   }
 }

@@ -3,22 +3,22 @@ import 'package:http/http.dart' as http;
 import '../api_service.dart';
 import 'package:merchandising/main.dart';
 Future<void> getPromotionDetails() async {
-  Map DBrequestData = {
-    'outlet_id': currentoutletid
-  };
-  print(jsonEncode(DBrequestData));
-  http.Response promoresponse = await http.post(PromoDetails,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-    },
-      body: jsonEncode(DBrequestData),
-  );
-  print(promoresponse.body);
-  if (promoresponse.statusCode == 200){
+  // Map DBrequestData = {
+  //   'outlet_id': currentoutletid
+  // };
+  // print(jsonEncode(DBrequestData));
+  // http.Response promoresponse = await http.post(PromoDetails,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //   },
+  //     body: jsonEncode(DBrequestData),
+  // );
+  // print(promoresponse.body);
+  // if (promoresponse.statusCode == 200){
     print("getPromotion Details Done");
-    String stores = promoresponse.body;
+    String stores = offlinepromodata[currentoutletindex];
     var decodestores = jsonDecode(stores);
 
 
@@ -61,11 +61,11 @@ Future<void> getPromotionDetails() async {
         }
     // }
     print(PromoData.productname);
-  }
-  if(promoresponse.statusCode != 200){
-    print(promoresponse.statusCode);
-
-  }
+  // }
+  // if(promoresponse.statusCode != 200){
+  //   print(promoresponse.statusCode);
+  //
+  // }
 }
 
 class PromoData {

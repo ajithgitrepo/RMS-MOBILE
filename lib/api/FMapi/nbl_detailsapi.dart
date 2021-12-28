@@ -3,22 +3,22 @@ import 'package:http/http.dart' as http;
 import '../api_service.dart';
 
 Future<void> getNBLdetails() async {
-  Map body ={
-    "outlet_id": currentoutletid,
-  };
-  print(jsonEncode(body));
-  http.Response response = await http.post(NBLDetailsFMs,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-    },
-
-    body: jsonEncode(body),
-  );
-  if (response.statusCode == 200){
+  // Map body ={
+  //   "outlet_id": currentoutletid,
+  // };
+  // print(jsonEncode(body));
+  // http.Response response = await http.post(NBLDetailsFMs,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //   },
+  //
+  //   body: jsonEncode(body),
+  // );
+  // if (response.statusCode == 200){
     print("get FM NBL Details Done");
-    String brand = response.body;
+    String brand = offlinenbldata[currentoutletindex];
     var decodebrands = jsonDecode(brand);
     print(brand);
     NBLDetData.fileurl=[];
@@ -36,10 +36,10 @@ Future<void> getNBLdetails() async {
     print("files");
     print(NBLDetData.fileurl);
   }
-  if(response.statusCode != 200){
-    print(response.statusCode);
-  }
-}
+//   if(response.statusCode != 200){
+//     print(response.statusCode);
+//   }
+// }
 
 class NBLDetData {
   static List<String> fileurl = [];

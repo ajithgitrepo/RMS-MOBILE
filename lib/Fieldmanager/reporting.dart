@@ -64,9 +64,9 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
           iconTheme: IconThemeData(color: orange),
           title: Text("CDE Reporting",style: TextStyle(color: orange),),
         ),
-        drawer: Drawer(
-          child: Menu(),
-        ),
+        // drawer: Drawer(
+        //   child: Menu(),
+        // ),
         body: Stack(
           children: [
             BackGround(),

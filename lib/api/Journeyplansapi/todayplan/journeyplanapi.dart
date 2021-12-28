@@ -27,6 +27,7 @@ Future<void> getJourneyPlan() async {
       addtodayjp(todayJPdata);
       var decodeJPData = jsonDecode(todayJPdata);
       gettodayjp.storenames = [];
+      gettodayjp.isscheduled=[];
       gettodayjp.distanceinmeters = [];
       gettodayjp.contactnumbers = [];
       gettodayjp.outletcountry = [];
@@ -85,6 +86,7 @@ Future<void> getJourneyPlan() async {
         }
       }
       print("lat: ${gettodayjp.outletlat}");
+      print(gettodayjp.isscheduled);
     } else {
       print(JPresponse.statusCode);
     }

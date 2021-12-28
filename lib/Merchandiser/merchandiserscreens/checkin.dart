@@ -117,15 +117,15 @@ class _CheckInState extends State<CheckIn> {
             normalcheckin = true;
             forcecheck.reason = "normal checkin less than 300m";
             addforeccheckin();
-            // getTaskList();
-            // getVisibility();
-            // getPlanogram();
-            // getPromotionDetails();
+            getTaskList();
+            getVisibility();
+            getPlanogram();
+            getPromotionDetails();
             // Addedstockdataformerch();
              getNBLdetails();
-            // getShareofshelf();
-            // await getAvaiablitity();
-            // await getmyattandance();
+            getShareofshelf();
+            await getAvaiablitity();
+            await getmyattandance();
             addattendence();
             setState(() {
               isApiCallProcess = false;
@@ -313,14 +313,14 @@ class _ForceCheckinState extends State<ForceCheckin> {
 
                                                 addforeccheckin();
                                                 addattendence();
-                                                // getTaskList();
-                                                // getVisibility();
-                                                // getPlanogram();
-                                                // getPromotionDetails();
+                                                getTaskList();
+                                                getVisibility();
+                                                getPlanogram();
+                                                getPromotionDetails();
                                                 // Addedstockdataformerch();
-                                                // getNBLdetails();
-                                                // getShareofshelf();
-                                                 SubmitCheckin();
+                                                getNBLdetails();
+                                                getShareofshelf();
+                                                SubmitCheckin();
                                                 // await getAvaiablitity();
                                                 // await getmyattandance();
                                                 //  if(noattendance.noatt=="attadded"){
@@ -350,15 +350,15 @@ class _ForceCheckinState extends State<ForceCheckin> {
                                                   });
                                                   addforeccheckin();
                                                   addattendence();
-                                                   SubmitCheckin();
-                                                  // getTaskList();
-                                                  // getVisibility();
-                                                  // getPlanogram();
-                                                  // getPromotionDetails();
+                                                  SubmitCheckin();
+                                                  getTaskList();
+                                                  getVisibility();
+                                                  getPlanogram();
+                                                  getPromotionDetails();
                                                   // Addedstockdataformerch();
-                                                  // getNBLdetails();
+                                                  getNBLdetails();
                                                   // await getAvaiablitity();
-                                                  // await getShareofshelf();
+                                                  await getShareofshelf();
                                                   // await getmyattandance();
                                                   // if(noattendance.noatt=="attadded"){
                                                   //   print("Attendance added:${noattendance.noatt}");
@@ -391,14 +391,14 @@ class _ForceCheckinState extends State<ForceCheckin> {
                                                     });
                                                     addforeccheckin();
                                                     addattendence();
-                                                    // getTaskList();
-                                                    // getVisibility();
-                                                    // getPlanogram();
-                                                    // getPromotionDetails();
+                                                    getTaskList();
+                                                    getVisibility();
+                                                    getPlanogram();
+                                                    getPromotionDetails();
                                                     // Addedstockdataformerch();
-                                                    // getNBLdetails();
-                                                    // getShareofshelf();
-                                                    // await getAvaiablitity();
+                                                    await getNBLdetails();
+                                                    getShareofshelf();
+                                                  // await getAvaiablitity();
                                                     await SubmitCheckin();
                                                     setState(() {
                                                       isApiCallProcess = false;

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../api_service.dart';
+import 'package:merchandising/Constants.dart';
 class AddAvail{
   static var outletid;
   static var timesheetid;
@@ -25,15 +26,15 @@ Future addAvailability() async{
     "reason" : AddAvail.reason
   };
   print(jsonEncode(addavailability));
-  http.Response availresponse = await http.post(AddAvailability,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-    },
-    body: jsonEncode(addavailability),
-  );
-  print(availresponse.body);
-
-  print("Add Availability Done");
+  adddataforsync("https://rms2.rhapsody.ae/api/add_availability",jsonEncode(addavailability),"Availability added for the timesheet id $currenttimesheetid");
+  // http.Response availresponse = await http.post(AddAvailability,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //   },
+  //   body: jsonEncode(addavailability),
+  // );
+  // print(availresponse.body);
+  // print("Add Availability Done");
 }

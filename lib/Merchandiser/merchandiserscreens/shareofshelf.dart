@@ -112,8 +112,8 @@ class _ShareShelfState extends State<ShareShelf> {
                       AddShareData.reason.add(reasonforsos[i].text);
                     }
                     //AddShareData.brandid = ShareData.brandid;
-                    AddShareData.outletid = outletrequestdata.outletidpressed;
-                    AddShareData.timesheetid = checkinoutdata.checkid;
+                    // AddShareData.outletid = outletrequestdata.outletidpressed;
+                    // AddShareData.timesheetid = checkinoutdata.checkid;
                     AddShareData.categoryname = ShareData.categoryname;
                     AddShareData.categoryid =ShareData.categoryid;
                     AddShareData.target = ShareData.target;
@@ -121,7 +121,7 @@ class _ShareShelfState extends State<ShareShelf> {
                     AddShareData.actualpercent=AddShareData.actualpercent;
                     AddShareData.share=AddShareData.actual;
                     await addShareofshelfdata();
-                    shareofshelfcheck = true;
+                    // shareofshelfcheck = true;
                     setState(() {
                       isApicallProcess = false;
                     });
@@ -139,26 +139,31 @@ class _ShareShelfState extends State<ShareShelf> {
         // drawer: Drawer(
         //   child: Menu(),
         // ),
-        body: Stack(
-          children: [
-            BackGround(),
-            ProgressHUD(
-              opacity: 0.3,
-              inAsyncCall: isApicallProcess,
-              child: new Column(
-                children: <Widget>[
-                  OutletDetails(),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10.0,0,10,0),
-                    child: _createSearchView(),
-                  ),
-                  _firstSearch ? _createListView() : _performSearch(),
-                ],
+        body: OfflineNotification(
+          body: Stack(
+            children: [
+              BackGround(),
+              ProgressHUD(
+                opacity: 0.3,
+                inAsyncCall: isApicallProcess,
+                child: new Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: onlinemode.value ?0:25,
+                    ),
+                    OutletDetails(),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10.0,0,10,0),
+                      child: _createSearchView(),
+                    ),
+                    _firstSearch ? _createListView() : _performSearch(),
+                  ],
+                ),
               ),
-            ),
-            NBlFloatingButton(),
+              NBlFloatingButton(),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

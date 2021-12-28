@@ -8,7 +8,7 @@ import 'package:merchandising/Constants.dart';
 import 'package:merchandising/Fieldmanager/Category_details.dart';
 import 'package:merchandising/Fieldmanager/editbrands_to_outlets.dart';
 import 'package:merchandising/Fieldmanager/product_details.dart';
-import 'package:merchandising/Merchandiser/merchandiserscreens/upload_live_pic.dart';
+import 'package:merchandising/Merchandiser/merchandiserscreens/checklist.dart';
 import 'package:merchandising/ProgressHUD.dart';
 import 'outletbrandmapping.dart';
 import 'package:merchandising/Fieldmanager/addpromotion.dart';

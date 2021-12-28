@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flushbar/flushbar.dart';
 import 'package:merchandising/api/Journeyplansapi/todayplan/journeyplanapi.dart';
 import 'package:merchandising/api/customer_activites_api/add_promotionapi.dart';
 import 'package:merchandising/api/customer_activites_api/share_of_shelf_detailsapi.dart';
@@ -32,7 +33,7 @@ import 'Visibility.dart';
 import 'OutletSurvey.dart';
 import 'Journeyplan.dart';
 import 'package:merchandising/model/Location_service.dart';
-import 'package:merchandising/Merchandiser/merchandiserscreens/upload_live_pic.dart';
+import 'package:merchandising/Merchandiser/merchandiserscreens/checklist.dart';
 import 'package:merchandising/api/FMapi/outlet brand mappingapi.dart';
 import 'package:merchandising/model/Location_service.dart';
 import 'package:merchandising/api/customer_activites_api/Competitioncheckapi.dart';
@@ -164,26 +165,36 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                       avaliabilitycheck ? Colors.green : pink,
                                   icon: CupertinoIcons.chart_bar_alt_fill,
                                   chartext: 'Availability',
-                                  tap: () {
-                                    // print(CheckListItems);
-                                    // print(task.list);
-                                    // reasons = [];
-                                    // outofStockitems = [];
+                                  tap: () async{
+
+                                    // print("online mode:${onlinemode.value}");
+                                    // if(onlinemode.value){
+                                    // print(Avaiablity.productname);
+                                    //   reasons = [];
+                                    //   outofStockitems = [];
                                     // for (int i = 0;
                                     //     i < Avaiablity.productname.length;
                                     //     i++) {
                                     //   reasons.add('');
                                     //   outofStockitems.add(1);
                                     // }
-                                    // Navigator.of(context).push(
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) {
-                                    //       return AvailabilityScreen();
-                                    //     },
-                                    //   ),
-                                    //   //  (Route<dynamic> route) => false,
-                                    // );
-                                  },
+
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return AvailabilityScreen();
+                                        },
+                                      ),
+                                      //  (Route<dynamic> route) => false,
+                                    );
+                                  // }
+                                  //   else {
+                                  //     Flushbar(
+                                  //       message: "Make sure you had an active internet\nto access Availability",
+                                  //       duration: Duration(seconds: 3),
+                                  //     );
+                                  //   }
+                                  }
                                 ),
                                 Activities(
                                   completedicon:
@@ -193,24 +204,24 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                   icon: CupertinoIcons.eye_solid,
                                   chartext: 'Visibility',
                                   tap: () {
-                                    // checkvaluevisibility = [];
-                                    // visibilityreasons = [];
-                                    // for (int i = 0;
-                                    //     i < VisibilityData.productname.length;
-                                    //     i++) {
-                                    //   images.add(File('dummy.txt'));
-                                    //   visibilityreasons.add('');
-                                    //   checkvaluevisibility.add(1);
-                                    // }
-                                    // print(images.length);
-                                    // Navigator.of(context).push(
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) {
-                                    //       return VisibilityOne();
-                                    //     },
-                                    //   ),
-                                    //   // (Route<dynamic> route) => false,
-                                    // );
+                                    checkvaluevisibility = [];
+                                    visibilityreasons = [];
+                                    for (int i = 0;
+                                        i < VisibilityData.productname.length;
+                                        i++) {
+                                      images.add(File('dummy.txt'));
+                                      visibilityreasons.add('');
+                                      checkvaluevisibility.add(1);
+                                    }
+                                    print(images.length);
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return VisibilityOne();
+                                        },
+                                      ),
+                                      // (Route<dynamic> route) => false,
+                                    );
                                   },
                                 ),
                               ],
@@ -226,18 +237,18 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                   icon: Icons.table_chart_sharp,
                                   chartext: 'Share of Shelf',
                                   tap: () {
-                                    // actualpercent = [];
-                                    // for (int i = 0; i < ShareData.share.length; i++) {
-                                    //   actualpercent.add(0.0);
-                                    // }
-                                    // Navigator.of(context).push(
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) {
-                                    //       return ShareShelf();
-                                    //     },
-                                    //   ),
-                                    //   // (Route<dynamic> route) => false,
-                                    // );
+                                    actualpercent = [];
+                                    for (int i = 0; i < ShareData.share.length; i++) {
+                                      actualpercent.add(0.0);
+                                    }
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return ShareShelf();
+                                        },
+                                      ),
+                                      // (Route<dynamic> route) => false,
+                                    );
                                   },
                                 ),
                                 Activities(
@@ -247,27 +258,27 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                   icon: CupertinoIcons.doc_checkmark_fill,
                                   chartext: 'Planogram',
                                   tap: () {
-                                    //   beforeimages = [];
-                                    //   afterimages = [];
-                                    //   beforeimagesencode = [];
-                                    //   afterimagesencode = [];
-                                    //   for (int i = 0;
-                                    //       i < PlanoDetails.brandname.length;
-                                    //       i++) {
-                                    //     beforeimages.add(File('dummy.txt'));
-                                    //     afterimages.add(File('dummy.txt'));
-                                    //     beforeimagesencode.add('dummy.txt');
-                                    //     afterimagesencode.add('dummy.txt');
-                                    //   }
-                                    //   print(beforeimages.length);
-                                    //   Navigator.of(context).push(
-                                    //     MaterialPageRoute(
-                                    //       builder: (context) {
-                                    //         return PlanogramCheckPhase1();
-                                    //       },
-                                    //     ),
-                                    //     // (Route<dynamic> route) => false,
-                                    //   );
+                                      beforeimages = [];
+                                      afterimages = [];
+                                      beforeimagesencode = [];
+                                      afterimagesencode = [];
+                                      for (int i = 0;
+                                          i < PlanoDetails.brandname.length;
+                                          i++) {
+                                        beforeimages.add(File('dummy.txt'));
+                                        afterimages.add(File('dummy.txt'));
+                                        beforeimagesencode.add('dummy.txt');
+                                        afterimagesencode.add('dummy.txt');
+                                      }
+                                      print(beforeimages.length);
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return PlanogramCheckPhase1();
+                                          },
+                                        ),
+                                        // (Route<dynamic> route) => false,
+                                      );
                                   },
                                 ),
                               ],
@@ -281,14 +292,14 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                   icon: CupertinoIcons.checkmark_seal_fill,
                                   chartext: 'Promotion Check',
                                   tap: () {
-                                    // Navigator.of(context).push(
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) {
-                                    //       return PromotionCheck();
-                                    //     },
-                                    //   ),
-                                    //   //(Route<dynamic> route) => false,
-                                    // );
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return PromotionCheck();
+                                        },
+                                      ),
+                                      //(Route<dynamic> route) => false,
+                                    );
                                   },
                                 ),
                                 Activities(
@@ -298,14 +309,14 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                   chartext: 'Compitetor info Capture',
                                   icon: CupertinoIcons.info_circle_fill,
                                   tap: () {
-                                    // Navigator.of(context).push(
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) {
-                                    //       return CompetitionCheckOne();
-                                    //     },
-                                    //   ),
-                                    //   //  (Route<dynamic> route) => false,
-                                    // );
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return CompetitionCheckOne();
+                                        },
+                                      ),
+                                      //  (Route<dynamic> route) => false,
+                                    );
                                   },
                                 ),
                               ],
@@ -338,26 +349,26 @@ class _CustomerActivitiesState extends State<CustomerActivities> {
                                   icon: CupertinoIcons.text_badge_checkmark,
                                   chartext: 'CheckList',
                                   tap: () {
-                                    // print(task.list.length);
-                                    // if (0 == 0) {
-                                    //   setState(() {
-                                    //     changecheckoutcolor = false;
-                                    //   });
-                                    //   CheckList = [];
-                                    //   imagescl = [];
-                                    //   encodeimagecl = [];
-                                    //
-                                    //   for (int i = 0; i < task.list.length; i++) {
-                                    //     CheckList.add(false);
-                                    //     imagescl.add(File('dummy.txt'));
-                                    //     encodeimagecl.add('dummy.txt');
-                                    //   }
-                                    //   Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //           builder: (BuildContext context) =>
-                                    //               UploadLivePhoto()));
-                                    // }
+                                    print(task.list.length);
+                                    if (0 == 0) {
+                                      setState(() {
+                                        changecheckoutcolor = false;
+                                      });
+                                      CheckList = [];
+                                      imagescl = [];
+                                      encodeimagecl = [];
+
+                                      for (int i = 0; i < task.list.length; i++) {
+                                        CheckList.add(false);
+                                        imagescl.add(File('dummy.txt'));
+                                        encodeimagecl.add('dummy.txt');
+                                      }
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  UploadLivePhoto()));
+                                    }
                                   },
                                 ),
                               ],
@@ -809,40 +820,41 @@ class _checkoutbuttonState extends State<checkoutbutton> {
 
                                       print("currentoutletindex");
                                       print(currentoutletindex);
-                                      if (gettodayjp
-                                              .status[currentoutletindex] ==
-                                          "done") {
-                                        if(onlinemode.value){
+                                      if (gettodayjp.status[currentoutletindex] == "done") {
+                                        // if(onlinemode.value){
                                           outletsurvey();
                                           print("check3");
-                                          await getTotalJnyTime();
+                                          // await getTotalJnyTime();
                                           var timeofsci = DateTime.now();
                                           splitbreak.type = "Split Shift";
                                           splitbreak.citime = "";
-                                          splitbreak.cotime =
-                                              DateFormat('HH:mm:ss')
-                                                  .format(timeofsci);
-                                          splitbreak.jtimeid = TotalJnyTime
-                                              .id[indexofjurneytimeid];
+                                          splitbreak.cotime = DateFormat('HH:mm:ss').format(timeofsci);
+                                          // splitbreak.jtimeid = "";
                                           await merchbreak();
                                           setState(() {
                                             isApiCallProcess = false;
                                           });
                                           regularcheckout = true;
+                                          createlog("Split Shift checked out tapped","true");
+                                          avaliabilitycheck = false;
+                                          visibilitycheck = false;
+                                          shareofshelfcheck = false;
+                                          planocheck = false;
+
                                           Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                   builder:
                                                       (BuildContext context) =>
                                                           JourneyPlanPage()));
-                                        }else{
-                                        Flushbar(
-                                          message:
-                                          "Active internet is required",
-                                          duration: Duration(
-                                              seconds: 3),
-                                        )..show(context);
-                                      }
+                                      //   }else{
+                                      //   Flushbar(
+                                      //     message:
+                                      //     "Active internet is required",
+                                      //     duration: Duration(
+                                      //         seconds: 3),
+                                      //   )..show(context);
+                                      // }
                                       } else {
                                         outletsurvey();
                                         workingid != null
@@ -868,6 +880,14 @@ class _checkoutbuttonState extends State<checkoutbutton> {
                                         // todayskipjplist.id.removeAt(skippedoutletindex);
                                         // todayskipjplist.contactnumbers.removeAt(skippedoutletindex);
                                         NBLDetData.fileurl =[];
+
+                                        avaliabilitycheck = false;
+                                        visibilitycheck = false;
+                                        shareofshelfcheck = false;
+                                        planocheck = false;
+
+
+
                                         Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(

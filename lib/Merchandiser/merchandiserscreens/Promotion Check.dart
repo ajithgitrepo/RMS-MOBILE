@@ -23,6 +23,7 @@ var selectedbrand;
 //int selectedindex;
 var selectedcategory;
 
+
 var selectedproduct;
 List reasonItems = ["Item Expired","Pending Delivery","Out Of Stock","Not Listed"].map((String val) {
   return new DropdownMenuItem<String>(
@@ -76,241 +77,249 @@ class _PromotionCheckState extends State<PromotionCheck> {
         // drawer: Drawer(
         //   child: Menu(),
         // ),
-        body: Stack(
-          children: [
-            BackGround(),
-            ProgressHUD(
-              opacity: 0.3,
-              inAsyncCall: isApiCallProcess,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    OutletDetails(),
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.all(10),
-                      child: Form(
-                        key: keyone,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              height: 30,
-                              width: 120,
-                              margin: EdgeInsets.only(left: 10),
-                              decoration: BoxDecoration(
-                                color: orange,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10.0),
-                                    topRight: Radius.circular(10.0)),
+        body: OfflineNotification(
+          body: Stack(
+            children: [
+              BackGround(),
+              ProgressHUD(
+                opacity: 0.3,
+                inAsyncCall: isApiCallProcess,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        height: onlinemode.value ?0:25,
+                      ),
+                      OutletDetails(),
+                      Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.all(10),
+                        child: Form(
+                          key: keyone,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                height: 30,
+                                width: 120,
+                                margin: EdgeInsets.only(left: 10),
+                                decoration: BoxDecoration(
+                                  color: orange,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10.0),
+                                      topRight: Radius.circular(10.0)),
+                                ),
+                                child: Center(
+                                    child: Text(
+                                      "Promotion",
+                                      style: TextStyle(color: Colors.white),
+                                    )),
                               ),
-                              child: Center(
-                                  child: Text(
-                                    "Promotion",
-                                    style: TextStyle(color: Colors.white),
-                                  )),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              decoration: new BoxDecoration(
-                                  color: pink,
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(left: 10.0),
-                                    margin:
-                                    EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-                                    width: double.infinity,
-                                    decoration: new BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                        BorderRadius.circular(10.0)),
-                                    child: DropdownButton(
-                                      underline: SizedBox(),
-                                      elevation: 0,
-                                      dropdownColor: Colors.white,
-                                      isExpanded: true,
-                                      iconEnabledColor: orange,
-                                      iconSize: 35.0,
-                                      value: selectedproduct,
-                                      onChanged: (newVal) {
-                                        setState(() {
-                                          selectedproduct = newVal;
-                                          //selectedindex = PromoData.productname.indexOf(newVal);
-                                          // selectedbrand =
-                                        });
-                                      },
-                                      items: DropDownItems,
-                                      hint: Text(
-                                        "Select Product",
-                                        style: TextStyle(color: Colors.grey),
+                              Container(
+                                width: double.infinity,
+                                decoration: new BoxDecoration(
+                                    color: pink,
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.only(left: 10.0),
+                                      margin:
+                                      EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+                                      width: double.infinity,
+                                      decoration: new BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                      child: DropdownButton(
+                                        underline: SizedBox(),
+                                        elevation: 0,
+                                        dropdownColor: Colors.white,
+                                        isExpanded: true,
+                                        iconEnabledColor: orange,
+                                        iconSize: 35.0,
+                                        value: selectedproduct,
+                                        onChanged: (newVal) {
+                                          setState(() {
+                                            selectedproduct = newVal;
+                                            //selectedindex = PromoData.productname.indexOf(newVal);
+                                            // selectedbrand =
+                                          });
+                                        },
+                                        items: DropDownItems,
+                                        hint: Text(
+                                          "Select Product",
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(left:10.0,top: 10.0),
-                                  //   child: Text("Brand : $selectedbrand",style: TextStyle(color: orange,fontSize: 16),),
-                                  // ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(left:10.0,top: 10.0),
-                                  //   child: Text("Category : $selectedcategory",style: TextStyle(color: orange,fontSize: 16),),
-                                  // ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Available ?",
-                                          style: TextStyle(
-                                              color: orange, fontSize: 16),
-                                        ),
-                                        SizedBox(
-                                          width: 70,
-                                          child: Switch(
-                                            value: isSwitched,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                isSwitched = value;
-                                              });
-                                            },
-                                            inactiveTrackColor: Colors.green,
-                                            activeColor: Colors.red,
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(left:10.0,top: 10.0),
+                                    //   child: Text("Brand : $selectedbrand",style: TextStyle(color: orange,fontSize: 16),),
+                                    // ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(left:10.0,top: 10.0),
+                                    //   child: Text("Category : $selectedcategory",style: TextStyle(color: orange,fontSize: 16),),
+                                    // ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Available ?",
+                                            style: TextStyle(
+                                                color: orange, fontSize: 16),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          isSwitched != true
-                                              ? "Capture Image :"
-                                              : "Reason :",
-                                          style: TextStyle(
-                                              color: orange, fontSize: 16),
-                                        ),
-                                        Spacer(),
-                                        isSwitched != true
-                                            ? Row(
-                                          children: [
-                                            Container(
-                                              margin: EdgeInsets.all(10),
-                                              child:
-                                              // ignore: unrelated_type_equality_checks
-                                              capturedimagepromotion
-                                                  .toString() !=
-                                                  'File: \'dummy.txt\''
-                                                  ? GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (BuildContext context) => PreveiwScreen(
-                                                            input: capturedimagepromotion,
-                                                          )));
-                                                },
-                                                child: Image(
-                                                  height: 50,
-                                                  width: 50,
-                                                  image: FileImage(
-                                                      capturedimagepromotion),
-                                                ),
-                                              )
-                                                  : Image(
-                                                width: 50,
-                                                image: AssetImage(
-                                                    'images/capture.png'),
-                                              ),
-                                            ),
-                                            IconButton(
-                                                icon: Icon(
-                                                  CupertinoIcons
-                                                      .photo_camera_solid,
-                                                  color: Colors.grey[700],
-                                                ),
-                                                onPressed: () {
-                                                  _showSelectionDialog(
-                                                      context);
-                                                }),
-                                          ],
-                                        )
-                                            : SizedBox(
-                                            height: 50,
-                                            child: DropdownButton(
-                                              elevation: 0,
-                                              dropdownColor: Colors.white,
-                                              underline: SizedBox(),
-                                              //isExpanded: true,
-                                              iconEnabledColor: orange,
-                                              iconSize: 35.0,
-                                              value: Selectedreason,
-                                              onChanged: (newVal) {
+                                          SizedBox(
+                                            width: 70,
+                                            child: Switch(
+                                              value: isSwitched,
+                                              onChanged: (value) {
                                                 setState(() {
-                                                  Selectedreason = newVal;
+                                                  isSwitched = value;
                                                 });
                                               },
-                                              items: reasonItems,
-                                              hint: Text(
-                                                "Select Reason",
-                                                style: TextStyle(
-                                                    color: Colors.black),
-                                              ),
-                                            )),
-                                      ],
+                                              inactiveTrackColor: Colors.green,
+                                              activeColor: Colors.red,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  )
-                                ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10.0),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            isSwitched != true
+                                                ? "Capture Image :"
+                                                : "Reason :",
+                                            style: TextStyle(
+                                                color: orange, fontSize: 16),
+                                          ),
+                                          Spacer(),
+                                          isSwitched != true
+                                              ? Row(
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.all(10),
+                                                child:
+                                                // ignore: unrelated_type_equality_checks
+                                                capturedimagepromotion
+                                                    .toString() !=
+                                                    'File: \'dummy.txt\''
+                                                    ? GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (BuildContext context) => PreveiwScreen(
+                                                              input: capturedimagepromotion,
+                                                            )));
+                                                  },
+                                                  child: Image(
+                                                    height: 50,
+                                                    width: 50,
+                                                    image: FileImage(
+                                                        capturedimagepromotion),
+                                                  ),
+                                                )
+                                                    : Image(
+                                                  width: 50,
+                                                  image: AssetImage(
+                                                      'images/capture.png'),
+                                                ),
+                                              ),
+                                              IconButton(
+                                                  icon: Icon(
+                                                    CupertinoIcons
+                                                        .photo_camera_solid,
+                                                    color: Colors.grey[700],
+                                                  ),
+                                                  onPressed: () {
+                                                    _showSelectionDialog(
+                                                        context);
+                                                  }),
+                                            ],
+                                          )
+                                              : SizedBox(
+                                              height: 50,
+                                              child: DropdownButton(
+                                                elevation: 0,
+                                                dropdownColor: Colors.white,
+                                                underline: SizedBox(),
+                                                //isExpanded: true,
+                                                iconEnabledColor: orange,
+                                                iconSize: 35.0,
+                                                value: Selectedreason,
+                                                onChanged: (newVal) {
+                                                  setState(() {
+                                                    Selectedreason = newVal;
+                                                  });
+                                                },
+                                                items: reasonItems,
+                                                hint: Text(
+                                                  "Select Reason",
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    TextButton(
-                        onPressed: ()async {
-                          setState(() {
-                            isApiCallProcess = true;
-                          });
-                          AddPromo.productid = [];
-                          AddPromo.reason = [];
-                          AddPromo.checkvalue = [];
-                          AddPromo.productid.add(PromoData.productid[PromoData.productname.indexOf(selectedproduct)]);
-                          AddPromo.checkvalue.add(isSwitched != true ?1 : 0);
-                          var imagebytes = capturedimagepromotion.readAsBytesSync();
-                          AddPromo.reason.add(isSwitched != true ?
-                          'data:image/jpeg;base64,${base64Encode(imagebytes)}'
-                              : '$Selectedreason');
-                          int result = await addPromotion();
-                          setState(() {
-                            isApiCallProcess = false;
-                          });
-                          if(result == 200){
-                            Flushbar(
-                              message:
-                              "Data Updated",
-                              duration: Duration(seconds: 3),
-                            )..show(context);
-                          }
-                        },
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(pink)),
-                        child: Text(
-                          "SAVE",
-                          style: TextStyle(color: orange),
-                        ))
-                  ],
+                      TextButton(
+                          onPressed: ()async {
+                            setState(() {
+                              isApiCallProcess = true;
+                            });
+                            AddPromo.productid = [];
+                            AddPromo.reason = [];
+                            AddPromo.checkvalue = [];
+                            AddPromo.productid.add(PromoData.productid[PromoData.productname.indexOf(selectedproduct)]);
+                            AddPromo.checkvalue.add(isSwitched != true ?1 : 0);
+
+                              var imagebytes = !isSwitched?capturedimagepromotion
+                                  .readAsBytesSync():null;
+
+                            AddPromo.reason.add(isSwitched != true ?
+                            'data:image/jpeg;base64,${base64Encode(imagebytes)}'
+                                : '$Selectedreason');
+                            int result = await addPromotion();
+                            setState(() {
+                              isApiCallProcess = false;
+                            });
+                            if(result == 200){
+                              Flushbar(
+                                message:
+                                "Data Updated",
+                                duration: Duration(seconds: 3),
+                              )..show(context);
+                            }
+                          },
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(pink)),
+                          child: Text(
+                            "SAVE",
+                            style: TextStyle(color: orange),
+                          ))
+                    ],
+                  ),
                 ),
               ),
-            ),
-            NBlFloatingButton(),
-          ],
+              NBlFloatingButton(),
+            ],
+          ),
         ),
       ),
     );

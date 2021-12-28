@@ -124,7 +124,7 @@ class _VisibilityOneState extends State<VisibilityOne> {
                     AddVisiData.poi.add("");
                   }
                 }
-                visibilitycheck = true;
+                // visibilitycheck = true;
                 await addVisibilitydata();
                 setState(() {
                   isApiCallProcess =false;
@@ -153,30 +153,35 @@ class _VisibilityOneState extends State<VisibilityOne> {
       // drawer: Drawer(
       //   child: Menu(),
       // ),
-      body: Stack(
-        children: [
-          BackGround(),
-          ProgressHUD(
-            opacity: 0.3,
-            inAsyncCall: isApiCallProcess,
-            child: Column(
-              children: [
-                OutletDetails(),
-                Expanded(
-                  child: Container(
-                    child: new Column(
-                      children: <Widget>[
-                        _createSearchView(),
-                        _firstSearch ? _createListView() : _performSearch()
-                      ],
+      body: OfflineNotification(
+        body: Stack(
+          children: [
+            BackGround(),
+            ProgressHUD(
+              opacity: 0.3,
+              inAsyncCall: isApiCallProcess,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: onlinemode.value ?0:25,
+                  ),
+                  OutletDetails(),
+                  Expanded(
+                    child: Container(
+                      child: new Column(
+                        children: <Widget>[
+                          _createSearchView(),
+                          _firstSearch ? _createListView() : _performSearch()
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          NBlFloatingButton(),
-        ],
+            NBlFloatingButton(),
+          ],
+        ),
       ),
     );
   }

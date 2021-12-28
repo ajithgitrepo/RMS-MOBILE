@@ -11,8 +11,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:merchandising/api/leaveresult.dart';
 import 'package:merchandising/Fieldmanager/FMdashboard.dart';
 import 'package:merchandising/HR/HRdashboard.dart';
-
-
+import 'package:merchandising/Fieldmanager/Leavereporting.dart';
+import'package:merchandising/api/FMapi/leave_reqapi.dart';
 int leave;
 
 class ResponsetoLeave extends StatefulWidget {
@@ -54,140 +54,196 @@ class _ResponsetoLeaveState extends State<ResponsetoLeave> {
         // ),
         body: Stack(children: [
           BackGround(),
-          ListView.builder(
-              itemCount: leavedataResponse.reasons.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () {
-                    leave = index;
-                    print(leavedataResponse.isleaveaccepted[leave]);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => leaveresult()));
-                  },
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Reason : ',
-                              style: TextStyle(
-                                  fontSize: 15.0, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Flexible(
-                              child: AutoSizeText(
-                                '${leavedataResponse.reasons[index]}',
-                                maxLines: 2,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.bold),
+
+          DefaultTabController(
+            length: 2, // lengt0h of tabs
+            initialIndex: 0,
+            child:Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: PreferredSize(
+                preferredSize: Size.fromHeight(kToolbarHeight),
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(10,10,10,0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Colors.white,
+                  ),
+                  child: TabBar(
+                    //    controller: _controller,
+                    labelColor: orange,
+                    unselectedLabelColor: Colors.black,
+                    indicatorColor: orange,
+                    tabs: [
+                      Tab(text: 'Leave Reporting'),
+                      Tab(text: 'Accept / Reject leave\'s'),
+                    ],
+                  ),
+                ),
+              ),
+              body: TabBarView(
+                  children: [
+                    LeaveReporting(
+                      onsubmit: onsave,
+                    ),
+                    ListView.builder(
+                        itemCount: leavedataResponse.reasons.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              leave = index;
+                              print(leavedataResponse.isleaveaccepted[leave]);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) => leaveresult()));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+                              padding: EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(10))),
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Reason : ',
+                                        style: TextStyle(
+                                            fontSize: 15.0, fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Flexible(
+                                        child: AutoSizeText(
+                                          '${leavedataResponse.reasons[index]}',
+                                          maxLines: 2,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Text('Leave Type:',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                          )),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                          '${leavedataResponse.leavetypes[index]}',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                          )),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Text('Number of days :',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                          )),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                          leavedataResponse.totnoofdays[index]
+                                              .toString(),
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                          )),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Text('Employee :',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                          )),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(leavedataResponse.empname[index]
+                                          .toString()),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Text('Status :',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                          )),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                          leavedataResponse.isleaveaccepted[index] == accepted
+                                              ? 'Accepted'
+                                              : leavedataResponse.isleaverejected[index] == rejected
+                                              ? 'Rejected'
+                                              :  leavedataResponse.isleaveaccepted[index] == acceptedbyfm
+                                              ? 'Waiting for hr'
+                                              : 'Pending',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                          )),
+                                      Spacer(),
+                                      Icon(
+                                        leavedataResponse.isleaveaccepted[index] == accepted
+                                            ? CupertinoIcons.check_mark_circled_solid
+                                            : leavedataResponse.isleaverejected[index] == rejected ? CupertinoIcons
+                                            .clear_circled_solid : CupertinoIcons
+                                            .arrow_up_arrow_down_circle_fill,
+                                        color: leavedataResponse.isleaveaccepted[index] == accepted
+                                            ? Colors.green
+                                            : leavedataResponse.isleaverejected[index] == rejected ? Colors.red : Colors.grey,
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Text('Leave Type:',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                )),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                                '${leavedataResponse.leavetypes[index]}',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                )),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Text('Number of days :',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                )),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                                leavedataResponse.totnoofdays[index]
-                                    .toString(),
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                )),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Text('Employee :',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                )),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(leavedataResponse.empname[index]
-                                .toString()),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Text('Status :',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                )),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                                leavedataResponse.isleaveaccepted[index] == accepted
-                                    ? 'Accepted'
-                                    : leavedataResponse.isleaverejected[index] == rejected
-                                    ? 'Rejected'
-                                    :  leavedataResponse.isleaveaccepted[index] == acceptedbyfm
-                                    ? 'Waiting for hr'
-                                    : 'Pending',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                )),
-                            Spacer(),
-                            Icon(
-                              leavedataResponse.isleaveaccepted[index] == accepted
-                                  ? CupertinoIcons.check_mark_circled_solid
-                                  : leavedataResponse.isleaverejected[index] == rejected ? CupertinoIcons
-                                  .clear_circled_solid : CupertinoIcons
-                                  .arrow_up_arrow_down_circle_fill,
-                              color: leavedataResponse.isleaveaccepted[index] == accepted
-                                  ? Colors.green
-                                  : leavedataResponse.isleaverejected[index] == rejected ? Colors.red : Colors.grey,
-                            )
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                      ],
-                    ),
-                  ),
-                );
-              }),
+                          );
+                        }),
+                  ]),
+            ),
+          ),
         ]));
+  }
+  void onsave()async{
+    print("1");
+    setState(() {
+      isApiCallProcess = true;
+    });
+
+
+    // if (selectedReason == "others") {
+    //   print(others.text);
+    // }
+    leaverequestdata.type=selectedReason;
+    leaverequestdata.startdate=startDate;
+    leaverequestdata.enddate = endDate;
+    leaverequestdata.reason = remarks.text;
+    leaverequestdata.image = base64doc;
+
+    await leaverequestwithtype();
+
+    setState(() {
+      isApiCallProcess = false;
+    });
   }
 }
 

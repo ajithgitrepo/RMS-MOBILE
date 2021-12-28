@@ -15,7 +15,7 @@ List<String>message=[];
 
 
 syncingsenddata()async {
-  CreateLog("synchronising data to server started",true);
+  CreateLog("synchronising data from device to server started",true);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   lastsyncedon =  DateTime.parse(prefs.getString('lastsyncedondate'));
   requireurlstosync =  prefs.getStringList('addtoserverurl');
@@ -32,6 +32,48 @@ syncingsenddata()async {
   print("syncing current data");
     if (requireurlstosync != [] && requireurlstosync != null && onlinemode.value) {    
       for (int i = 0; i < requireurlstosync.length; i++) {
+        var checkintime=null;
+        var timesheetid=null;
+        var checkouttime=null;
+        var journeytimeid=null;
+
+        var type= jsonDecode(requirebodytosync[i])["type"];
+        checkintime= jsonDecode(requirebodytosync[i])["checkin_time"];
+        timesheetid= jsonDecode(requirebodytosync[i])["timesheet_id"];
+        checkouttime= jsonDecode(requirebodytosync[i])["checkout_time"];
+        journeytimeid= jsonDecode(requirebodytosync[i])["journey_time_id"];
+        if(type == "Split Shift"&&checkintime==""&&timesheetid!=null&&checkouttime!=""&&journeytimeid == ""){
+          print(true);
+          print(type);
+          print(checkintime);
+          print(timesheetid);
+          print(checkouttime);
+          print(journeytimeid);
+          currenttimesheetid = timesheetid;
+          await getTotalJnyTime();
+          print(TotalJnyTime.id.last);
+          Map breaktime =
+          {
+            "type" : "Split Shift",
+            "timesheet_id" : timesheetid,
+            "checkin_time" : "",
+            "checkout_time" : checkouttime,
+            "journey_time_id" : TotalJnyTime.id.last,
+          };
+          http.Response response = await http.post(Uri.parse(requireurlstosync[i]),
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+            },
+            body: jsonEncode(breaktime),
+          );
+          print(response.body);
+          print("check 1 sync send");
+          CreateLog("Api request : url-${requireurlstosync[i]},Body-${requirebodytosync[i]},response-${response.body}",true);
+          print("check 1 sync send createlog done");
+        }
+        else{
         progress.value++;
         http.Response response = await http.post(
           Uri.parse(requireurlstosync[i]),
@@ -44,18 +86,16 @@ syncingsenddata()async {
         );
         if (response.statusCode == 200) {
           print(response.body);
-          logreport.add("${requirebodytosync[i]}");
-          logtime.add(DateFormat.yMd().add_jm().format(DateTime.now()).toString());
-          logreportstatus.add("true");
+          print("check 2 sync send");
+
+          CreateLog("Api request : url-${requireurlstosync[i]},Body-${requirebodytosync[i]},response-${response.body}",true);
         } else {
           print(response.body);
-          logreport.add(
-              "${response.body}");
-          logtime.add(DateFormat.yMd().add_jm().format(DateTime.now()).toString());
-          logreportstatus.add("false");
+          print("check 3 sync send");
+          CreateLog("Api Error : url-${requireurlstosync[i]},Body-${requirebodytosync[i]},response-${response.body}",false);
         }
-        savelogreport(logreport,logtime,logreportstatus);
       }
+    }
       requireurlstosync = [];
       requirebodytosync = [];
       message=[];

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../api_service.dart';
+import 'package:merchandising/Constants.dart';
 class AddCompData{
 
   static var timesheetid;
@@ -28,15 +29,16 @@ Future addCompetition() async{
     'capture_image' : '${AddCompData.captureimg}',
   };
   print(jsonEncode(addcompetition));
-  http.Response response = await http.post(AddCompetition,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-    },
-    body: jsonEncode(addcompetition),
-  );
-  print(response.body);
+  adddataforsync("https://rms2.rhapsody.ae/api/add_competition",jsonEncode(addcompetition),"Competition Check added for the timesheet id $currenttimesheetid");
+  // http.Response response = await http.post(AddCompetition,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //   },
+  //   body: jsonEncode(addcompetition),
+  // );
+  // print(response.body);
 
 }
 

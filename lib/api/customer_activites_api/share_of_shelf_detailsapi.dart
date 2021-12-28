@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import'package:merchandising/api/api_service.dart';
 import 'package:merchandising/Merchandiser/merchandiserscreens/shareofshelf.dart';
 Future<void> getShareofshelf() async {
-  Map body = {
-    "time_sheet_id" : currenttimesheetid,
-  };
-  http.Response shareresponse = await http.post(ShareofshelfDetails,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-    },
-    body: jsonEncode(body),
-  );
-  if (shareresponse.statusCode == 200) {
-    print(body);
+  // Map body = {
+  //   "time_sheet_id" : currenttimesheetid,
+  // };
+  // http.Response shareresponse = await http.post(ShareofshelfDetails,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //   },
+  //   body: jsonEncode(body),
+  // );
+  // if (shareresponse.statusCode == 200) {
+  //   print(body);
     ShareData.categoryid=[];
     ShareData.categoryname=[];
     ShareData.brandid = [];
@@ -27,7 +27,7 @@ Future<void> getShareofshelf() async {
 
     print('Share of Shelf done');
 
-    String availabititybody = shareresponse.body;
+    String availabititybody = offlinesosdata[currentoutletindex];;
     var decodeddata = jsonDecode(availabititybody);
     if(decodeddata['data'].length==0){
       print("No Data");
@@ -66,7 +66,7 @@ Future<void> getShareofshelf() async {
     print(ShareData.actualpercent);
   }
 
-}
+// }
 
 class ShareData{
   static List<int> categoryid = [];

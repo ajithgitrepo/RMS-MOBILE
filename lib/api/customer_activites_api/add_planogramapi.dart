@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../api_service.dart';
+import 'package:merchandising/Constants.dart';
 
 class AddPlanoData{
   static var outletid;
@@ -26,18 +27,20 @@ Future addPlanogramdata() async{
     "before_image" : AddPlanoData.beforeimage,
     "after_image" : AddPlanoData.afterimage,
   };
-  http.Response planoresponse = await http.post(AddPlanogram,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-    },
-    body: jsonEncode(addplano),
-  );
+  // http.Response planoresponse = await http.post(AddPlanogram,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //   },
+  //   body: jsonEncode(addplano),
+  // );
+  //
+  // print(jsonEncode(addplano));
+  // print(planoresponse.body);
 
+  adddataforsync("https://rms2.rhapsody.ae/api/add_planogram",jsonEncode(addplano),"Planogram added for the timesheet id $currenttimesheetid");
   print(jsonEncode(addplano));
-  print(planoresponse.body);
-
   print("Add Planogram Done");
 
 }

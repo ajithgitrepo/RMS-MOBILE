@@ -35,6 +35,8 @@ class Locationclass {
        distinmeters();
        return lat==null?false:true;
    }catch(e){
+     lat=0.00000;
+     long=0.00000;
      CreateLog("location couldn't received due to $e", "false");
    }
 }

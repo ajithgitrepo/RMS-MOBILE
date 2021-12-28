@@ -26,6 +26,8 @@ import'package:merchandising/api/Journeyplansapi/weekly/jpplanned.dart';
 import 'package:merchandising/main.dart';
 import 'package:merchandising/api/FMapi/cdereportapi.dart';
 import'package:merchandising/Fieldmanager/reporting.dart';
+import'package:merchandising/Merchandiser/merchandiserscreens/timesheetmonthly.dart';
+import'package:merchandising/Merchandiser/merchandiserscreens/Time Sheet.dart';
 
 
 
@@ -536,6 +538,11 @@ class _FieldManagerDashBoardState extends State<FieldManagerDashBoard> {
                         children: [
                           GestureDetector(
                             onTap:()async{
+                              selecteddates=[];
+                              for(int i =0; i<listOfDates.length;i++){
+                                selecteddates.add(false);
+                              }
+                              print(selecteddates.length);
 
                               Navigator.push(
                                   context,

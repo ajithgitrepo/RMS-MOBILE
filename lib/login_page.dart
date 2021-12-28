@@ -110,7 +110,10 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.white,
                                   width: MediaQuery.of(context).size.width / 1.5,
                                   child: Theme(
-                                    data: ThemeData(primaryColor: orange),
+                                    data: ThemeData.from(
+                                      colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.orange),
+                                    ),
+                                    // data: ThemeData(primaryColor: orange),
                                     child: TextFormField(
                                       controller: emailinputcontroller,
                                       keyboardType: TextInputType.emailAddress,
@@ -137,7 +140,10 @@ class _LoginPageState extends State<LoginPage> {
                                   width: MediaQuery.of(context).size.width / 1.5,
                                   color: Colors.white,
                                   child: Theme(
-                                    data: ThemeData(primaryColor: orange),
+                                    data: ThemeData.from(
+                                      colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.orange),
+                                    ),
+                                    // data: ThemeData(primaryColor: orange),
                                     child: TextFormField(
                                       keyboardType: TextInputType.text,
                                       controller: passwordinputcontroller,
@@ -219,7 +225,6 @@ class _LoginPageState extends State<LoginPage> {
                                           getJourneyPlanweekly();
                                           getVisitJourneyPlanweekly();
                                           // getLocation();
-                                          await getalljpoutletsdata();
                                           await callfrequently();
                                           var DBDresult =  await DBRequestdaily();
                                           ///once app is up and running for every 20 minutes we are trying to get reference data.
@@ -265,8 +270,8 @@ class _LoginPageState extends State<LoginPage> {
                                           getBrandDetails();
                                           getemployeestoaddbrand();
                                           getCategoryDetails();
-                                          getProductDetails();
                                           getmappedoutlets();
+                                          getProductDetails();
                                           //getmyattandance();
                                           getallempdetails();
                                            getStoreDetails();

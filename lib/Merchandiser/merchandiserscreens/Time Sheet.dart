@@ -68,168 +68,187 @@ class _TimeSheetListState extends State<TimeSheetList> {
               currentuser.roleid == 2 && pressAttentionYTB == false?GestureDetector(
                 onTap: ()async{
 
+                          Approveddates = null;
+                          for (int i = 0; i < listOfDatesapi.length; i++) {
+                            if (selecteddates[i]) {
+                              todaydateapprove = listOfDatesapi[i];
+                              if (Approveddates == null) {
+                                Approveddates = DateFormat('MMMMd')
+                                    .format(DateTime.parse(listOfDatesapi[i]));
+                              } else {
+                                String temp = Approveddates;
+                                Approveddates = "$temp,${DateFormat('MMMMd').format(DateTime.parse(listOfDatesapi[i]))}";
+                              }
+                            }
+                          }
+                          if(pressAttentionMTB==true && Approveddates == null){
+                            Flushbar(
+                              message: "Please select dates to approve Time Sheet",
+                              duration: Duration(seconds: 4),
+                            )..show(context);
+                            print("No Dates Selected");
+                          }
 
-                  Approveddates = null;
-                  for (int i = 0; i < listOfDatesapi.length; i++) {
-                    if (selecteddates[i]) {
-                      todaydateapprove = listOfDatesapi[i];
-                      if(Approveddates==null){
-                        Approveddates = DateFormat('MMMMd').format(DateTime.parse(listOfDatesapi[i]));
-                      }else{
-                        String temp = Approveddates;
-                        Approveddates = "$temp,${DateFormat('MMMMd').format(DateTime.parse(listOfDatesapi[i]))}";
-                      }
-                    }
-                  }
-                  showDialog(
-                      context: context,
-                      builder: (_) => StatefulBuilder(
-                          builder: (context, setState) {
-                            return AlertDialog(
-                              backgroundColor: alertboxcolor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              content: Builder(
-                                builder: (context) {
-                                  // Get available height and width of the build area of this widget. Make a choice depending on the size.
-                                  return ConstrainedBox(
-                                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width/1.5,
-                                        maxHeight: MediaQuery.of(context).size.height/1.5),
+                          else {
+                          showDialog(
+                            context: context,
+                            builder: (_) =>
+                                StatefulBuilder(builder: (context, setState) {
+                              return AlertDialog(
+                                backgroundColor: alertboxcolor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                content: Builder(
+                                  builder: (context) {
+                                    // Get available height and width of the build area of this widget. Make a choice depending on the size.
+                                    return ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                          maxWidth: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.5,
+                                          maxHeight: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              1.5),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text("Alert",
+                                                style: TextStyle(
+                                                    color: orange,
+                                                    fontSize: 20)),
+                                            Divider(
+                                              color: Colors.black,
+                                              thickness: 0.8,
+                                            ),
+                                            Text(
+                                              pressAttentionTODAY == true
+                                                  ? "Do you want to Approve Time Sheet for Today?"
+                                                  : 'Do you want to approve Time Sheet\nfor the following dates?',
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                            SizedBox(height:5),
+                                            pressAttentionMTB == true
+                                                ? Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                      pressAttentionMTB == true
+                                                          ? Approveddates
+                                                          : "${DateFormat('MMMMd').format(DateTime.parse(dataofdates.toString()))}",
+                                                      style:
+                                                          TextStyle(fontSize: 14),
+                                                    ),
+                                                )
+                                                : Text(""),
+                                            pressAttentionMTB == true
+                                                ? SizedBox(height: 15)
+                                                : SizedBox(height:1),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                print(selecteddates);
 
-                                    child:SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text("Alert",style: TextStyle(
-                                              color: orange,
-                                              fontSize: 20)),
-                                          Divider(
-                                            color: Colors.black,
-                                            thickness: 0.8,
-                                          ),
-                                          Text(pressAttentionTODAY==true?"Do you want to Approve Time Sheet for Today?":'Do you want to approve Time Sheet\nfor the following dates?',
-                                            style: TextStyle(
-                                                fontSize: 16),
-                                          ),
-                                          SizedBox(height: 15),
-                                         pressAttentionMTB==true?Text(pressAttentionMTB==true?Approveddates:"${DateFormat('MMMMd').format(DateTime.parse(dataofdates.toString()))}",style:TextStyle(fontSize: 14),):Text(""),
-                                          pressAttentionMTB==true?SizedBox(height: 15):SizedBox(height: 1),
-                                         GestureDetector(
-                                            onTap: ()async{
-                                              print(selecteddates);
+                                                if (pressAttentionMTB == true) {
+                                                  print(listOfDatesapi.length);
+                                                  Approveddates = null;
+                                                  for (int i = 0;
+                                                      i < listOfDatesapi.length;
+                                                      i++) {
+                                                    if (selecteddates[i]) {
+                                                      todaydateapprove =
+                                                          listOfDatesapi[i];
+                                                      if (Approveddates ==
+                                                          null) {
+                                                        Approveddates = DateFormat(
+                                                                'MMMMd')
+                                                            .format(DateTime.parse(
+                                                                listOfDatesapi[
+                                                                    i]));
+                                                      } else {
+                                                        String temp =
+                                                            Approveddates;
+                                                        Approveddates =
+                                                            "$temp,${DateFormat('MMMMd').format(DateTime.parse(listOfDatesapi[i]))}";
+                                                      }
 
-                                              if(pressAttentionMTB==true) {
-                                                print(listOfDatesapi.length);
-                                                Approveddates = null;
-                                                for (int i = 0; i < listOfDatesapi.length; i++) {
-                                                  if (selecteddates[i]) {
-                                                    todaydateapprove = listOfDatesapi[i];
-                                                    if(Approveddates==null){
-                                                      Approveddates = DateFormat('MMMMd').format(DateTime.parse(listOfDatesapi[i]));
-                                                    }else{
-                                                      String temp = Approveddates;
-                                                      Approveddates = "$temp,${DateFormat('MMMMd').format(DateTime.parse(listOfDatesapi[i]))}";
+                                                      DBrequestdata
+                                                              .receivedempid =
+                                                          timesheet.empid;
+                                                      await CDETimeSheetApproval();
                                                     }
-
-                                                    DBrequestdata.receivedempid = timesheet.empid;
-                                                    await CDETimeSheetApproval();
                                                   }
+                                                  print(
+                                                      "selected dates String : $Approveddates");
+                                                  setState(() {
+                                                    selecteddates = [];
+                                                    for (int i = 0;
+                                                        i < listOfDates.length;
+                                                        i++) {
+                                                      selecteddates.add(false);
+                                                    }
+                                                  });
+                                                } else if (pressAttentionTODAY ==
+                                                    true) {
+                                                  final DateTime now =
+                                                      DateTime.now();
+                                                  final DateFormat formatter =
+                                                      DateFormat('yyyy-MM-dd');
+                                                  final String todaydate =
+                                                      formatter.format(now);
+                                                  todaydateapprove = todaydate;
+                                                  DBrequestdata.receivedempid =
+                                                      timesheet.empid;
+                                                  await CDETimeSheetApproval();
                                                 }
-                                                print("selected dates String : $Approveddates");
+
+                                                Navigator.pop(context);
+
                                                 setState(() {
                                                   selecteddates = [];
-                                                  for (int i = 0; i < listOfDates.length; i++) {
+                                                  for (int i = 0;
+                                                      i < listOfDates.length;
+                                                      i++) {
                                                     selecteddates.add(false);
                                                   }
                                                 });
-
-
-                                              }
-                                              else if(pressAttentionTODAY==true){
-                                                final DateTime now = DateTime.now();
-                                                final DateFormat formatter = DateFormat('yyyy-MM-dd');
-                                                final String todaydate = formatter.format(now);
-                                                todaydateapprove = todaydate;
-                                                DBrequestdata.receivedempid = timesheet.empid;
-                                                await CDETimeSheetApproval();
-                                              }
-
-
-                                              // print("data of dates");
-                                              // for(int i =0; i <selecteddates.length; i++){
-                                              //   if(selecteddates[i]){
-                                              //     // print(selecteddates[i]);
-                                              //     todaydateapprove = dataofdates[i];
-                                              //     DBrequestdata.receivedempid=timesheet.empid;
-                                              //     await CDETimeSheetApproval();
-                                              //   }
-                                              // }
-
-
-                                              Navigator.pop(context);
-
-                                              setState(() {
-                                                selecteddates = [];
-                                                for (int i = 0; i < listOfDates.length; i++) {
-                                                  selecteddates.add(false);
-                                                }
-                                              });
-                                            },
-                                            child: Container(
-                                              height: 30,
-                                              width: 80,
-                                              decoration:
-                                              BoxDecoration(
-                                                color: orange,
-                                                borderRadius:
-                                                BorderRadius
-                                                    .circular(5),
+                                              },
+                                              child: Container(
+                                                height: 30,
+                                                width: 80,
+                                                decoration: BoxDecoration(
+                                                  color: orange,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: Center(
+                                                    child: Text('Approve',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white))),
                                               ),
-                                              child: Center(
-                                                  child: Text('Approve',
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .white))),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          }),);
+                                    );
+                                  },
+                                ),
+                              );
+                            }),
+                          );
+                        }
+                          setState(() {
+                            for(int i=0;i<listOfDatesapi.length;i++){
+                              selecteddates[i]=false;
+                              alldateselected=false;
 
+                            }
 
-                  // if(pressAttentionMTB==true) {
-                  //   print(listOfDatesapi.length);
-                  //   for (int i = 0; i < listOfDatesapi.length; i++) {
-                  //     if (selecteddates[i]) {
-                  //       todaydateapprove = listOfDatesapi[i];
-                  //       print(todaydateapprove);
-                  //       DBrequestdata.receivedempid = timesheet.empid;
-                  //       await CDETimeSheetApproval();
-                  //     }
-                  //   }
-                  //   setState(() {
-                  //     selecteddates = [];
-                  //     for (int i = 0; i < listOfDates.length; i++) {
-                  //       selecteddates.add(false);
-                  //     }
-                  //   });
-                  // }
-                  // else{
-                  //   final DateTime now = DateTime.now();
-                  //   final DateFormat formatter = DateFormat('yyyy-MM-dd');
-                  //   final String todaydate = formatter.format(now);
-                  //   todaydateapprove = todaydate;
-                  //   DBrequestdata.receivedempid = timesheet.empid;
-                  //   await CDETimeSheetApproval();
-                  // }
+                          });
 
-                },
+                      },
                 child: Container(
                   margin: EdgeInsets.only(top: 10.0),
                   padding: EdgeInsets.all(10.0),

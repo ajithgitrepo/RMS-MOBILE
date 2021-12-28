@@ -91,6 +91,4 @@ class productlist {
   static List<String> productcategory = [];
   static List<String> imageurl = [];
 
-
-
 }

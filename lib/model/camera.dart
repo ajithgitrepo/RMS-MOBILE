@@ -16,7 +16,7 @@ import 'package:merchandising/Merchandiser/merchandiserscreens/PlanogramcheckPha
 import 'package:merchandising/Merchandiser/merchandiserscreens/Promotion Check.dart';
 import 'dart:convert';
 import 'dart:io';
-import'package:merchandising/Merchandiser/merchandiserscreens/upload_live_pic.dart';
+import'package:merchandising/Merchandiser/merchandiserscreens/checklist.dart';
 bool takepicplano=false;
 bool takepicCL=false;
 class TakePictureScreen extends StatefulWidget {

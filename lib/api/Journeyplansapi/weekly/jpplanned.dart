@@ -83,7 +83,7 @@ Future<void> getJourneyPlanweekly() async {
       getweeklyjp.timeid = [];
       getweeklyjp.outletid = [];
 
-      currentuser.roleid==5?print('journey plan weekly done'):print("journey plan done for merch under CDE");
+      currentuser.roleid==5?print('journey plan weekly done'):currentuser.roleid==2?print("journey plan done for merch under CDE"):print("");
       JPweekly = JPresponse.body;
       plannedjpweekly(JPweekly);
       var decodeJPData = jsonDecode(JPweekly);
@@ -454,6 +454,7 @@ Future<void> getJourneyPlanweekly() async {
           getweeklyjp.saturdayid.add(timesheet);
         }
       }
+      currentlysyncing = false;
     } else {
       print(JPresponse.statusCode);
     }

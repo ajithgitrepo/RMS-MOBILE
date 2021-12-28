@@ -30,6 +30,8 @@ Future<void> getAvaiablitity() async {
     Avaiablity.oos = [];
     Avaiablity.oosreason = [];
     Avaiablity.insreason = [];
+
+    print('Availability done');
     String availabititybody = response.body;
     var decodeddata = jsonDecode(availabititybody);
     if(decodeddata['data'].length==0){
@@ -41,6 +43,7 @@ Future<void> getAvaiablitity() async {
     for (int u = 0; u< decodeddata['data'].length; u++) {
       Avaiablity.productid.add(decodeddata['data'][u]['product_id']);
       Avaiablity.brand.add(decodeddata['data'][u]['b_name']);
+
       Avaiablity.category.add(decodeddata['data'][u]['c_name']);
       Avaiablity.productname.add(decodeddata['data'][u]['p_name']);
       //Avaiablity.zrepcode.add(decodeddata['data'][u]['zrep_code']);
@@ -61,6 +64,15 @@ Future<void> getAvaiablitity() async {
         Avaiablity.reason.add(decodeddata['data'][u]['reason']);
       }
     }
+     print(Avaiablity.category);
+    //   reasons = [];
+    //   outofStockitems = [];
+    // for (int i = 0;
+    //     i < Avaiablity.productname.length;
+    //     i++) {
+    //   reasons.add('');
+    //   outofStockitems.add(1);
+    // }
     reasons = [];
     outofStockitems =[];
     for (int i = 0; i < Avaiablity.productname.length; i++) {
@@ -83,8 +95,8 @@ Future<void> getAvaiablitity() async {
   }
 }
 
-List Distintcategory;
-List Distintbrands;
+List<String>Distintcategory=[];
+List<String> Distintbrands=[];
 class Avaiablity{
   static List<dynamic> productid=[];
   static List<String> productname=[];

@@ -113,3 +113,39 @@ currentpagestatus(pageid,outletid,timesheetid,currentoutletindex)async{
 
 }
 
+
+Visibilitydetail(data)async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setStringList("visibilitydetdata",data);
+}
+
+sosdetail(data)async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setStringList("shareofshelfdetdata",data);
+}
+
+planodetail(data)async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setStringList("planodetaildata",data);
+}
+
+///for competition details,only sending the data,not referening(syncreference)
+
+promodetail(data)async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setStringList("promodetaildata",data);
+}
+
+
+checklistdetail(data)async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setStringList("checklistdetaildata",data);
+}
+
+NBLdetail(data)async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setStringList("nbldetaildata",data);
+}
+
+
+

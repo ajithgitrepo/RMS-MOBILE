@@ -14,7 +14,7 @@ List<String>selectedList=[];
 String Selectedtype = "SKU";
 
 String selecttype;
-
+bool ontapavailrefresh = false;
 List<int> shuffledchecklist=Avaiablity.checkvalue;
 List<String>shuffledreasons=Avaiablity.reason;
 List<String> categories = Distintcategory;
@@ -78,6 +78,16 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                 style: TextStyle(color: orange),
               ),
               Spacer(),
+              IconButton(onPressed: ()async{
+                ontapavailrefresh=true;
+                setState(() {
+                  isApiCallProcess=true;
+                });
+                await getAvaiablitity();
+                setState(() {
+                  isApiCallProcess=false;
+                });
+              }, icon: Icon(CupertinoIcons.refresh_circled_solid,color: orange,size: 30)),
               GestureDetector(
                 onTap: () async{
                   setState(() {
@@ -96,7 +106,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                   AddAvail.reason = Avaiablity.reason;
                   AddAvail.checkvalue = Avaiablity.checkvalue;
                   await addAvailability();
-                  avaliabilitycheck = true;
+                  // avaliabilitycheck = true;
                   setState(() {
                     isApiCallProcess = false;
                   });
@@ -150,7 +160,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                                 iconEnabledColor: orange,
                                 elevation: 20,
                                 dropdownColor: Colors.white,
-                                items: categories.map((String val) {
+                                items: Distintcategory.map((String val) {
                                   return new DropdownMenuItem<String>(
                                     value: val,
                                     child: new Text(val),
@@ -160,26 +170,31 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                                 value: Selectedcategory,
                                 onChanged: (newVal) {
                                   setState(() {
-                                    Selectedcategory = newVal;
-                                    if(Selectedbrand==null){
-                                      InputList=[];
-                                      for(int i =0; i < defaulflist.length;i++){
-                                        if(Avaiablity.category[i] == Selectedcategory){
-                                          InputList.add(Avaiablity.fullname[i]);
-                                          shuffledchecklist.add(Avaiablity.checkvalue[i]);
-                                          shuffledreasons.add(Avaiablity.reason[i]);
-                                        }
-                                      }
-                                    }else{
-                                      InputList=[];
-                                      for(int i =0; i < defaulflist.length;i++){
-                                        if(Avaiablity.category[i] == Selectedcategory && Avaiablity.brand[i] == Selectedbrand){
-                                          InputList.add(Avaiablity.fullname[i]);
-                                          shuffledchecklist.add(Avaiablity.checkvalue[i]);
-                                          shuffledreasons.add(Avaiablity.reason[i]);
-                                        }
+                                    isApiCallProcess=true;
+                                  });
+
+                                  Selectedcategory = newVal;
+                                  if(Selectedbrand==null){
+                                    InputList=[];
+                                    for(int i =0; i < defaulflist.length;i++){
+                                      if(Avaiablity.category[i] == Selectedcategory){
+                                        InputList.add(Avaiablity.fullname[i]);
+                                        shuffledchecklist.add(Avaiablity.checkvalue[i]);
+                                        shuffledreasons.add(Avaiablity.reason[i]);
                                       }
                                     }
+                                  }else{
+                                    InputList=[];
+                                    for(int i =0; i < defaulflist.length;i++){
+                                      if(Avaiablity.category[i] == Selectedcategory && Avaiablity.brand[i] == Selectedbrand){
+                                        InputList.add(Avaiablity.fullname[i]);
+                                        shuffledchecklist.add(Avaiablity.checkvalue[i]);
+                                        shuffledreasons.add(Avaiablity.reason[i]);
+                                      }
+                                    }
+                                  }
+                                  setState(() {
+                                   isApiCallProcess=false;
 
                                   });
                                 })),
@@ -195,7 +210,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                                 iconEnabledColor: orange,
                                 elevation: 20,
                                 dropdownColor: Colors.white,
-                                items: Brands.map((String val) {
+                                items: Distintbrands.map((String val) {
                                   return new DropdownMenuItem<String>(
                                     value: val,
                                     child: new Text(val),
@@ -205,22 +220,26 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                                 value: Selectedbrand,
                                 onChanged: (newVal) {
                                   setState(() {
-                                    Selectedbrand = newVal;
-                                    if(Selectedcategory ==null){
-                                      InputList=[];
-                                      for(int i =0; i < defaulflist.length;i++){
-                                        if(Avaiablity.brand[i] == Selectedbrand){
-                                          InputList.add(Avaiablity.fullname[i]);
-                                        }
-                                      }
-                                    }else{
-                                      InputList=[];
-                                      for(int i =0; i < defaulflist.length;i++){
-                                        if(Avaiablity.category[i] == Selectedcategory && Avaiablity.brand[i] == Selectedbrand){
-                                          InputList.add(Avaiablity.fullname[i]);
-                                        }
+                                    isApiCallProcess=true;
+                                  });
+                                  Selectedbrand = newVal;
+                                  if(Selectedcategory ==null){
+                                    InputList=[];
+                                    for(int i =0; i < defaulflist.length;i++){
+                                      if(Avaiablity.brand[i] == Selectedbrand){
+                                        InputList.add(Avaiablity.fullname[i]);
                                       }
                                     }
+                                  }else{
+                                    InputList=[];
+                                    for(int i =0; i < defaulflist.length;i++){
+                                      if(Avaiablity.category[i] == Selectedcategory && Avaiablity.brand[i] == Selectedbrand){
+                                        InputList.add(Avaiablity.fullname[i]);
+                                      }
+                                    }
+                                  }
+                                  setState(() {
+                                    isApiCallProcess=false;
                                   });
                                 })),
                       ],
@@ -312,13 +331,14 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
           Flexible(
             child: Container(
               height: MediaQuery.of(context).size.height/1.8,
+              width: double.infinity,
               padding: EdgeInsets.all(5.0),
               margin: EdgeInsets.only(left: 10.0,right: 10.0,bottom: 10.0),
               decoration: BoxDecoration(
                 color: pink,
                 borderRadius: BorderRadius.only(bottomRight: Radius.circular(10.0),bottomLeft: Radius.circular(10.0)),
               ),
-              child: SingleChildScrollView(
+              child:ontapavailrefresh==true? SingleChildScrollView(
                 child: new ListView.builder(
                     shrinkWrap: true,
                     itemCount: InputList.length,
@@ -390,7 +410,8 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                                             print(Avaiablity.checkvalue);
                                             //isSwitched == true ? outofStockitems[Avaiablity.productname.indexOf(widget.item)]=0 : outofStockitems[Avaiablity.productname.indexOf(widget.item)]=1;
                                           });
-                                        },
+
+                                          },
                                         inactiveTrackColor: Colors.green,
                                         activeColor: Colors.red,
                                       ),
@@ -423,6 +444,10 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                         ),
                       );
                     }),
+              ):Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Center(child: Text("To Access Availability Details Internet is Required\nPlease tap on the Refresh icon provided on the top",
+                style: TextStyle(color: orange,fontSize: 14),)),
               ),
             ),
           ),

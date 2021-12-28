@@ -941,6 +941,8 @@ class _AddedexpirydataState extends State<Addedexpirydata> {
                       isApiCallProcess = true;
                     });
                     print(addedproductid.length);
+                    print("Added expiry date${addedexpirydate[0]}");
+
                     for (int u = 0; u < addedproductid.length; u++) {
                       print(u);
                       addedexpiryindex = u;

@@ -116,7 +116,7 @@ class _MenuState extends State<Menu> {
             icon: Icons.dashboard_rounded,
           ),
           onTap: () {
-            createlog("My DashBoard from Menu tapped", "true");
+            // createlog("My DashBoard from Menu tapped", "true");
             currentpagestatus('0', '0', '0','0');
 
             if (currentuser.roleid == 6) {
@@ -146,7 +146,7 @@ class _MenuState extends State<Menu> {
             icon: Icons.person,
           ),
           onTap: () {
-            createlog("My Profile from Menu tapped", "true");
+            // createlog("My Profile from Menu tapped", "true");
             currentpagestatus('0', '0', '0','0');
             Navigator.push(
                 context,
@@ -157,7 +157,7 @@ class _MenuState extends State<Menu> {
        currentuser.roleid==6? ListTile(
           title: MenuElements(title: 'Synchronize', icon: Icons.sync_rounded),
           onTap: () async {
-            createlog("Synchronize from Menu tapped", "true");
+            // createlog("Synchronize from Menu tapped", "true");
             currentpagestatus('0', '0', '0','0');
             SharedPreferences prefs = await SharedPreferences.getInstance();
             message = prefs.getStringList('addtoservermessage');
@@ -187,7 +187,7 @@ class _MenuState extends State<Menu> {
             icon: Icons.notifications_on,
           ),
           onTap: () {
-            createlog("Notifications from Menu tapped", "true");
+            // createlog("Notifications from Menu tapped", "true");
             currentpagestatus('0', '0', '0','0');
             for (int i = 0; i < NotiDetData.title.length; i++) {
               changecoloricon.add(false);
@@ -208,9 +208,7 @@ class _MenuState extends State<Menu> {
             icon: CupertinoIcons.doc_on_doc_fill,
           ),
           onTap: () async{
-            for(int i=0;i<15;i++){
-              await createlog("test", true);
-            }
+
           },
         ),
         /*  ListTile(
@@ -224,7 +222,7 @@ class _MenuState extends State<Menu> {
         ListTile(
           title: MenuElements(title: 'RMS Version', icon: Icons.info),
           onTap: () {
-            createlog("RMS Version from Menu tapped", "true");
+            // createlog("RMS Version from Menu tapped", "true");
             currentpagestatus('0', '0', '0','0');
             Navigator.push(
                 context,
@@ -235,17 +233,14 @@ class _MenuState extends State<Menu> {
         currentuser.roleid==6?ListTile(
           title: MenuElements(title: 'Logs', icon: Icons.message),
           onTap: () async {
-            createlog("Logs from Menu tapped", "true");
+            // createlog("Logs from Menu tapped", "true");
             currentpagestatus('0', '0', '0','0');
             SharedPreferences prefs = await SharedPreferences.getInstance();
             logreport = prefs.getStringList('logdata');
             print("start");
-            print(logreport.length);
             if (logreport != null) {
               logtime = prefs.getStringList('logtime');
               logreportstatus = prefs.getStringList('status');
-              print(logtime.length);
-              print("check1");
               print(logreportstatus.length);
             } else {
               logreport = [];
@@ -285,7 +280,7 @@ class _MenuState extends State<Menu> {
           ),
           onTap: () async {
             if(currentuser.roleid == 6){
-              createlog("Logout from Menu tapped", "true");
+              // createlog("Logout from Menu tapped", "true");
               currentpagestatus('0', '0', '0', '0');
               SharedPreferences prefs = await SharedPreferences.getInstance();
               requireurlstosync = prefs.getStringList('addtoserverurl');

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:merchandising/Merchandiser/merchandiserscreens/PlanogramcheckPhase1.dart';
 import 'package:merchandising/model/Location_service.dart';
@@ -12,6 +13,7 @@ import 'package:merchandising/model/rememberme.dart';
 import 'package:merchandising/api/monthlyvisitschart.dart';
 import 'package:merchandising/offlinedata/sharedprefsdta.dart';
 import 'package:merchandising/api/Journeyplansapi/todayplan/journeyplanapi.dart';
+import'package:intl/intl.dart';
 
 bool splitsf = false;
 bool checkoutdatasubmitted =false;
@@ -125,6 +127,8 @@ Uri Merchlistundercde = Uri.parse("https://rms2.rhapsody.ae/api/merchandiser_und
 Uri CDEdashboard = Uri.parse("https://rms2.rhapsody.ae/api/cde_dashboard");
 Uri CDEReportingDet = Uri.parse("https://rms2.rhapsody.ae/api/cde_reporting_to_details");
 Uri AddReportCDE = Uri.parse("https://rms2.rhapsody.ae/api/add_cde");
+Uri CDEApproveTimeSheet = Uri.parse("https://rms2.rhapsody.ae/api/cde_timesheet_approval");
+Uri LeaveRequestwithtype = Uri.parse("https://rms2.rhapsody.ae/api/leave_request");
 
 int ischatscreen;
 bool newmsgavaiable = false;
@@ -396,9 +400,17 @@ int currentoutletindex;
 List<String>outletvisitsdata=[];
 List<String>outletEvisitsdata=[];
 List<String> offlineoutletdeatiles = [];
+List<String> offlinevisibilitydata = [];
+List<String> offlinesosdata = [];
+List<String> offlineplanodata = [];
+List<String> offlinepromodata = [];
+List<String> offlinechecklistdata = [];
+List<String> offlinenbldata = [];
+
 int outletselectedfordetails;
 Future outletwhencheckin() async {
   print(currentoutletindex);
+  print(currentoutletid);
     // var outletid = outletrequestdata.outletidpressed;
     // chartoutletid.outlet = outletrequestdata.outletidpressed;
     // Map ODrequestDataforcheckin = {
@@ -415,10 +427,16 @@ Future outletwhencheckin() async {
     //   body: jsonEncode(ODrequestDataforcheckin),
     // );
     //if (OCresponse.statusCode == 200) {
+
+      // chekinoutlet.checkinoutletid =null;
+       print("outlet when checkin");
+       print(currentoutletindex);
+
       String OCdata = offlineoutletdeatiles[currentoutletindex];
       var decodeODData = jsonDecode(OCdata);
-      chekinoutlet.checkinoutletid =
-      decodeODData['data'][0]['store'][0]["store_code"];
+      chekinoutlet.checkinoutletid = decodeODData['data'][0]['store'][0]["store_code"];
+      print("store code");
+      print( chekinoutlet.checkinoutletid);
       chekinoutlet.checkinoutletname =
       decodeODData['data'][0]['store'][0]["store_name"];
       chekinoutlet.checkinaddress =
@@ -443,6 +461,8 @@ Future outletwhencheckin() async {
     //   print(OCresponse.statusCode);
     // }
 }
+
+
 
 class checkinoutdata{
   static var checkinoutdataname;
@@ -567,6 +587,8 @@ static var reason;
 static var image;
 }
 
+
+
 class userpassword{
   static var password;
 }
@@ -594,34 +616,34 @@ Future changepassword() async{
 }
 // var Selectedoutletatcheckin = 273 ;
 Future getTaskList() async{
-  Map taskbody =
-  {
-    "outlet_id" : currentoutletid,
-  };
-  print(jsonEncode(taskbody));
-  http.Response response = await http.post(taskdetailes,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-    },
-    body: jsonEncode(taskbody),
-  );
-  print(response.body);
-  if(response.statusCode==200){
+  // Map taskbody =
+  // {
+  //   "outlet_id" : currentoutletid,
+  // };
+  // print(jsonEncode(taskbody));
+  // http.Response response = await http.post(taskdetailes,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //   },
+  //   body: jsonEncode(taskbody),
+  // );
+  // print(response.body);
+  // if(response.statusCode==200){
     task.list=[];
     task.id=[];
     task.iscompleted=[];
-    String data = response.body;
+    String data = offlinechecklistdata[currentoutletindex];
     var decodeODData = jsonDecode(data);
     for(int i=0; i<decodeODData['data'].length;i++){
     task.list.add(decodeODData['data'][i]['task_list']);
     task.id.add(decodeODData['data'][i]['id']);
     task.iscompleted.add(decodeODData['data'][i]['is_completed']);
     }
-  }
+  // }
   print('task data : ${task.list}');
-}
+ }
 
 Future sendtaskresponse() async{
 
@@ -633,15 +655,16 @@ Future sendtaskresponse() async{
     "img_url":task.imgurl,
   };
   print(jsonEncode(taskbody));
-  http.Response response = await http.post(taskresponse,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-    },
-    body: jsonEncode(taskbody),
-  );
-  print(response.body);
+  adddataforsync("https://rms2.rhapsody.ae/api/send_outlet_task_response",jsonEncode(taskbody),"Check List added for the timesheet id $currenttimesheetid");
+  // http.Response response = await http.post(taskresponse,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //   },
+  //   body: jsonEncode(taskbody),
+  // );
+  // print(response.body);
 }
 
 
@@ -658,24 +681,28 @@ class task{
 
 Future merchbreak() async{
 
+
   Map breaktime =
   {
-    "type" : splitbreak.type,
+    "type" : "Split Shift",
     "timesheet_id" : currenttimesheetid,
     "checkin_time" : splitbreak.citime,
     "checkout_time" : splitbreak.cotime,
-    "journey_time_id" : splitbreak.jtimeid,
+    "journey_time_id" : "",
   };
   print(jsonEncode(breaktime));
-  http.Response response = await http.post(MercBreak,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
-    },
-    body: jsonEncode(breaktime),
-  );
-  print(response.body);
+  adddataforsync("https://rms2.rhapsody.ae/api/outlet_journey_check_in_out",jsonEncode(breaktime),splitbreak.citime!=""?"Split Shift checkin at ${splitbreak.citime} for the timesheet id $currenttimesheetid": "Split Shift checkout at ${splitbreak.cotime} for the timesheet id $currenttimesheetid",
+ );
+  CreateLog(splitbreak.citime!=""?"Split shift checked in by ${splitbreak.citime} for the timesheet $currenttimesheetid ":splitbreak.cotime!=null?"Split shift checked out by ${splitbreak.cotime} for the timesheet $currenttimesheetid ": " ", "true");
+  // http.Response response = await http.post(MercBreak,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer ${DBrequestdata.receivedtoken}',
+  //   },
+  //   body: jsonEncode(breaktime),
+  // );
+  // print(response.body);
 }
 
 class splitbreak{
@@ -748,12 +775,11 @@ int indexofjurneytimeid;
 bool normalcheckin = false;
 Future addforeccheckin() async{
 
-
   Map forceci =
   {
     "time_sheet_id" :currenttimesheetid,
     "checkin_type" : normalcheckin?"normal":"force",
-    "reason" : forcecheck.reason,
+    "reason" :"${forcecheck.reason} at ${DateFormat('HH:mm:ss').format(DateTime.now())} from $appversionnumber",
 
   };
   adddataforsync("https://rms2.rhapsody.ae/api/add_force_checkin",jsonEncode(forceci),"Checkin type ${forcecheck.reason} for the timesheet $currenttimesheetid");

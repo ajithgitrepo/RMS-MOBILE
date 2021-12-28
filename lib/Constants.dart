@@ -97,6 +97,7 @@ String outletid = chekinoutlet.checkinoutletid;
 
 //ignore: must_be_immutable
 class OutletDetails extends StatelessWidget {
+  String outletid = chekinoutlet.checkinoutletid;
   String outletname = chekinoutlet.checkinoutletname;
   String outletarea = chekinoutlet.checkinarea;
   String outletcity = chekinoutlet.checkincity;
@@ -361,45 +362,40 @@ class _NBlFloatingButtonState extends State<NBlFloatingButton> {
           onPressed: () async {
             createlog("NBL icon tapped tapped", "true");
             print("nbl file: ${NBLDetData.fileurl.toString()}");
-            if (NBLDetData.fileurl.toString() != "[]") {
-              print(
-                  "https://rms2.rhapsody.ae/nbl_file/${NBLDetData.fileurl.last}");
-              print(nblfile);
-              if (Platform.isAndroid) {
-                filealreadyexists = await File(
-                    "/storage/emulated/0/Download/${NBLDetData.fileurl.last}")
-                    .exists();
-                print("already exits : $filealreadyexists");
-                if (filealreadyexists) {
-                  OpenFile.open(
-                      "/storage/emulated/0/Download/${NBLDetData.fileurl.last}");
-                } else {
-                  print("here");
-                  await launch(
-                      "https://rms2.rhapsody.ae/nbl_file/${NBLDetData.fileurl.last}");
-                }
-              } else if (Platform.isIOS) {
-                _launchURL();
-              }
-            }else{
+            // if (NBLDetData.fileurl.toString() != "[]") {
+            //   print(onlinemode.value);
+            //   print("https://rms2.rhapsody.ae/nbl_file/${NBLDetData.fileurl.last}");
+            //   print(nblfile);
+            //   if (Platform.isAndroid) {
+            //     filealreadyexists = await File(
+            //         "/storage/emulated/0/Download/${NBLDetData.fileurl.last}")
+            //         .exists();
+            //     print("already exits : $filealreadyexists");
+            //     if (filealreadyexists) {
+            //       OpenFile.open("/storage/emulated/0/Download/${NBLDetData.fileurl.last}");
+            //     } else {
+            //       print("here");
+            //       await launch("https://rms2.rhapsody.ae/nbl_file/${NBLDetData.fileurl.last}");
+            //     }
+            //   } else if (Platform.isIOS) {
+            //     _launchURL();
+            //   }
+            // }else{
               if(onlinemode.value){
-                await getNBLdetails();
+                print("online mode");
+                print(onlinemode.value);
+                // await getNBLdetails();
                 if (NBLDetData.fileurl.toString() != "[]") {
-                  print(
-                      "https://rms2.rhapsody.ae/nbl_file/${NBLDetData.fileurl.last}");
+                  print("https://rms2.rhapsody.ae/nbl_file/${NBLDetData.fileurl.last}");
                   print(nblfile);
                   if (Platform.isAndroid) {
-                    filealreadyexists = await File(
-                        "/storage/emulated/0/Download/${NBLDetData.fileurl.last}")
+                    filealreadyexists = await File("/storage/emulated/0/Download/${NBLDetData.fileurl.last}")
                         .exists();
-                    print(filealreadyexists);
                     if (filealreadyexists) {
-                      OpenFile.open(
-                          "/storage/emulated/0/Download/${NBLDetData.fileurl.last}");
+                      OpenFile.open("/storage/emulated/0/Download/${NBLDetData.fileurl.last}");
                     } else {
                       print("here");
-                      await launch(
-                          "https://rms2.rhapsody.ae/nbl_file/${NBLDetData.fileurl.last}");
+                      await launch("https://rms2.rhapsody.ae/nbl_file/${NBLDetData.fileurl.last}");
                     }
                   } else if (Platform.isIOS) {
                     _launchURL();
@@ -410,13 +406,35 @@ class _NBlFloatingButtonState extends State<NBlFloatingButton> {
                     duration: Duration(seconds: 3),
                   )..show(context);
                 }
-              }else{
-                Flushbar(
-                  message: "Active internet connection is required",
-                  duration: Duration(seconds: 3),
-                )..show(context);
+              }else if (onlinemode.value==false){
+                print("online mode");
+                print(onlinemode.value);
+
+                if (NBLDetData.fileurl.toString() != "[]"){
+                  if (Platform.isAndroid) {
+                    filealreadyexists = await File(
+                        "/storage/emulated/0/Download/${NBLDetData.fileurl
+                            .last}")
+                        .exists();
+                    if (filealreadyexists) {
+                      OpenFile.open(
+                          "/storage/emulated/0/Download/${NBLDetData.fileurl
+                              .last}");
+                    } else {
+                      print("internet required check");
+                      Flushbar(
+                        message: "Active internet connection is required",
+                        duration: Duration(seconds: 3),
+                      )
+                        ..show(context);
+                    }
+                  }
+                } else if (Platform.isIOS) {
+                  _launchURL();
+                }
+
               }
-            }
+            // }
 
             },
 

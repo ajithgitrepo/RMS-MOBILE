@@ -14,28 +14,30 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:convert';
 import 'dart:io';
+import'package:merchandising/api/FMapi/leave_reqapi.dart';
 
 class LeaveReporting extends StatefulWidget {
+  Function onsubmit;
+  LeaveReporting({@required this.onsubmit});
   @override
   _LeaveReportingState createState() => _LeaveReportingState();
 }
-
+List merchandisers = merchnamelist.firstname.map((String val) {
+  return new DropdownMenuItem<String>(
+    value: val,
+    child: new Text(val),
+  );
+}).toList();
+List merchundercde = MerchUnderCDE.firstname.map((String val) {
+  return new DropdownMenuItem<String>(
+    value: val,
+    child: new Text(val),
+  );
+}).toList();
+String selectedmerchandiser;
+String selectmerchundercde;
+List<int> selectedoutlets;
 class _LeaveReportingState extends State<LeaveReporting> {
-  List merchandisers = merchnamelist.firstname.map((String val) {
-    return new DropdownMenuItem<String>(
-      value: val,
-      child: new Text(val),
-    );
-  }).toList();
-  List merchundercde = MerchUnderCDE.firstname.map((String val) {
-    return new DropdownMenuItem<String>(
-      value: val,
-      child: new Text(val),
-    );
-  }).toList();
-  String selectedmerchandiser;
-  String selectmerchundercde;
-  List<int> selectedoutlets;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -53,6 +55,7 @@ class _LeaveReportingState extends State<LeaveReporting> {
                 ),
                 child: SearchableDropdown.single(
                   underline: SizedBox(),
+                  iconEnabledColor: orange,
                   items: currentuser.roleid == 5 ? merchandisers : merchundercde,
                   value: currentuser.roleid == 5
                       ? selectedmerchandiser
@@ -240,7 +243,7 @@ class _LeaveReportingState extends State<LeaveReporting> {
                 ),
               ),
               TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (currentuser.roleid == 5 && selectedmerchandiser == null) {
                       Flushbar(
                         message: "Please Choose Merchandiser.",
@@ -268,15 +271,16 @@ class _LeaveReportingState extends State<LeaveReporting> {
                         duration: Duration(seconds: 3),
                       )..show(context);
                     } else {
-                      print(merchnamelist.employeeid[merchnamelist.firstname.indexOf(selectedmerchandiser)]);
-                      print(selectedReason);
-                      print(startDate);
-                      print(endDate);
-                      if (selectedReason == "others") {
-                        print(others.text);
-                      }
-                      print(base64doc);
-                      print(remarks.text);
+                      print("came");
+                      // leaverequestdata.type=selectedReason;
+                      // leaverequestdata.startdate=startDate;
+                      // leaverequestdata.enddate = endDate;
+                      // leaverequestdata.reason = remarks.text;
+                      // leaverequestdata.image = base64doc;
+                      //
+                      // await leaverequestwithtype();
+                    widget.onsubmit();
+                      print("done");
                     }
                   },
                   style:
@@ -322,17 +326,7 @@ class _LeaveReportingState extends State<LeaveReporting> {
     });
     return _file;
   }
-  List<String> Reasons = [ "Week OFF","Comp OFF","Annual Leave","Public holiday","Sick Leave","Others"];
-  String startDate;
-  String endDate;
-  String selectedReason;
-  String base64doc;
-  String Filepickedname;
-  bool showdatepicker= false;
-  bool displayothers = false;
-  var Selecteddate;
-  var others = new TextEditingController();
-  var remarks = new TextEditingController();
+  List<String> Reasons = [ "Week OFF","Comp OFF","Annual Leave","Public holiday","Sick Leave"];
   DateTime tomoroww = DateTime.now().add(Duration(days: 1));
   DateTime StratDate = DateTime.now().subtract(
       Duration(days: int.parse(DateFormat('dd').format(DateTime.now())) - 1));
@@ -369,3 +363,13 @@ class _LeaveReportingState extends State<LeaveReporting> {
     }
   }
 }
+String startDate;
+String endDate;
+String selectedReason;
+String base64doc;
+String Filepickedname;
+bool showdatepicker= false;
+bool displayothers = false;
+var Selecteddate;
+var others = new TextEditingController();
+var remarks = new TextEditingController();
