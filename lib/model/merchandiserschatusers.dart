@@ -20,11 +20,13 @@ class _ChatUsersformerchState extends State<ChatUsersformerch> {
       appBar: AppBar(
         backgroundColor: pink,
         iconTheme: IconThemeData(color: orange),
-        title: Column(
-          children: [
-            Text("HQ Communication",style: TextStyle(color: orange),),
-            EmpInfo()
-          ],
+        title: Center(
+          child: Column(
+            children: [
+              Text("HQ Communication",style: TextStyle(color: orange),),
+              EmpInfo()
+            ],
+          ),
         ),
       ),
       // drawer: Drawer(

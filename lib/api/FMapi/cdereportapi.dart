@@ -26,6 +26,7 @@ Future CDEReportingDetails() async{
     CDEreportdata.merchandisersid = [];
     CDEreportdata.enddate = [];
     CDEreportdata.merch_names = [];
+    CDEreportdata.cde_names = [];
     print('reporting details');
     empreportdata = EmpReport.body;
     addempdetailesreport(empreportdata);
@@ -38,72 +39,26 @@ Future CDEReportingDetails() async{
       // CDEreportdata.merch_names.add(decodeddata["data"][u]['merchandiser']);
 
       if(decodeddata["data"][u]['merchandiser'] == null) {
-        //  print(' ' );
-        CDEreportdata.merch_names.add(' ');
-
+        CDEreportdata.merch_names.add('nil');
       }
       else
       {
-
         var familyMembers = decodeddata["data"][u]["merchandiser"];
-        print(familyMembers['first_name']);
-
-        // try {
-        //
-        //
-        //   CDEreportdata.merch_names.add(familyMembers['first_name']);
-        //
-        // } on Exception catch (exception) {
-        //
-        //   print('error1');
-        //
-        // } catch (error) {
-        //   print('error2');
-        // }
-
-
-        // decodeddata['data'].forEach((item) {
-        // mapping your family_members array
-        // decodeddata["data"][u]['merchandiser'].forEach((nestedItem) {
-        //   if(nestedItem['merchandiser'] != null)
-        //      print('tee');
-        // });
-        // });
-
-
+         var mer_name =  (familyMembers['first_name']);
+          CDEreportdata.merch_names.add(mer_name);
       }
 
-      //  Unhandled Exception: type '(dynamic) => Null'
-      // var recordsList = decodeddata["data"];
-      // for (var record in recordsList) {
-      //   var familyMembers = record["merchandiser"];
-      //   //print(familyMembers);
-      //   for (var familyMember in familyMembers){ //prints the name of each family member
-      //     var familyMemberName = familyMember;
-      //     print('eeeee');
-      //   }
-      // }
-      // for (var familyMember in familyMembers){ //prints the name of each family member
-      //   var familyMemberName = familyMember["name"];
-      //   print(familyMemberName);
-      // }
+      if(decodeddata["data"][u]['cde_reporting'] == null) {
+        CDEreportdata.cde_names.add('nil');
+      }
+      else
+      {
+        var familyMembers = decodeddata["data"][u]["cde_reporting"];
+        var cde_name =  (familyMembers['first_name']);
+        CDEreportdata.cde_names.add(cde_name);
+        print(cde_name + 'cdd');
+      }
 
-      //   for (var familyMember in familyMembers) { //prints the name of each family member
-      //     var familyMemberName = familyMember["employee_id"];
-      //
-      //     print(familyMemberName);
-      //   }
-      //   }
-
-      // mapping your records array
-      // decodeddata['data'].forEach((item){
-      //   // mapping your family_members array
-      //   decodeddata['merchandiser'].forEach((newitem){
-      //
-      //      print(newitem['first_name']);
-      //
-      //   });
-      // });
 
     }
     // print(CDEreportdata.merchandisersid.length);
@@ -125,6 +80,7 @@ class CDEreportdata {
   static List<dynamic> merchandisersid=[];
   static List<dynamic> fmnames=[];
   static List<dynamic> merch_names=[];
+  static List<dynamic> cde_names=[];
 
 
 

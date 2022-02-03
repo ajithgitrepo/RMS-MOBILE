@@ -828,6 +828,7 @@ class TotalJnyTime {
   static List<String> type=[];
   static List<String> status=[];
 
+
 }
 
 int indexofjurneytimeid;
@@ -859,6 +860,7 @@ class forcecheck{
   static var id;
   static var checktype;
   static var reason;
+
 
 }
 

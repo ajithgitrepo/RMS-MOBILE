@@ -125,7 +125,7 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
           focusColor: orange,
-          hintText: 'Search by name or EmpID',
+          hintText: 'Search by  EmpID',
           hintStyle: TextStyle(color: orange),
           border: InputBorder.none,
           icon: Icon(
@@ -158,11 +158,11 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
                     children: [
                       Flexible(
                         child: AutoSizeText(
-                          "Merchandiser: ${CDEreportdata.mername[index] + " " + CDEreportdata.mersname[index] + "(" + CDEreportdata.merchandisersid[index] + ")"}",
+                          "Merchandiser: " +  CDEreportdata.merch_names[index] + " " + "("  + CDEreportdata.merchandisersid[index] + ")",
                           maxLines: 2,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold),
+                              fontSize: 14.0, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -178,9 +178,9 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
                         width: 5,
                       ),
                       Text(
-                          CDEreportdata.cdeempname[index] +
+                          CDEreportdata.cde_names[index] +
                               " " +
-                              CDEreportdata.cdeempsname[index],
+                             "(" + CDEreportdata.cdeempid[index] + ")",
                           style: TextStyle(
                             fontSize: 15.0,
                           )),
@@ -241,11 +241,11 @@ class _CDEReportScreenState extends State<CDEReportScreen> {
         int index = CDEreportdata.merchandisersid.indexOf(item);
         _filterreportingList.add(CDEreportdata.cdeempid[index]);
 
-        _filterList_Mer_Name.add(CDEreportdata.mername[index]);
-        _filterList_Mer_SName.add(CDEreportdata.mersname[index]);
+      //  _filterList_Mer_Name.add(CDEreportdata.mername[index]);
+      //  _filterList_Mer_SName.add(CDEreportdata.mersname[index]);
 
-        _filterList_Cde_Name.add(CDEreportdata.cdeempname[index]);
-        _filterList_Cde_SName.add(CDEreportdata.cdeempsname[index]);
+       // _filterList_Cde_Name.add(CDEreportdata.cdeempname[index]);
+       // _filterList_Cde_SName.add(CDEreportdata.cdeempsname[index]);
         _filterstartList.add(CDEreportdata.startdate[index]);
         _filterendList.add(CDEreportdata.enddate[index]);
       }
