@@ -62,8 +62,6 @@ import 'package:merchandising/HR/editleaverule.dart';
 
 
 
-
-
 /// start of the application.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

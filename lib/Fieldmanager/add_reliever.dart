@@ -34,6 +34,7 @@ class AddReliever extends StatefulWidget {
 }
 
 String SelectedEmp;
+String Res_Emp;
 
 
 List<String> Empnamelist = merchnamelist.firstname;
@@ -103,7 +104,7 @@ class _AddRelieverState extends State<AddReliever> {
                                   SelectedEmp = newVal;
                                 });
                               },
-                              items: merchnamelist.name.map((String val) {
+                              items: merchnamelist.firstname.map((String val) {
                                 return new DropdownMenuItem<String>(
                                   value: val,
                                   child: new Text(val),
@@ -126,7 +127,17 @@ class _AddRelieverState extends State<AddReliever> {
                             children: [
                               GestureDetector(
                                 onTap:()async{
-                                  SearchReliever.empid = 'RMS${SelectedEmp.replaceAll(new RegExp(r'[^0-9]'), '')}';
+                                  Res_Emp ="";
+                                  final  names = SelectedEmp;
+                                  var parts = names.split('(');
+                                  var prefix = "";
+                                  if(parts != null)
+                                    prefix = parts[1].trim();
+
+                                  if (prefix != null && prefix.length > 0) {
+                                    Res_Emp = prefix.substring(0, prefix.length - 1);
+                                  }
+                                  SearchReliever.empid = Res_Emp; // 'RMS${SelectedEmp.replaceAll(new RegExp(r'[^0-9]'), '')}';
                                   SearchReliever.from=Startdate.toString().substring(0,10);
                                   SearchReliever.to=ENDdate.toString().substring(0,10);
 
