@@ -40,6 +40,7 @@ List merchundercde = MerchUnderCDE.firstname.map((String val) {
 }).toList();
 String selectedmerchandiser;
 String selectmerchundercde;
+String Res_Emp;
 List<int> selectedoutlets;
 class _LeaveReportingState extends State<LeaveReporting> {
   @override
@@ -281,13 +282,31 @@ class _LeaveReportingState extends State<LeaveReporting> {
                         duration: Duration(seconds: 3),
                       )..show(context);
                     } else {
-                      print("came");
-                      leaverequestdata.empid=currentuser.roleid==5?'Emp${selectedmerchandiser.replaceAll(new RegExp(r'[^0-9]'), '')}':'Emp${selectmerchundercde.replaceAll(new RegExp(r'[^0-9]'), '')}';;
+                     // print(selectedmerchandiser + "ponn");
+                      Res_Emp ="";
+                      if (currentuser.roleid == 5) {
+                        final  names = selectedmerchandiser;
+                      } else {
+                        final  names = selectmerchundercde;
+                      }
+                      final  names = selectedmerchandiser;
+                      var parts = names.split('(');
+                      var prefix = "";
+                      if(parts != null)
+                        prefix = parts[1].trim();
+
+                      if (prefix != null && prefix.length > 0) {
+                        Res_Emp = prefix.substring(0, prefix.length - 1);
+                      }
+                      leaverequestdata.empid= Res_Emp;   //currentuser.roleid==5?'Emp${selectedmerchandiser.replaceAll(new RegExp(r'[^0-9]'), '')}':'Emp${selectmerchundercde.replaceAll(new RegExp(r'[^0-9]'), '')}';;
                       leaverequestdata.type=selectedReason;
                       leaverequestdata.startdate=startdate.toLocal().toString().substring(0,10);
                       leaverequestdata.enddate = ENDdate.toLocal().toString().substring(0,10);
                       leaverequestdata.reason = remarks.text;
                       leaverequestdata.image = base64doc;
+
+                     // print(leaverequestdata + 'pon');
+
                       await leaverequestwithtype();
                       // widget.onsubmit();
 

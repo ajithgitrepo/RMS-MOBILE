@@ -43,7 +43,7 @@ class _CheckInState extends State<CheckIn> {
     return GestureDetector(
       onTap: () async {
         createlog("Check In tapped from outlet details","true");
-        print(chekinoutlet.currentdistance);
+        print('chlz' + chekinoutlet.currentdistance.toString() );
         if (chekinoutlet.currentdistance > 300) {
           showDialog(
               context: context,
@@ -116,23 +116,25 @@ class _CheckInState extends State<CheckIn> {
                           ),
                         ));
                   }));
-        } else {
+        } else { //print('hmkk');
             setState(() {
               isApiCallProcess = true;
             });
+       // print('hmkk1');
             SubmitCheckin();
+
             normalcheckin = true;
             forcecheck.reason = "normal checkin less than 300m";
             addforeccheckin();
             getTaskList();
             getVisibility();
-            getPlanogram();
+           getPlanogram();
             getPromotionDetails();
             // Addedstockdataformerch();
              getNBLdetails();
-            getShareofshelf();
-            await getAvaiablitity();
-            await getmyattandance();
+             getShareofshelf();
+       ///     await getAvaiablitity();
+         ///   await getmyattandance();
             addattendence();
             if(onlinemode.value) {
               await smtpExampleCheckinCheckout(

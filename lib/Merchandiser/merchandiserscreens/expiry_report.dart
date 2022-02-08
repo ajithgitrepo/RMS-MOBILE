@@ -463,6 +463,7 @@ String uomvalue="";
                                                       closeButton: SizedBox(),
                                                       underline: SizedBox(),
                                                       items: PdtLocation.map((String val) {
+                                                      //  print(val + 'coccc');
                                                         return new DropdownMenuItem<String>(
                                                           value: val,
                                                           child:Text(val.toString()),
@@ -472,6 +473,7 @@ String uomvalue="";
                                                       hint: "Select Location",
                                                       searchHint: "Select Location",
                                                       onChanged: (value) {
+                                                       // print(value + 'locat');
                                                         setState(() {
                                                           PdtLocationValue = value;
 
@@ -662,6 +664,9 @@ String uomvalue="";
           peiceprice.clear();
           productcontroller.clear();
           remarks.clear();
+         // addedproductlocation.clear();
+         // addedcustomerstore.clear();
+         // addeduom.clear();
 
 
           // prolocation = "";
@@ -673,15 +678,24 @@ String uomvalue="";
           CustomerValue="";
           UOMValue="";
 
+        /*  Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => super.widget)); */
 
 
           Flushbar(
           message:
           "data updated sucessfully",
           duration: Duration(
-          seconds: 3),
+          seconds: 1),
           )
           ..show(context);
+
+
+
+          //setState(() {});
+
           }
           } else {
           Flushbar(

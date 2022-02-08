@@ -17,13 +17,14 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
 
+
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   http: ^0.13.3
   flutter:
-   sdk: flutter
+    sdk: flutter
   smooth_star_rating: 1.1.1
   file_picker: ^3.0.2+2
   cupertino_icons:
@@ -65,6 +66,7 @@ dependencies:
   syncfusion_flutter_charts: ^19.2.44+1
   month_picker_dialog: ^0.4.0
   syncfusion_flutter_datepicker: ^19.2.55
+  platform: ^3.1.0
 
 
 dev_dependencies:
